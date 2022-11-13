@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RepairShopStudio.Core.Contracts;
+using RepairShopStudio.Core.Services;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
-using RepairShopStudio.Infrastructure.Data.Models.Account;
+using RepairShopStudio.Infrastructure.Data.Models.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,18 +19,19 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;
+
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login";
+    options.LoginPath = "/User/Login";
 });
 
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IPartService, PartService>();
 
 var app = builder.Build();
 

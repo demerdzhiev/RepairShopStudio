@@ -6,11 +6,12 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Order;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Order of parts properties")]
-    public class Order
+    public class Order : BaseModel
     {
-        [Key]
-        [Comment("Id of the order")]
-        public Guid Id { get; set; }
+        public Order()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         [Required]
         [Comment("Document number")]
@@ -30,7 +31,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
 
         [Comment("Supplier which will deliver the goods")]
-        public Guid SupplierId { get; set; }
+        public string SupplierId { get; set; } = null!;
 
         [ForeignKey(nameof(SupplierId))]
         public Supplier? Supplier { get; set; }

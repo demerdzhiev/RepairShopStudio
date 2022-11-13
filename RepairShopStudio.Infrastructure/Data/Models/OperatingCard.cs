@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepairShopStudio.Infrastructure.Data.Models.User;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
@@ -6,11 +7,12 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Operating card for the current service")]
-    public class OperatingCard
+    public class OperatingCard : BaseModel
     {
-        [Key]
-        [Comment("Id of the operating card")]
-        public Guid Id { get; set; }
+        public OperatingCard()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         [Required]
         [Comment("Date of the creation of the document")]
@@ -23,21 +25,27 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
         [Required]
         [Comment("Services, applied to current vehicle")]
-        ICollection<ShopService> ShopServices { get; set; } = new List<ShopService>();
+        public ICollection<ShopService> ShopServices { get; set; } = new List<ShopService>();
 
         [Required]
         [Comment("Parts, needed for current repair")]
-        ICollection<Part> Parts { get; set; } = new List<Part>();
+        public ICollection<Part> Parts { get; set; } = new List<Part>();
 
-        public Guid CustomerId { get; set; }
+        [Required]
+        [Comment("The total amount of parts and services")]
+        [Column(TypeName = "money")]
+        [Precision(18, 2)]
+        public decimal TotalAmount { get; set; }
+
+        public string CustomerId { get; set; } = null!;
 
         [ForeignKey(nameof(CustomerId))]
         public Customer? Customer { get; set; }
 
-        public Guid EmployeeId { get; set; }
+        public string ApplicationUserId { get; set; } = null!;
 
-        [ForeignKey(nameof(EmployeeId))]
-        public Employee? Employee { get; set; }
+        [ForeignKey(nameof(ApplicationUserId))]
+        public ApplicationUser? Employee { get; set; }
 
         [Required]
         [Range(1.0, 100.0)]

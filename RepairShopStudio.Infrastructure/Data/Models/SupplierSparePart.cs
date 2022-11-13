@@ -8,13 +8,13 @@ namespace RepairShopStudio.Infrastructure.Data.Models
     public class SupplierSparePart
     {
         [Required]
-        public Guid SupplierId { get; set; }
+        public string SupplierId { get; set; } = null!;
 
         [ForeignKey(nameof(SupplierId))]
         public Supplier? Supplier { get; set; }
 
         [Required]
-        public Guid PartId { get; set; }
+        public string PartId { get; set; } = null!;
 
         [ForeignKey(nameof(PartId))]
         public Part? Part { get; set; }

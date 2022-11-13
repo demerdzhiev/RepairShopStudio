@@ -5,11 +5,12 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.VehicleC
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("The components/parts of the vehicle, which can be affected by the services")]
-    public class VehicleComponent
+    public class VehicleComponent : BaseModel
     {
-        [Key]
-        [Comment("Id of the vehicle component")]
-        public Guid Id { get; set; }
+        public VehicleComponent()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         [Required]
         [StringLength(VehicleComponentNameMaxLength)]

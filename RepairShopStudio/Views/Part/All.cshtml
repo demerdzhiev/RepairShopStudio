@@ -1,0 +1,25 @@
+﻿@model IEnumerable<PartViewModel>
+
+@{
+    ViewBag.Title = "RepairShopStudio";
+}
+
+<div class="text-center row">
+    @foreach (var part in Model)
+    {
+        <div class="card col-4" style="width: 20rem;">
+            <img class="card-img-top" style="width: 18rem;"
+             src="@part.ImageUrl" alt="Part Image">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">@part.Name</h5>
+                <p class="mb-0">Availability: @part.Stock</p>
+                <p class="mb-0">Manufacturer: @part.Manufacturer</p>
+                <p class="mb-0">Original MPN: @part.OriginalMpn</p>
+                <p class="mb-0">Description: @part.Description</p>
+                <p class="mb-0">Price to buy: @part.PriceBuy</p>
+                <p class="mb-0">Price to sell: @part.PriceSell</p>
+            </div>
+        </div>
+    }
+</div>

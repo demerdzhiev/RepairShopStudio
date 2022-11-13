@@ -7,11 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Supplier, who delivers parts to the repair shop")]
-    public class Supplier
+    public class Supplier : BaseModel
     {
-        [Key]
-        [Comment("Id of the supplier")]
-        public Guid Id { get; set; }
+        public Supplier()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         [Required]
         [StringLength(SupplierNameMaxLength)]
@@ -44,7 +45,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public ICollection<SupplierSparePart> SupplierSpareParts { get; set; } = new List<SupplierSparePart>();
 
         [Comment("Address of the supplier's office")]
-        public Guid AddressId { get; set; }
+        public string AddressId { get; set; } = null!;
 
         [ForeignKey(nameof(AddressId))]
         public Address Address { get; set; } = null!;

@@ -12,8 +12,8 @@ using RepairShopStudio.Infrastructure.Data;
 namespace RepairShopStudio.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221106204240_OperatingCardAdded")]
-    partial class OperatingCardAdded
+    [Migration("20221113164036_SetupAndSeedDB")]
+    partial class SetupAndSeedDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,91 +161,10 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Account.ApplicationUser", b =>
+            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Address", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("User's first name");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("User's last name");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasComment("Additional user properties");
-                });
-
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Address", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the address");
 
                     b.Property<string>("AddressText")
                         .IsRequired()
@@ -270,17 +189,31 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("Addresses");
 
                     b.HasComment("Addres properties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0",
+                            AddressText = "Tsar Osvobodiltel str. 98",
+                            TownName = "Varna",
+                            ZipCode = "9000"
+                        },
+                        new
+                        {
+                            Id = "f03b1057-88f7-47e2-a745-580c6150e371",
+                            AddressText = "Slivnitsa blv. 108",
+                            TownName = "Varna",
+                            ZipCode = "9000"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Customer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Customer Id");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("AddressId")
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("AddressId")
+                        .HasColumnType("nvarchar(450)")
                         .HasComment("The address of the customer's office");
 
                     b.Property<string>("Email")
@@ -306,13 +239,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasComment("Phone number of the cusotmer");
 
                     b.Property<string>("ResponsiblePerson")
-                        .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)")
                         .HasComment("Name of the responsible person of the customer's company");
 
                     b.Property<string>("Uic")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)")
                         .HasComment("The Unit Identification Code of the customer's company");
@@ -324,46 +255,33 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("Customers");
 
                     b.HasComment("Customer information");
-                });
 
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Employee", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the employee");
-
-                    b.Property<Guid>("JobTitleId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Job title of the employee");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
-                        .HasComment("Employee name");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(17)
-                        .HasColumnType("nvarchar(17)")
-                        .HasComment("Phone number of the employee");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobTitleId");
-
-                    b.ToTable("Employees");
-
-                    b.HasComment("Employee properties");
+                    b.HasData(
+                        new
+                        {
+                            Id = "94eb73a3-e208-4409-bbed-4fc326255fdc",
+                            AddressId = "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0",
+                            Email = "ivan.ivanov@abv.bg",
+                            IsCorporate = true,
+                            Name = "Ivan Ivanov",
+                            PhoneNumber = "099999999",
+                            ResponsiblePerson = "Ivan Ivanov",
+                            Uic = "1234543421234"
+                        },
+                        new
+                        {
+                            Id = "38dea0ea-cd19-49b9-a280-b869461def95",
+                            Email = "boris.borisov@abv.bg",
+                            IsCorporate = false,
+                            Name = "Boris Borisov",
+                            PhoneNumber = "0898888888"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.EngineType", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the engine type");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -376,14 +294,29 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("EngineTypes");
 
                     b.HasComment("Type of the vehicle's engine");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C",
+                            Name = "Gasoline"
+                        },
+                        new
+                        {
+                            Id = "026c3f78-94d5-4f4e-8e8f-fea783a8a93f",
+                            Name = "Diesel"
+                        },
+                        new
+                        {
+                            Id = "e6c84886-dba7-4a1c-8448-60fcf66a71e0",
+                            Name = "Hybrid"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.JobTitle", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the job title");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -396,17 +329,37 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("JobTitles");
 
                     b.HasComment("Possible job titles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3bb29f58-330b-47d7-8c88-66e47a5fd4aa",
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = "093fd016-778f-4043-b72e-827c1834c4e2",
+                            Name = "Mechanic"
+                        },
+                        new
+                        {
+                            Id = "16afcac4-cb26-4c2e-9586-7cc4c2fab81c",
+                            Name = "Service adviser"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the operating card");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2")
@@ -421,14 +374,16 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasComment("The number of current document");
 
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("money")
+                        .HasComment("The total amount of parts and services");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("OperatingCards");
 
@@ -437,10 +392,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Order", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the order");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2")
@@ -456,8 +409,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Document number");
 
-                    b.Property<Guid>("SupplierId")
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("SupplierId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
                         .HasComment("Supplier which will deliver the goods");
 
                     b.HasKey("Id");
@@ -467,14 +421,22 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("Orders");
 
                     b.HasComment("Order of parts properties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9961AF43-3CC2-48EE-B760-89FC2CFACF20",
+                            IssueDate = new DateTime(2022, 11, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Note = "To arrive today",
+                            Number = "0001/11/13/2022 12:00:00 AM",
+                            SupplierId = "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Part", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the part");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(150)
@@ -497,8 +459,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasComment("The name of the part");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("OperatingCardId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("OriginalMpn")
                         .IsRequired()
@@ -516,18 +481,21 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("money")
                         .HasComment("Selling price (by the repair shop)");
 
-                    b.Property<Guid?>("ShopServiceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ShopServiceId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int")
                         .HasComment("Part's availability");
 
-                    b.Property<Guid>("VehicleComponentId")
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("VehicleComponentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
                         .HasComment("Affected part of the vehicle, where the part may be used");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OperatingCardId");
 
                     b.HasIndex("OrderId");
 
@@ -538,14 +506,27 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("Parts");
 
                     b.HasComment("Part, stored in the shop's warehouse");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7349E46E-0F79-4D5A-8F09-A30B44BEDFA2",
+                            Description = "Front",
+                            ImageUrl = "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg",
+                            Manufacturer = "Zimmerman",
+                            Name = "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)",
+                            OriginalMpn = "400.3649.52",
+                            PriceBuy = 99.98m,
+                            PriceSell = 114.56m,
+                            Stock = 4,
+                            VehicleComponentId = "E8210DF4-AB11-461A-8084-DBCECCB5F340"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.ShopService", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the service");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -559,37 +540,48 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(60)")
                         .HasComment("Name of the service");
 
+                    b.Property<string>("OperatingCardId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("money")
                         .HasComment("Price of the service");
 
-                    b.Property<Guid>("VehicleComponentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("VehicleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("VehicleComponentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Affected part of the vehicle");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleComponentId");
+                    b.HasIndex("OperatingCardId");
 
-                    b.HasIndex("VehicleId");
+                    b.HasIndex("VehicleComponentId");
 
                     b.ToTable("ShopServices");
 
                     b.HasComment("Services, offered by repair shop");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7BDDE324-8E4A-4BBC-BF95-92DCF598A7A6",
+                            Description = "Check all compnents in breaking sistem and repairing those that need it",
+                            Name = "Breaks check and repairs",
+                            Price = 65m,
+                            VehicleComponentId = "E8210DF4-AB11-461A-8084-DBCECCB5F340"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Supplier", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the supplier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("AddressId")
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("AddressId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
                         .HasComment("Address of the supplier's office");
 
                     b.Property<string>("CompanyName")
@@ -629,15 +621,27 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("Suppliers");
 
                     b.HasComment("Supplier, who delivers parts to the repair shop");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616",
+                            AddressId = "f03b1057-88f7-47e2-a745-580c6150e371",
+                            CompanyName = "Garvan EOOD",
+                            Email = "garvan@abv.bg",
+                            Name = "Garvan",
+                            PhoneNumber = "0898888888",
+                            Uic = "123456789876"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.SupplierSparePart", b =>
                 {
-                    b.Property<Guid>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SupplierId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("PartId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("PartId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("SupplierId", "PartId");
 
@@ -648,18 +652,157 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasComment("Mapping entity between suppliers and parts");
                 });
 
+            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasComment("User's first name");
+
+                    b.Property<string>("JobTitleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Job title of the employee");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasComment("User's last name");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobTitleId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasComment("Additional user properties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "09189958-1187-4122-8953-55574843b06c",
+                            Email = "manager_repair_shop@mail.com",
+                            EmailConfirmed = false,
+                            JobTitleId = "3bb29f58-330b-47d7-8c88-66e47a5fd4aa",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER_REPAIR_SHOP@MAIL.COM",
+                            NormalizedUserName = "MANAGER_REPAIR_SHOP@MAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEBfVq4FPqfbSq0avpZ5LOtCzjcblv+jQ8KSai7/TseneDw0RhgAAs0XieRgsFa5Mg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fb5cb000-b175-440a-acce-0fd0fbe2e3c6",
+                            TwoFactorEnabled = false,
+                            UserName = "General_Manager"
+                        },
+                        new
+                        {
+                            Id = "trg12856-c198-2563-b3f3-b893d8398710",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "191d5ab9-cb9f-4280-99cd-988858fb3f67",
+                            Email = "mechanic_repair_shop@mail.com",
+                            EmailConfirmed = false,
+                            JobTitleId = "093fd016-778f-4043-b72e-827c1834c4e2",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MECHANIC_REPAIR_SHOP@MAIL.COM",
+                            NormalizedUserName = "MECHANIC_REPAIR_SHOP@MAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOTAwy9tbgkntzBbwHqZLwIKylpVisYRkscH0f73R6BRjAdlLk7hat/qJN3dGU/18w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e18a0e2d-c2e2-4ff9-b9d1-0d215c03c77c",
+                            TwoFactorEnabled = false,
+                            UserName = "Mechanic"
+                        },
+                        new
+                        {
+                            Id = "asd12856-c188-4659-b3f3-b893s1395192",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "735297d5-768e-47f8-9284-da7bc17fd175",
+                            Email = "adviser_repair_shop@mail.com",
+                            EmailConfirmed = false,
+                            JobTitleId = "16afcac4-cb26-4c2e-9586-7cc4c2fab81c",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADVISER_REPAIR_SHOP@MAIL.COM",
+                            NormalizedUserName = "SERVICE_ADVISER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPCnY8ifMKnj9BRXh11vP+gPl/C0/NAlS/JJKTAwnUMPgYZ8W72v/QOyh4IV8tdYQw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c8647e6d-e436-4d33-a3b6-895f4e11258f",
+                            TwoFactorEnabled = false,
+                            UserName = "Service_Adviser"
+                        });
+                });
+
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Vehicle", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the vehicle");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("EngineTypeId")
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("EngineTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
                         .HasComment("Engine type of the vehicle");
 
                     b.Property<DateTime>("FIrstRegistration")
@@ -703,14 +846,26 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("Vehicles");
 
                     b.HasComment("Vehicle, owned by customer");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "E8210DF4-AB11-461A-8084-DBCECCB5F340",
+                            CustomerId = "94eb73a3-e208-4409-bbed-4fc326255fdc",
+                            EngineTypeId = "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C",
+                            FIrstRegistration = new DateTime(2013, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LicensePLate = "B5466HA",
+                            Make = "Mercedes-Benz",
+                            Model = "W164 350",
+                            Power = 272,
+                            VinNumber = "12312324125"
+                        });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.VehicleComponent", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Id of the vehicle component");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -723,6 +878,43 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.ToTable("VehicleComponents");
 
                     b.HasComment("The components/parts of the vehicle, which can be affected by the services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "46e751d0-07fc-4859-b95a-51048d4aeb1c",
+                            Name = "Engine"
+                        },
+                        new
+                        {
+                            Id = "6588d450-bda4-440d-a207-82ebe875c64f",
+                            Name = "Tranmission system"
+                        },
+                        new
+                        {
+                            Id = "88fb6d39-5500-48dd-893e-138cfde5b816",
+                            Name = "Front and rear axle"
+                        },
+                        new
+                        {
+                            Id = "13ea9388-052b-4760-bd7d-3ad3eb04897a",
+                            Name = "Steering system"
+                        },
+                        new
+                        {
+                            Id = "eac3af63-bd7b-47a2-bde4-32987fe21ad2",
+                            Name = "Suspenssion system"
+                        },
+                        new
+                        {
+                            Id = "E8210DF4-AB11-461A-8084-DBCECCB5F340",
+                            Name = "Tyres and brakes"
+                        },
+                        new
+                        {
+                            Id = "eeb24e1e-7978-4748-8591-466fdb72954e",
+                            Name = "Body"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -736,7 +928,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Account.ApplicationUser", null)
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -745,7 +937,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Account.ApplicationUser", null)
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -760,7 +952,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Account.ApplicationUser", null)
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -769,7 +961,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Account.ApplicationUser", null)
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -780,35 +972,22 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 {
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Employee", b =>
+            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", b =>
                 {
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.JobTitle", "JobTitle")
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", "Employee")
                         .WithMany()
-                        .HasForeignKey("JobTitleId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("JobTitle");
-                });
-
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", b =>
-                {
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -830,6 +1009,10 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Part", b =>
                 {
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", null)
+                        .WithMany("Parts")
+                        .HasForeignKey("OperatingCardId");
+
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Order", null)
                         .WithMany("Parts")
                         .HasForeignKey("OrderId");
@@ -849,15 +1032,15 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.ShopService", b =>
                 {
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", null)
+                        .WithMany("ShopServices")
+                        .HasForeignKey("OperatingCardId");
+
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.VehicleComponent", "VehicleComponent")
                         .WithMany()
                         .HasForeignKey("VehicleComponentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Vehicle", null)
-                        .WithMany("RepairsHistory")
-                        .HasForeignKey("VehicleId");
 
                     b.Navigation("VehicleComponent");
                 });
@@ -892,6 +1075,17 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.Navigation("Supplier");
                 });
 
+            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.User.ApplicationUser", b =>
+                {
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.JobTitle", "JobTitle")
+                        .WithMany()
+                        .HasForeignKey("JobTitleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobTitle");
+                });
+
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Vehicle", b =>
                 {
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Customer", "Customer")
@@ -916,6 +1110,13 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.Navigation("Vehicles");
                 });
 
+            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", b =>
+                {
+                    b.Navigation("Parts");
+
+                    b.Navigation("ShopServices");
+                });
+
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("Parts");
@@ -934,11 +1135,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Supplier", b =>
                 {
                     b.Navigation("SupplierSpareParts");
-                });
-
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Vehicle", b =>
-                {
-                    b.Navigation("RepairsHistory");
                 });
 #pragma warning restore 612, 618
         }

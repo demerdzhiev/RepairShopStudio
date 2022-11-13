@@ -5,11 +5,12 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.JobTitle
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Possible job titles")]
-    public class JobTitle
+    public class JobTitle : BaseModel
     {
-        [Key]
-        [Comment("Id of the job title")]
-        public Guid Id { get; set; }
+        public JobTitle()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         [Required]
         [StringLength(JobTitleNameMaxLength)]

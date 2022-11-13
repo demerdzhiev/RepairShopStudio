@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Vehicle;
@@ -6,11 +7,12 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Vehicle;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Vehicle, owned by customer")]
-    public class Vehicle
+    public class Vehicle : BaseModel
     {
-        [Key]
-        [Comment("Id of the vehicle")]
-        public Guid Id { get; set; }
+        public Vehicle()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         [Required]
         [StringLength(VehicleMakeMaxLength)]
@@ -32,7 +34,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public DateTime FIrstRegistration { get; set; }
 
         [Comment("Engine type of the vehicle")]
-        public Guid EngineTypeId { get; set; }
+        public string EngineTypeId { get; set; } = null!;
 
         [ForeignKey(nameof(EngineTypeId))]
         public EngineType EngineType { get; set; } = null!;
@@ -47,12 +49,11 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Comment("VIN number of the vehicle")]
         public string VinNumber { get; set; } = null!;
 
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
 
         [ForeignKey(nameof(CustomerId))]
         [Comment("Customer/owner of the vehicle")]
         public Customer? Customer { get; set; }
 
-        public ICollection<ShopService> RepairsHistory { get; set; } = new List<ShopService>();
     }
 }

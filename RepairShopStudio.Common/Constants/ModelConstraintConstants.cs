@@ -107,10 +107,12 @@ namespace RepairShopStudio.Common.Constants
         }
         public class ApplicationUser
         {
-            public const int ApplicationUserFirstNameMaxLength = 20;
+            public const int ApplicationUserFirstNameMaxLength = 40;
             public const int ApplicationUserFirstNameMinLength = 3;
-            public const int ApplicationUserLastNameMaxLength = 20;
+            public const int ApplicationUserLastNameMaxLength = 40;
             public const int ApplicationUserLastNameMinLength = 3;
+            public const int ApplicationUserUserNameMaxLength = 40;
+            public const int ApplicationUserUserNameMinLength = 3;
         }
 
         public class JobTitle

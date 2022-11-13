@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RepairShopStudio.Infrastructure.Data.Configuration;
 using RepairShopStudio.Infrastructure.Data.Models;
-using RepairShopStudio.Infrastructure.Data.Models.Account;
+using RepairShopStudio.Infrastructure.Data.Models.User;
+using System.Reflection.Emit;
 
 namespace RepairShopStudio.Infrastructure.Data
 {
@@ -22,26 +24,50 @@ namespace RepairShopStudio.Infrastructure.Data
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleComponent> VehicleComponents { get; set; }
         public DbSet<JobTitle> JobTitles { get; set; }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<OperatingCard> OperatingCards { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<SupplierSparePart>()
-                .HasKey(x => new { x.SupplierId, x.PartId });
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new JobTItleConfiguration());
+            builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new EngineTypeConfiguration());
+            builder.ApplyConfiguration(new ShopServiceConfiguration());
+            builder.ApplyConfiguration(new CustomerConfiguration());
+            builder.ApplyConfiguration(new VehicleConfiguration());
+            builder.ApplyConfiguration(new SupplierConfiguration());
+            builder.ApplyConfiguration(new VehicleComponentConfiguration());
+            builder.ApplyConfiguration(new PartConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new OperatingCardConfiguration());
 
             base.OnModelCreating(builder);
 
             builder.Entity<ApplicationUser>()
                 .Property(u => u.UserName)
-                .HasMaxLength(20)
+                .HasMaxLength(40)
                 .IsRequired();
 
             builder.Entity<ApplicationUser>()
                 .Property(u => u.Email)
                 .HasMaxLength(60)
                 .IsRequired();
+
+            builder.Entity<SupplierSparePart>()
+                .HasKey(x => new { x.SupplierId, x.PartId });
+
+            builder.Entity<Customer>()
+                .Property(p => p.AddressId)
+                .IsRequired(false);
+
+            builder.Entity<Customer>()
+                .Property(p => p.ResponsiblePerson)
+                .IsRequired(false);
+
+            builder.Entity<Customer>()
+                .Property(p => p.Uic)
+                .IsRequired(false);
         }
     }
 }

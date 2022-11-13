@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Identity\Pages\Account\**" />
+    <Compile Remove="Models\User\**" />
+    <Content Remove="Areas\Identity\Pages\Account\**" />
+    <Content Remove="Models\User\**" />
+    <EmbeddedResource Remove="Areas\Identity\Pages\Account\**" />
+    <EmbeddedResource Remove="Models\User\**" />
+    <None Remove="Areas\Identity\Pages\Account\**" />
+    <None Remove="Models\User\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
@@ -16,10 +27,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RepairShopStudio.Core\RepairShopStudio.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\" />
   </ItemGroup>
 
 </Project>
