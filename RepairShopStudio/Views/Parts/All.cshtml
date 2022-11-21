@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<PartViewModel>
 
 @{
-    ViewBag.Title = "RepairShopStudio";
+    ViewBag.Title = "Parts in storage";
 }
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
 
 <div class="text-center row">
     @foreach (var part in Model)
     {
-        <div class="card col-4" style="width: 20rem;">
-            <img class="card-img-top" style="width: 18rem;"
+        <div class="card col-4" style="width: 14rem;">
+            <img class="card-img-top" style="width: 12rem;"
              src="@part.ImageUrl" alt="Part Image">
             <div class="card-body">
 
@@ -17,8 +20,8 @@
                 <p class="mb-0">Manufacturer: @part.Manufacturer</p>
                 <p class="mb-0">Original MPN: @part.OriginalMpn</p>
                 <p class="mb-0">Description: @part.Description</p>
-                <p class="mb-0">Price to buy: @part.PriceBuy</p>
                 <p class="mb-0">Price to sell: @part.PriceSell</p>
+                <p>Vehicle component: @part.VehicleComponent</p>
             </div>
         </div>
     }

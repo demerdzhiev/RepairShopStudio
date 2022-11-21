@@ -3,11 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Infrastructure.Data.Configuration;
 using RepairShopStudio.Infrastructure.Data.Models;
 using RepairShopStudio.Infrastructure.Data.Models.User;
-using System.Reflection.Emit;
 
 namespace RepairShopStudio.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -25,7 +24,6 @@ namespace RepairShopStudio.Infrastructure.Data
         public DbSet<VehicleComponent> VehicleComponents { get; set; }
         public DbSet<JobTitle> JobTitles { get; set; }
         public DbSet<OperatingCard> OperatingCards { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -56,6 +54,12 @@ namespace RepairShopStudio.Infrastructure.Data
 
             builder.Entity<SupplierSparePart>()
                 .HasKey(x => new { x.SupplierId, x.PartId });
+
+            builder.Entity<OperatingCardParts>()
+                .HasKey(x => new { x.OperatingCardId, x.PartId });
+
+            builder.Entity<OperatingCardShopService>()
+               .HasKey(x => new { x.OperatingCardId, x.ShopServiceId });
 
             builder.Entity<Customer>()
                 .Property(p => p.AddressId)

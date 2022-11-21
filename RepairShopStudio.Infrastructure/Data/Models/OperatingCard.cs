@@ -28,10 +28,6 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public ICollection<ShopService> ShopServices { get; set; } = new List<ShopService>();
 
         [Required]
-        [Comment("Parts, needed for current repair")]
-        public ICollection<Part> Parts { get; set; } = new List<Part>();
-
-        [Required]
         [Comment("The total amount of parts and services")]
         [Column(TypeName = "money")]
         [Precision(18, 2)]
@@ -42,13 +38,21 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [ForeignKey(nameof(CustomerId))]
         public Customer? Customer { get; set; }
 
-        public string ApplicationUserId { get; set; } = null!;
+        public Guid ApplicationUserId { get; set; }
 
         [ForeignKey(nameof(ApplicationUserId))]
-        public ApplicationUser? Employee { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         [Required]
         [Range(1.0, 100.0)]
         public double Discount { get; set; }
+
+        [Required]
+        [Comment("Parts, needed for current repair")]
+        public ICollection<SupplierSparePart> SupplierSpareParts { get; set; } = new List<SupplierSparePart>();
+
+        public ICollection<OperatingCardShopService> OperatingCardShopServices { get; set; } = new List<OperatingCardShopService>();
+
+
     }
 }

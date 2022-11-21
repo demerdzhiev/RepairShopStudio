@@ -38,4 +38,8 @@
     <Folder Include="Areas\Identity\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
 </Project>

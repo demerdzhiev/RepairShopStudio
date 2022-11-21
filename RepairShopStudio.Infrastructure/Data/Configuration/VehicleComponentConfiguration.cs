@@ -53,7 +53,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var tyresAndBrakes = new VehicleComponent()
             {
-                Id = "E8210DF4-AB11-461A-8084-DBCECCB5F340",
+                Id = "6e3cb03f-7a41-426a-9c72-0cd609511ccd",
                 Name = "Tyres and brakes"
             };
             vehicleComponents.Add(tyresAndBrakes);

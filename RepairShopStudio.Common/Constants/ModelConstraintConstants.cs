@@ -41,6 +41,7 @@ namespace RepairShopStudio.Common.Constants
             public const int SparePartDescriptionMaxLength = 150;
             public const int SparePartDescriptionMinLength = 5;
             public const int SparePartImageUrlMaxLength = 250;
+            public const int SparePartImageUrlMinLength = 20;
             public const string SparePartPriceMaxValue = "10000";
             public const string SparePartPriceMinValue = "0.1";
 

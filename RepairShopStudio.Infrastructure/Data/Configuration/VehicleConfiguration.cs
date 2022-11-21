@@ -22,7 +22,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var vehicle = new Vehicle()
             {
-                Id = "E8210DF4-AB11-461A-8084-DBCECCB5F340",
+                Id = "6e3cb03f-7a41-426a-9c72-0cd609511ccd",
                 Make = "Mercedes-Benz",
                 Model = "W164 350",
                 LicensePLate = "B5466HA",

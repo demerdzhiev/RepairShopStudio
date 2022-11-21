@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Services;
+using RepairShopStudio.Extensions;
 using RepairShopStudio.Infrastructure.Data;
-using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models.User;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +19,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.User.RequireUniqueEmail = true;
 
 })
-    .AddRoles<IdentityRole>()
+    .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -30,8 +28,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<IPartService, PartService>();
+builder.Services.AddApplicationServices();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RegistartionUserPolicy", policy =>
+    {
+        policy.RequireRole("Manager");
+    });
+});
 
 var app = builder.Build();
 

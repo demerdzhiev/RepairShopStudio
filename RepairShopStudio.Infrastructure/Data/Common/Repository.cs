@@ -132,12 +132,12 @@ namespace RepairShopStudio.Infrastructure.Data.Common
         /// </summary>
         /// <param name="id">record identificator</param>
         /// <returns>Single record</returns>
-        public async Task<T> GetByIdAsync<T>(object id) where T : class
+        public async Task<T?> GetByIdAsync<T>(object id) where T : class
         {
             return await DbSet<T>().FindAsync(id);
         }
 
-        public async Task<T> GetByIdsAsync<T>(object[] id) where T : class
+        public async Task<T?> GetByIdsAsync<T>(object[] id) where T : class
         {
             return await DbSet<T>().FindAsync(id);
         }
@@ -179,5 +179,6 @@ namespace RepairShopStudio.Infrastructure.Data.Common
             var entities = All<T>(deleteWhereClause);
             DeleteRange(entities);
         }
+
     }
 }

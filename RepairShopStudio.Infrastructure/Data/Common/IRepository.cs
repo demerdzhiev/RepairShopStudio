@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using RepairShopStudio.Infrastructure.Data.Models.User;
+using System.Linq.Expressions;
 
 namespace RepairShopStudio.Infrastructure.Data.Common
 {
@@ -36,9 +37,9 @@ namespace RepairShopStudio.Infrastructure.Data.Common
         /// </summary>
         /// <param name="id">record identificator</param>
         /// <returns>Single record</returns>
-        Task<T> GetByIdAsync<T>(object id) where T : class;
+        Task<T?> GetByIdAsync<T>(object id) where T : class;
 
-        Task<T> GetByIdsAsync<T>(object[] id) where T : class;
+        Task<T?> GetByIdsAsync<T>(object[] id) where T : class;
 
         /// <summary>
         /// Adds entity to the database
@@ -91,5 +92,6 @@ namespace RepairShopStudio.Infrastructure.Data.Common
         /// </summary>
         /// <returns>Error code</returns>
         Task<int> SaveChangesAsync();
+
     }
 }

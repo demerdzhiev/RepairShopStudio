@@ -1,68 +1,49 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using RepairShopStudio.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.SparePart;
 
-namespace RepairShopStudio.Infrastructure.Data.Models
+namespace RepairShopStudio.Core.Models.Part
 {
-    [Comment("Part, stored in the shop's warehouse")]
-    public class Part : BaseModel
+    public class AddPartViewModel
     {
-        public Part()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
-
-        [Required]
-        [StringLength(SparePartNameMaxLength)]
         [Comment("The name of the part")]
+        [StringLength(SparePartNameMaxLength, MinimumLength = SparePartNameMinLength)]
         public string Name { get; set; } = null!;
 
-        [StringLength(SparePartImageUrlMaxLength)]
+        [Comment("ImageURl of the part")]
+        [StringLength(SparePartImageUrlMaxLength, MinimumLength = SparePartImageUrlMinLength)]
         public string? ImageUrl { get; set; }
 
-        [Required]
         [Comment("Part's availability")]
-        [Range (0, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Stock { get; set; }
 
-        [Required]
-        [StringLength(SparePartManufacturerNameMaxLength)]
         [Comment("Manufacturer's name of the part")]
+        [StringLength(SparePartManufacturerNameMaxLength, MinimumLength = SparePartManufacturerNameMinLength)]
         public string Manufacturer { get; set; } = null!;
 
-        [Required]
-        [StringLength(SparePartOriginalMpnMaxLength)]
         [Comment("Part's MPN by the car manufacturer")]
+        [StringLength(SparePartOriginalMpnMaxLength, MinimumLength = SparePartOriginalMpnMinLength)]
         public string OriginalMpn { get; set; } = null!;
 
-        [StringLength(SparePartDescriptionMaxLength)]
         [Comment("Description of the part")]
+        [StringLength(SparePartDescriptionMaxLength, MinimumLength = SparePartDescriptionMinLength)]
         public string? Description { get; set; }
 
-        [Required]
         [Comment("Delivery price (by the supplier)")]
         [Range(typeof(decimal), SparePartPriceMinValue, SparePartPriceMaxValue)]
-        [Column(TypeName = "money")]
-        [Precision(18,2)]
         public decimal PriceBuy { get; set; }
 
-        [Required]
         [Comment("Selling price (by the repair shop)")]
         [Range(typeof(decimal), SparePartPriceMinValue, SparePartPriceMaxValue)]
-        [Column(TypeName = "money")]
-        [Precision(18, 2)]
         public decimal PriceSell { get; set; }
 
-        [Comment("Affected part of the vehicle, where the part may be used")]
         public string VehicleComponentId { get; set; } = null!;
 
-        [ForeignKey(nameof(VehicleComponentId))]
-        public VehicleComponent VehicleComponent { get; set; } = null!;
-
-        [Comment("Collection of suppliers, selling the part")]
-        public ICollection<SupplierSparePart> SupplierSpareParts { get; set; } = new List<SupplierSparePart>();
-
-        public bool IsActive { get; set; } = true;
+        [Comment("Name of vehicle component")]
+        public IEnumerable<VehicleComponent> VehicleComponents { get; set; } = new List<VehicleComponent>();
     }
 }

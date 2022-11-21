@@ -40,5 +40,8 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Required]
         [Comment("Spare parts needed for the service")]
         public ICollection<Part> Parts { get; set; } = new List<Part>();
+
+        public bool IsActive { get; set; } = true;
+
     }
 }

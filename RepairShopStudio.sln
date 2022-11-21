@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepairShopStudio.Infrastruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepairShopStudio.Core", "RepairShopStudio.Core\RepairShopStudio.Core.csproj", "{A1A24265-E635-4AFB-AD3F-6D5526A703B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepairShopStudio.Common", "RepairShopStudio.Common\RepairShopStudio.Common.csproj", "{AD867914-55EC-4688-AD48-EF34EF13C30E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepairShopStudio.Common", "RepairShopStudio.Common\RepairShopStudio.Common.csproj", "{AD867914-55EC-4688-AD48-EF34EF13C30E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CE07678-5BF4-42C5-A218-AC529F4BC98C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

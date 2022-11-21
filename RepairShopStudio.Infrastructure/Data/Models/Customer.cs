@@ -40,10 +40,10 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public string Uic { get; set; } = null!;
 
         [Comment("The address of the customer's office")]
-        public string AddressId { get; set; }
+        public string AddressId { get; set; } = null!;
 
         [ForeignKey(nameof(AddressId))]
-        public Address Address { get; set; }
+        public Address? Address { get; set; }
 
         [StringLength(ResponsiblePersonNameMaxLength)]
         [Comment("Name of the responsible person of the customer's company")]

@@ -1,7 +1,7 @@
 ﻿@model RegisterViewModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Add new employee";
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
@@ -33,7 +33,7 @@
                 <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="text-center">
-                <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
+                <button id="registerSubmit" type="submit" class="btn btn-primary">Add Employee</button>
             </div>
         </form>
     </div>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepairShopStudio.Infrastructure.Migrations
 {
-    public partial class SetupAndSeedDB : Migration
+    public partial class SetupDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -37,6 +37,34 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true, comment: "User's first name"),
+                    LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true, comment: "User's last name"),
+                    UserName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                },
+                comment: "Additional user properties");
 
             migrationBuilder.CreateTable(
                 name: "EngineTypes",
@@ -131,7 +159,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -147,39 +175,119 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true, comment: "User's first name"),
-                    LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true, comment: "User's last name"),
-                    JobTitleId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Job title of the employee"),
-                    UserName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_JobTitles_JobTitleId",
-                        column: x => x.JobTitleId,
-                        principalTable: "JobTitles",
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OperatingCards",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of the creation of the document"),
+                    DocumentNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "The number of current document"),
+                    TotalAmount = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "The total amount of parts and services"),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Discount = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperatingCards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OperatingCards_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OperatingCards_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
-                comment: "Additional user properties");
+                comment: "Operating card for the current service");
 
             migrationBuilder.CreateTable(
                 name: "Vehicles",
@@ -221,7 +329,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Document number"),
                     IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of the creation of the order"),
                     Note = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Supplier which will deliver the goods")
+                    SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Supplier which will deliver the goods"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,121 +345,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 comment: "Order of parts properties");
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OperatingCards",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of the creation of the document"),
-                    DocumentNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "The number of current document"),
-                    TotalAmount = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "The total amount of parts and services"),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discount = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OperatingCards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OperatingCards_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OperatingCards_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Operating card for the current service");
-
-            migrationBuilder.CreateTable(
                 name: "ShopServices",
                 columns: table => new
                 {
@@ -359,6 +353,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false, comment: "Description of the service"),
                     Price = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Price of the service"),
                     VehicleComponentId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Affected part of the vehicle"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     OperatingCardId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -379,6 +374,30 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 comment: "Services, offered by repair shop");
 
             migrationBuilder.CreateTable(
+                name: "OperatingCardShopService",
+                columns: table => new
+                {
+                    OperatingCardId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ShopServiceId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperatingCardShopService", x => new { x.OperatingCardId, x.ShopServiceId });
+                    table.ForeignKey(
+                        name: "FK_OperatingCardShopService_OperatingCards_OperatingCardId",
+                        column: x => x.OperatingCardId,
+                        principalTable: "OperatingCards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OperatingCardShopService_ShopServices_ShopServiceId",
+                        column: x => x.ShopServiceId,
+                        principalTable: "ShopServices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Parts",
                 columns: table => new
                 {
@@ -392,18 +411,13 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     PriceBuy = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Delivery price (by the supplier)"),
                     PriceSell = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Selling price (by the repair shop)"),
                     VehicleComponentId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Affected part of the vehicle, where the part may be used"),
-                    OperatingCardId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     OrderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ShopServiceId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Parts_OperatingCards_OperatingCardId",
-                        column: x => x.OperatingCardId,
-                        principalTable: "OperatingCards",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Parts_Orders_OrderId",
                         column: x => x.OrderId,
@@ -424,15 +438,46 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 comment: "Part, stored in the shop's warehouse");
 
             migrationBuilder.CreateTable(
+                name: "OperatingCardParts",
+                columns: table => new
+                {
+                    OperatingCardId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperatingCardParts", x => new { x.OperatingCardId, x.PartId });
+                    table.ForeignKey(
+                        name: "FK_OperatingCardParts_OperatingCards_OperatingCardId",
+                        column: x => x.OperatingCardId,
+                        principalTable: "OperatingCards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OperatingCardParts_Parts_PartId",
+                        column: x => x.PartId,
+                        principalTable: "Parts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SupplierSparePart",
                 columns: table => new
                 {
                     SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PartId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    PartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OperatingCardId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SupplierSparePart", x => new { x.SupplierId, x.PartId });
+                    table.ForeignKey(
+                        name: "FK_SupplierSparePart_OperatingCards_OperatingCardId",
+                        column: x => x.OperatingCardId,
+                        principalTable: "OperatingCards",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_SupplierSparePart_Parts_PartId",
                         column: x => x.PartId,
@@ -455,6 +500,16 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 {
                     { "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0", "Tsar Osvobodiltel str. 98", "Varna", "9000" },
                     { "f03b1057-88f7-47e2-a745-580c6150e371", "Slivnitsa blv. 108", "Varna", "9000" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "0cd0acbf-1cbd-49ee-bf09-726cf295111a", "adviser_repair_shop@mail.com", false, null, null, false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEDBzfW2JcPpiyYta5aAtHmCJJI7RAi3UpNzWtpp7H7iffDpNR1xoGjecUL2u2BEv7A==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
+                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "faff18ec-3d37-47f5-a6e9-495ee15493b5", "mechanic_repair_shop@mail.com", false, null, null, false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAEOnF5lbQBeKdJwfqM1PQfObgMdn6YjRCKCqx0LzRUrQ/x4xLOGFggr3pXezo2HDs8w==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
+                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "c35a4846-e7f5-4948-b088-871c88be33a5", "manager_repair_shop@mail.com", false, null, null, false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEMexX17EVLV/Mt7z3c+R45kGJmrOQ93aKx7aMvDvTIRXt1giV2Fcysv9MTn3mzbVnA==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -490,20 +545,10 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     { "13ea9388-052b-4760-bd7d-3ad3eb04897a", "Steering system" },
                     { "46e751d0-07fc-4859-b95a-51048d4aeb1c", "Engine" },
                     { "6588d450-bda4-440d-a207-82ebe875c64f", "Tranmission system" },
+                    { "6e3cb03f-7a41-426a-9c72-0cd609511ccd", "Tyres and brakes" },
                     { "88fb6d39-5500-48dd-893e-138cfde5b816", "Front and rear axle" },
-                    { "E8210DF4-AB11-461A-8084-DBCECCB5F340", "Tyres and brakes" },
                     { "eac3af63-bd7b-47a2-bde4-32987fe21ad2", "Suspenssion system" },
                     { "eeb24e1e-7978-4748-8591-466fdb72954e", "Body" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "JobTitleId", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "asd12856-c188-4659-b3f3-b893s1395192", 0, "735297d5-768e-47f8-9284-da7bc17fd175", "adviser_repair_shop@mail.com", false, null, "16afcac4-cb26-4c2e-9586-7cc4c2fab81c", null, false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEPCnY8ifMKnj9BRXh11vP+gPl/C0/NAlS/JJKTAwnUMPgYZ8W72v/QOyh4IV8tdYQw==", null, false, "c8647e6d-e436-4d33-a3b6-895f4e11258f", false, "Service_Adviser" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "09189958-1187-4122-8953-55574843b06c", "manager_repair_shop@mail.com", false, null, "3bb29f58-330b-47d7-8c88-66e47a5fd4aa", null, false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "MANAGER_REPAIR_SHOP@MAIL.COM", "AQAAAAEAACcQAAAAEEBfVq4FPqfbSq0avpZ5LOtCzjcblv+jQ8KSai7/TseneDw0RhgAAs0XieRgsFa5Mg==", null, false, "fb5cb000-b175-440a-acce-0fd0fbe2e3c6", false, "General_Manager" },
-                    { "trg12856-c198-2563-b3f3-b893d8398710", 0, "191d5ab9-cb9f-4280-99cd-988858fb3f67", "mechanic_repair_shop@mail.com", false, null, "093fd016-778f-4043-b72e-827c1834c4e2", null, false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC_REPAIR_SHOP@MAIL.COM", "AQAAAAEAACcQAAAAEOTAwy9tbgkntzBbwHqZLwIKylpVisYRkscH0f73R6BRjAdlLk7hat/qJN3dGU/18w==", null, false, "e18a0e2d-c2e2-4ff9-b9d1-0d215c03c77c", false, "Mechanic" }
                 });
 
             migrationBuilder.InsertData(
@@ -513,13 +558,13 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Parts",
-                columns: new[] { "Id", "Description", "ImageUrl", "Manufacturer", "Name", "OperatingCardId", "OrderId", "OriginalMpn", "PriceBuy", "PriceSell", "ShopServiceId", "Stock", "VehicleComponentId" },
-                values: new object[] { "7349E46E-0F79-4D5A-8F09-A30B44BEDFA2", "Front", "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg", "Zimmerman", "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)", null, null, "400.3649.52", 99.98m, 114.56m, null, 4, "E8210DF4-AB11-461A-8084-DBCECCB5F340" });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsActive", "Manufacturer", "Name", "OrderId", "OriginalMpn", "PriceBuy", "PriceSell", "ShopServiceId", "Stock", "VehicleComponentId" },
+                values: new object[] { "7349E46E-0F79-4D5A-8F09-A30B44BEDFA2", "Front", "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg", true, "Zimmerman", "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)", null, "400.3649.52", 99.98m, 114.56m, null, 4, "6e3cb03f-7a41-426a-9c72-0cd609511ccd" });
 
             migrationBuilder.InsertData(
                 table: "ShopServices",
-                columns: new[] { "Id", "Description", "Name", "OperatingCardId", "Price", "VehicleComponentId" },
-                values: new object[] { "7BDDE324-8E4A-4BBC-BF95-92DCF598A7A6", "Check all compnents in breaking sistem and repairing those that need it", "Breaks check and repairs", null, 65m, "E8210DF4-AB11-461A-8084-DBCECCB5F340" });
+                columns: new[] { "Id", "Description", "IsActive", "Name", "OperatingCardId", "Price", "VehicleComponentId" },
+                values: new object[] { "7BDDE324-8E4A-4BBC-BF95-92DCF598A7A6", "Check all compnents in breaking sistem and repairing those that need it", true, "Breaks check and repairs", null, 65m, "6e3cb03f-7a41-426a-9c72-0cd609511ccd" });
 
             migrationBuilder.InsertData(
                 table: "Suppliers",
@@ -527,14 +572,19 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 values: new object[] { "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616", "f03b1057-88f7-47e2-a745-580c6150e371", "Garvan EOOD", "garvan@abv.bg", "Garvan", "0898888888", "123456789876" });
 
             migrationBuilder.InsertData(
+                table: "OperatingCards",
+                columns: new[] { "Id", "ApplicationUserId", "CustomerId", "Date", "Discount", "DocumentNumber", "TotalAmount" },
+                values: new object[] { "badc0c29-a923-4f82-9f07-42417bf97c58", new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), "94eb73a3-e208-4409-bbed-4fc326255fdc", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Local), 10.0, "000111/20/2022 12:00:00 AM", 193.095m });
+
+            migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "IssueDate", "Note", "Number", "SupplierId" },
-                values: new object[] { "9961AF43-3CC2-48EE-B760-89FC2CFACF20", new DateTime(2022, 11, 13, 0, 0, 0, 0, DateTimeKind.Local), "To arrive today", "0001/11/13/2022 12:00:00 AM", "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616" });
+                columns: new[] { "Id", "IsActive", "IssueDate", "Note", "Number", "SupplierId" },
+                values: new object[] { "9961AF43-3CC2-48EE-B760-89FC2CFACF20", true, new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Local), "To arrive today", "0001/11/20/2022 12:00:00 AM", "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616" });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "CustomerId", "EngineTypeId", "FIrstRegistration", "LicensePLate", "Make", "Model", "Power", "VinNumber" },
-                values: new object[] { "E8210DF4-AB11-461A-8084-DBCECCB5F340", "94eb73a3-e208-4409-bbed-4fc326255fdc", "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C", new DateTime(2013, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "B5466HA", "Mercedes-Benz", "W164 350", 272, "12312324125" });
+                values: new object[] { "6e3cb03f-7a41-426a-9c72-0cd609511ccd", "94eb73a3-e208-4409-bbed-4fc326255fdc", "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C", new DateTime(2013, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "B5466HA", "Mercedes-Benz", "W164 350", 272, "12312324125" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -569,11 +619,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_JobTitleId",
-                table: "AspNetUsers",
-                column: "JobTitleId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -586,6 +631,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OperatingCardParts_PartId",
+                table: "OperatingCardParts",
+                column: "PartId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OperatingCards_ApplicationUserId",
                 table: "OperatingCards",
                 column: "ApplicationUserId");
@@ -596,14 +646,14 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OperatingCardShopService_ShopServiceId",
+                table: "OperatingCardShopService",
+                column: "ShopServiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_SupplierId",
                 table: "Orders",
                 column: "SupplierId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Parts_OperatingCardId",
-                table: "Parts",
-                column: "OperatingCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Parts_OrderId",
@@ -634,6 +684,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 name: "IX_Suppliers_AddressId",
                 table: "Suppliers",
                 column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SupplierSparePart_OperatingCardId",
+                table: "SupplierSparePart",
+                column: "OperatingCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SupplierSparePart_PartId",
@@ -667,6 +722,15 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "JobTitles");
+
+            migrationBuilder.DropTable(
+                name: "OperatingCardParts");
+
+            migrationBuilder.DropTable(
+                name: "OperatingCardShopService");
 
             migrationBuilder.DropTable(
                 name: "SupplierSparePart");
@@ -703,9 +767,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "JobTitles");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

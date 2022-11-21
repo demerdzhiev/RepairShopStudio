@@ -35,5 +35,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
         [ForeignKey(nameof(SupplierId))]
         public Supplier? Supplier { get; set; }
+
+        public bool IsActive { get; set; } = true;
     }
 }

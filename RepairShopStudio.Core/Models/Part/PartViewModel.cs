@@ -28,10 +28,10 @@ namespace RepairShopStudio.Core.Models.Part
         [Comment("Description of the part")]
         public string? Description { get; set; }
 
-        [Comment("Delivery price (by the supplier)")]
-        public decimal PriceBuy { get; set; }
-
         [Comment("Selling price (by the repair shop)")]
         public decimal PriceSell { get; set; }
+
+        [Comment("Name of vehicle component")]
+        public string VehicleComponent { get; set; } = null!;
     }
 }
