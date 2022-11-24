@@ -9,6 +9,14 @@ namespace RepairShopStudio.Core.Models.User
         public string UserName { get; set; } = null!;
 
         [Required]
+        [StringLength(20, MinimumLength = 3)]
+        public string FirstName { get; set; } = null!;
+
+        [Required]
+        [StringLength(20, MinimumLength = 3)]
+        public string LastName { get; set; } = null!;
+
+        [Required]
         [EmailAddress]
         [StringLength(60, MinimumLength = 10)]
         public string Email { get; set; } = null!;

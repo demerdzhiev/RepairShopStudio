@@ -34,6 +34,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Required]
         [Comment("Affected part of the vehicle")]
         public string VehicleComponentId { get; set; } = null!;
+
         [ForeignKey(nameof(VehicleComponentId))]
         public VehicleComponent VehicleComponent { get; set; } = null!;
 

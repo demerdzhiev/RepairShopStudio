@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Repositories\Contracts\" />
+    <Folder Include="Data\Repositories\User\Contracts\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -1,0 +1,24 @@
+﻿@using RepairShopStudio.Core.Models.ShopService
+@model IEnumerable<ShopServiceViewModel>
+
+@{
+    ViewBag.Title = "Repair shop services";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+    @foreach (var service in Model)
+    {
+        <div class="card col-4" style="width: 14rem;">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">@service.Name</h5>
+                <p class="mb-0">Short description: @service.Description</p>
+                <p class="mb-0">Price: @service.Price</p>
+                <p class="mb-0">Vehicle component: @service.VehicleComponent</p>
+            </div>
+        </div>
+    }
+</div>

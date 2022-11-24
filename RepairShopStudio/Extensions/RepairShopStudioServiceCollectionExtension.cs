@@ -14,6 +14,7 @@ namespace RepairShopStudio.Extensions
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPartService, PartService>();
+            services.AddScoped<IShopServiceService, ShopServiceService>();
 
             return services;
         }

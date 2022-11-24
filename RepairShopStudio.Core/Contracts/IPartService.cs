@@ -8,5 +8,11 @@ namespace RepairShopStudio.Core.Contracts
         Task<IEnumerable<PartViewModel>> GetAllAsync();
         Task<IEnumerable<VehicleComponent>> GetVehicleComponentsAsync();
         Task AddPartAsync(AddPartViewModel model);
+        Task<bool> Exists(string id);
+        Task<PartViewModel> PartDetailsById(string id);
+        Task<string> GetVehicleComponentId(string partId);
+        Task<IEnumerable<PartVehicleCopmonent>> AllVehicleComponents();
+        Task<bool> VehicleComponentExists(string componentId);
+        Task Edit(string partId, PartViewModel model);
     }
 }

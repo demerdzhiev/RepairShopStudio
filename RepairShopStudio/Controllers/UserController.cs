@@ -63,6 +63,8 @@ namespace Library.Controllers
 
             var user = new ApplicationUser()
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 UserName = model.UserName,
                 Email = model.Email,
             };
@@ -71,7 +73,8 @@ namespace Library.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Edit", new { id = user.Id });
+                //return RedirectToAction("Index", "User");
             }
 
             foreach (var item in result.Errors)
@@ -160,12 +163,12 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var user = unitOfWork.User.GetUser(id);
+            var user = unitOfWork.User.GetUser(Guid.Parse(id));
             var roles = unitOfWork.Role.GetRoles();
 
-            var userRoles = await signInManager.UserManager.GetRolesAsync(user);
+            var userRoles = await userManager.GetRolesAsync(user);
 
             var roleItems = new List<SelectListItem>();
 
@@ -244,7 +247,8 @@ namespace Library.Controllers
 
             unitOfWork.User.UpdateUser(user);
 
-            return RedirectToAction("Edit", new { id = user.Id });
+            return RedirectToAction("Index", "User");
+            //return RedirectToAction("Edit", new { id = user.Id });
         }
 
     }

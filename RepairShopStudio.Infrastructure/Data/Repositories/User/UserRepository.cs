@@ -18,15 +18,17 @@ namespace RepairShopStudio.Infrastructure.Data.Common.User
 
         public ApplicationUser GetUser(Guid id)
         {
-            var user =  context.Users.FirstOrDefault(u => u.Id == id);
-            if (user != null)
-            {
-                return user;
-            }
-            else
-            {
-                throw new NullReferenceException();
-            }
+            return context.Users.FirstOrDefault(u => u.Id == id);
+
+            //var user =  context.Users.FirstOrDefault(u => u.Id == id);
+            //if (user != null)
+            //{
+            //    return user;
+            //}
+            //else
+            //{
+            //    throw new NullReferenceException();
+            //}
         }
 
         public  ICollection<ApplicationUser> GetUsers()
