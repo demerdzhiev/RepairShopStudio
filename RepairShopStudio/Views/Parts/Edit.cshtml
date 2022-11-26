@@ -1,13 +1,13 @@
 ﻿@model PartViewModel
 
 @{
-    ViewBag.Title = "Edit Part";
+    ViewBag.Title = "Edit part";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<partial name="_PartFormPartial" model="@Model" />
+<partial name="_PartEditPartial" model="@Model" />
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

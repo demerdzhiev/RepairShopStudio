@@ -29,6 +29,7 @@ namespace RepairShopStudio.Core.Models.Part
 
         [Comment("Selling price (by the repair shop)")]
         public decimal PriceSell { get; set; }
+        public decimal PriceBuy { get; set; }
 
         [Display(Name = "Vehicle controller")]
         public string VehicleComponentId { get; set; } = null!;

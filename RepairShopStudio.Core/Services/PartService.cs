@@ -90,7 +90,7 @@ namespace RepairShopStudio.Core.Services
                     ImageUrl = p.ImageUrl,
                     Manufacturer = p.Manufacturer,
                     OriginalMpn = p.OriginalMpn,
-                    PriceSell= p.PriceSell,
+                    PriceSell = p.PriceSell,
                     Stock = p.Stock,
                     VehicleComponent = p.VehicleComponent.Name
                 })
@@ -119,16 +119,52 @@ namespace RepairShopStudio.Core.Services
         {
             var part = await repo.GetByIdAsync<Part>(partId);
 
-            part.Name = model.Name;
-            part.OriginalMpn = model.OriginalMpn;
-            part.Manufacturer = model.Manufacturer;
-            part.PriceSell = model.PriceSell;
-            part.Stock = model.Stock;
-            part.Description = model.Description;
-            part.ImageUrl = model.ImageUrl;
-            part.VehicleComponentId = model.VehicleComponentId;
+                part.Name = model.Name;
+                part.OriginalMpn = model.OriginalMpn;
+                part.Manufacturer = model.Manufacturer;
+                part.PriceSell = model.PriceSell;
+                part.Stock = model.Stock;
+                part.Description = model.Description;
+                part.ImageUrl = model.ImageUrl;
+                part.VehicleComponentId = model.VehicleComponentId;
 
-            await repo.SaveChangesAsync();
+                context.SaveChanges();
+            
+        }
+
+        public async Task<EditPartViewModel> GetPartForEditAsync(string id)
+        {
+            
+            var part = context.Parts.Find(id);
+
+            if (part != null)
+            {
+                var result = new EditPartViewModel()
+                {
+                    Name = part.Name,
+                    Description = part.Description,
+                    ImageUrl = part.ImageUrl,
+                    VehicleComponentId = part.VehicleComponentId,
+                    OriginalMpn = part.OriginalMpn,
+                    Stock = part.Stock,
+                    Manufacturer = part.Manufacturer,
+                    PriceSell = part.PriceSell,
+                    PriceBuy = part.PriceBuy,
+                    VehicleComponents = await GetVehicleComponentsAsync()
+                };
+
+                return result;
+            }
+
+            throw new NullReferenceException("The part does not exist");
+        }
+
+
+        public async Task<Part> GetPartById(string id)
+        {
+            id = "d3b28ce4-9f35-442f-bcfa-7e708d6aca70";
+            Part part = await repo.GetByIdAsync<Part>(id);
+            return part;
         }
     }
 }

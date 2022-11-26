@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PartViewModel>
+﻿@using RepairShopStudio.Common.Constants
+@model IEnumerable<PartViewModel>
 
 @{
     ViewBag.Title = "Parts in storage";
@@ -24,11 +25,16 @@
                 <p>Vehicle component: @part.VehicleComponent</p>
             </div>
             <div class="form-inline">
-                @if (this.User.Identity.IsAuthenticated)
+                @if (User.IsInRole(RoleConstants.Manager))
                 {
-                    <form class="input-group-sm" asp-route-Id="@part.Id" asp-controller="Parts" asp-action="Edit">
+                    <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id"
+               class="btn btn-success">Details</a>
+                    <a asp-controller="Parts" asp-action="Edit" asp-route-id="@part.Id"
+               class="btn btn-warning">Edit</a>
+                    @*<form 
+                        class="input-group-sm" asp-route-Id="@part.Id" asp-controller="Parts" asp-action="Edit">
                         <input type="submit" value="Edit" class="fs-6 btn btn-success mb-3 p-2" />
-                    </form>
+                    </form>*@
                 }
             </div>
         </div>
