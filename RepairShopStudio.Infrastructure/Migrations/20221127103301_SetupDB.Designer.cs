@@ -12,8 +12,8 @@ using RepairShopStudio.Infrastructure.Data;
 namespace RepairShopStudio.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221115223305_SecurityStampAdded")]
-    partial class SecurityStampAdded
+    [Migration("20221127103301_SetupDB")]
+    partial class SetupDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,8 +133,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Address", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AddressText")
                         .IsRequired()
@@ -163,14 +166,14 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0",
+                            Id = 1,
                             AddressText = "Tsar Osvobodiltel str. 98",
                             TownName = "Varna",
                             ZipCode = "9000"
                         },
                         new
                         {
-                            Id = "f03b1057-88f7-47e2-a745-580c6150e371",
+                            Id = 2,
                             AddressText = "Slivnitsa blv. 108",
                             TownName = "Varna",
                             ZipCode = "9000"
@@ -179,11 +182,14 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Customer", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("AddressId")
-                        .HasColumnType("nvarchar(450)")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int")
                         .HasComment("The address of the customer's office");
 
                     b.Property<string>("Email")
@@ -229,8 +235,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "94eb73a3-e208-4409-bbed-4fc326255fdc",
-                            AddressId = "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0",
+                            Id = 1,
+                            AddressId = 1,
                             Email = "ivan.ivanov@abv.bg",
                             IsCorporate = true,
                             Name = "Ivan Ivanov",
@@ -240,7 +246,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "38dea0ea-cd19-49b9-a280-b869461def95",
+                            Id = 2,
+                            AddressId = 2,
                             Email = "boris.borisov@abv.bg",
                             IsCorporate = false,
                             Name = "Boris Borisov",
@@ -250,8 +257,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.EngineType", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -268,25 +278,28 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C",
+                            Id = 1,
                             Name = "Gasoline"
                         },
                         new
                         {
-                            Id = "026c3f78-94d5-4f4e-8e8f-fea783a8a93f",
+                            Id = 2,
                             Name = "Diesel"
                         },
                         new
                         {
-                            Id = "e6c84886-dba7-4a1c-8448-60fcf66a71e0",
+                            Id = 3,
                             Name = "Hybrid"
                         });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.JobTitle", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -303,32 +316,34 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3bb29f58-330b-47d7-8c88-66e47a5fd4aa",
+                            Id = 1,
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = "093fd016-778f-4043-b72e-827c1834c4e2",
+                            Id = 2,
                             Name = "Mechanic"
                         },
                         new
                         {
-                            Id = "16afcac4-cb26-4c2e-9586-7cc4c2fab81c",
+                            Id = 3,
                             Name = "Service adviser"
                         });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2")
@@ -361,26 +376,23 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "badc0c29-a923-4f82-9f07-42417bf97c58",
-                            ApplicationUserId = new Guid("3387638b-f57d-442b-8543-b8fc9dd5030b"),
-                            CustomerId = "94eb73a3-e208-4409-bbed-4fc326255fdc",
-                            Date = new DateTime(2022, 11, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            Id = 1,
+                            ApplicationUserId = new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
+                            CustomerId = 1,
+                            Date = new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Discount = 10.0,
-                            DocumentNumber = "000111/16/2022 12:00:00 AM",
+                            DocumentNumber = "000111/27/2022 12:00:00 AM",
                             TotalAmount = 193.095m
                         });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCardParts", b =>
                 {
-                    b.Property<string>("OperatingCardId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OperatingCardId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PartId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PartId")
+                        .HasColumnType("int");
 
                     b.HasKey("OperatingCardId", "PartId");
 
@@ -391,11 +403,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCardShopService", b =>
                 {
-                    b.Property<string>("OperatingCardId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OperatingCardId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ShopServiceId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ShopServiceId")
+                        .HasColumnType("int");
 
                     b.HasKey("OperatingCardId", "ShopServiceId");
 
@@ -406,8 +418,14 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Order", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2")
@@ -423,9 +441,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Document number");
 
-                    b.Property<string>("SupplierId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int")
                         .HasComment("Supplier which will deliver the goods");
 
                     b.HasKey("Id");
@@ -439,18 +456,22 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9961AF43-3CC2-48EE-B760-89FC2CFACF20",
-                            IssueDate = new DateTime(2022, 11, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            Id = 1,
+                            IsActive = true,
+                            IssueDate = new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Note = "To arrive today",
-                            Number = "0001/11/16/2022 12:00:00 AM",
-                            SupplierId = "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616"
+                            Number = "0001/11/27/2022 12:00:00 AM",
+                            SupplierId = 1
                         });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Part", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(150)
@@ -460,6 +481,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Manufacturer")
                         .IsRequired()
@@ -473,8 +497,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasComment("The name of the part");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("OriginalMpn")
                         .IsRequired()
@@ -492,16 +516,15 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("money")
                         .HasComment("Selling price (by the repair shop)");
 
-                    b.Property<string>("ShopServiceId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("ShopServiceId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int")
                         .HasComment("Part's availability");
 
-                    b.Property<string>("VehicleComponentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<int>("VehicleComponentId")
+                        .HasColumnType("int")
                         .HasComment("Affected part of the vehicle, where the part may be used");
 
                     b.HasKey("Id");
@@ -519,23 +542,27 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7349E46E-0F79-4D5A-8F09-A30B44BEDFA2",
+                            Id = 1,
                             Description = "Front",
                             ImageUrl = "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg",
+                            IsActive = true,
                             Manufacturer = "Zimmerman",
                             Name = "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)",
                             OriginalMpn = "400.3649.52",
                             PriceBuy = 99.98m,
                             PriceSell = 114.56m,
                             Stock = 4,
-                            VehicleComponentId = "6e3cb03f-7a41-426a-9c72-0cd609511ccd"
+                            VehicleComponentId = 2
                         });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.ShopService", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -543,23 +570,25 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(400)")
                         .HasComment("Description of the service");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)")
                         .HasComment("Name of the service");
 
-                    b.Property<string>("OperatingCardId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("OperatingCardId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("money")
                         .HasComment("Price of the service");
 
-                    b.Property<string>("VehicleComponentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<int>("VehicleComponentId")
+                        .HasColumnType("int")
                         .HasComment("Affected part of the vehicle");
 
                     b.HasKey("Id");
@@ -575,22 +604,25 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7BDDE324-8E4A-4BBC-BF95-92DCF598A7A6",
+                            Id = 1,
                             Description = "Check all compnents in breaking sistem and repairing those that need it",
+                            IsActive = true,
                             Name = "Breaks check and repairs",
                             Price = 65m,
-                            VehicleComponentId = "6e3cb03f-7a41-426a-9c72-0cd609511ccd"
+                            VehicleComponentId = 4
                         });
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Supplier", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("AddressId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int")
                         .HasComment("Address of the supplier's office");
 
                     b.Property<string>("CompanyName")
@@ -634,8 +666,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616",
-                            AddressId = "f03b1057-88f7-47e2-a745-580c6150e371",
+                            Id = 1,
+                            AddressId = 2,
                             CompanyName = "Garvan EOOD",
                             Email = "garvan@abv.bg",
                             Name = "Garvan",
@@ -646,14 +678,14 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.SupplierSparePart", b =>
                 {
-                    b.Property<string>("SupplierId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PartId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PartId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("OperatingCardId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("OperatingCardId")
+                        .HasColumnType("int");
 
                     b.HasKey("SupplierId", "PartId");
 
@@ -778,15 +810,15 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "022a5cfc-e23f-4f9b-9857-d4fae43cd070",
+                            ConcurrencyStamp = "8dccd13f-cd0e-4664-80b5-ac9012b6c971",
                             Email = "manager_repair_shop@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "GENERAL_MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKdJu1lkBL+aodkzwXDuY0ksZB8w1clZP+LWJPYFBKsHEODVFHbg2puHQBg/Dm3OwQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFexXCjZmPLlUNA1DN1hBl6XQd4L+rwfMwum+THX907NpGV61/6BjoFMP1SOm6sNjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9986edc0-9168-4a1b-bc0f-5894524aa2e3",
+                            SecurityStamp = "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e",
                             TwoFactorEnabled = false,
                             UserName = "General_Manager"
                         },
@@ -794,15 +826,15 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c02ed49b-d4e9-4b89-ac26-7aa676506649",
+                            ConcurrencyStamp = "a0309938-31fa-4aea-a48a-bcb2efd5e63d",
                             Email = "mechanic_repair_shop@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MECHANIC_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "MECHANIC",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP9JJJ0/7Y7RFwGfgaQ5aiIXyJ1bUOPxUuRIm9gXWtg4/adhlawqC9a3Spl7yg5MPQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAH7KkOEhWNS85hZa5/bvOtFS05fysXr7clpa4bKcvd1LXmc+oo2DwuRl+7YuFG2/w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ec6acb97-96ee-4b91-a4a8-8520059c6484",
+                            SecurityStamp = "5755db6a-132e-475d-93b6-d6c2f46f6fad",
                             TwoFactorEnabled = false,
                             UserName = "Mechanic"
                         },
@@ -810,15 +842,15 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb7c071b-01bf-487c-8ee5-f672f64aa8e0",
+                            ConcurrencyStamp = "41b32cf4-94fa-424a-9765-b84eecd720d6",
                             Email = "adviser_repair_shop@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADVISER_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "SERVICE_ADVISER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEClQ7CZZVtWldks6Y3r963FmtGEn2ZYcsiMvgpDo7jMXdzbhQ2VQNsdCJF0yW8X9Cw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDjQ3pMLZIuQr/ZS4siWWmeUybo7woq58XezeYLex03d/bveiTob29QexcSJIyxw+Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c8ae01cf-238d-4f4e-9b0e-6edfe28b345b",
+                            SecurityStamp = "780e294a-90d6-4b9f-987f-a958b729a0b3",
                             TwoFactorEnabled = false,
                             UserName = "Service_Adviser"
                         });
@@ -826,16 +858,17 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Vehicle", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("EngineTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EngineTypeId")
+                        .HasColumnType("int")
                         .HasComment("Engine type of the vehicle");
 
                     b.Property<DateTime>("FIrstRegistration")
@@ -883,9 +916,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6e3cb03f-7a41-426a-9c72-0cd609511ccd",
-                            CustomerId = "94eb73a3-e208-4409-bbed-4fc326255fdc",
-                            EngineTypeId = "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C",
+                            Id = 1,
+                            CustomerId = 1,
+                            EngineTypeId = 2,
                             FIrstRegistration = new DateTime(2013, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LicensePLate = "B5466HA",
                             Make = "Mercedes-Benz",
@@ -897,8 +930,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.VehicleComponent", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -915,37 +951,37 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "46e751d0-07fc-4859-b95a-51048d4aeb1c",
+                            Id = 1,
                             Name = "Engine"
                         },
                         new
                         {
-                            Id = "6588d450-bda4-440d-a207-82ebe875c64f",
+                            Id = 2,
                             Name = "Tranmission system"
                         },
                         new
                         {
-                            Id = "88fb6d39-5500-48dd-893e-138cfde5b816",
+                            Id = 3,
                             Name = "Front and rear axle"
                         },
                         new
                         {
-                            Id = "13ea9388-052b-4760-bd7d-3ad3eb04897a",
+                            Id = 4,
                             Name = "Steering system"
                         },
                         new
                         {
-                            Id = "eac3af63-bd7b-47a2-bde4-32987fe21ad2",
+                            Id = 5,
                             Name = "Suspenssion system"
                         },
                         new
                         {
-                            Id = "6e3cb03f-7a41-426a-9c72-0cd609511ccd",
+                            Id = 6,
                             Name = "Tyres and brakes"
                         },
                         new
                         {
-                            Id = "eeb24e1e-7978-4748-8591-466fdb72954e",
+                            Id = 7,
                             Name = "Body"
                         });
                 });

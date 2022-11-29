@@ -5,12 +5,10 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Address;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Addres properties")]
-    public class Address : BaseModel
+    public class Address
     {
-        public Address()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(AddressTextMaxLength)]

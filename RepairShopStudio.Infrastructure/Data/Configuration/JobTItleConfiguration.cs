@@ -17,7 +17,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var managerJobTitle = new JobTitle()
             {
-                Id = "3bb29f58-330b-47d7-8c88-66e47a5fd4aa",
+                Id = 1,
                 Name = "Manager"
             };
 
@@ -26,7 +26,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var mechanicJobTitle = new JobTitle()
             {
-                Id = "093fd016-778f-4043-b72e-827c1834c4e2",
+                Id = 2,
                 Name = "Mechanic"
             };
 
@@ -35,7 +35,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var adviserJobTitle = new JobTitle()
             {
-                Id = "16afcac4-cb26-4c2e-9586-7cc4c2fab81c",
+                Id = 3,
                 Name = "Service adviser"
             };
 

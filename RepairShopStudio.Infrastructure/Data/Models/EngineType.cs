@@ -5,12 +5,10 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.EngineTy
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Type of the vehicle's engine")]
-    public class EngineType : BaseModel
+    public class EngineType
     {
-        public EngineType()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(EngineTypeNameMaxLength)]

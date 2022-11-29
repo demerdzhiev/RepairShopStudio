@@ -22,15 +22,15 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var vehicle = new Vehicle()
             {
-                Id = "6e3cb03f-7a41-426a-9c72-0cd609511ccd",
+                Id = 1,
                 Make = "Mercedes-Benz",
                 Model = "W164 350",
                 LicensePLate = "B5466HA",
                 FIrstRegistration = DateTime.Parse("2013-06-23"),
-                EngineTypeId = "545F6ADA-C535-476A-8B65-A8E2ADEE5F7C",
+                EngineTypeId = 2,
                 Power = 272,
                 VinNumber = "12312324125",
-                CustomerId = "94eb73a3-e208-4409-bbed-4fc326255fdc"
+                CustomerId = 1
             };
 
             vehicles.Add(vehicle);

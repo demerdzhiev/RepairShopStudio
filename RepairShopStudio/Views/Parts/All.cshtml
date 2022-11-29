@@ -1,5 +1,4 @@
-﻿@using RepairShopStudio.Common.Constants
-@model IEnumerable<PartViewModel>
+﻿@model IEnumerable<PartViewModel>
 
 @{
     ViewBag.Title = "Parts in storage";
@@ -15,7 +14,6 @@
             <img class="card-img-top" style="width: 12rem;"
              src="@part.ImageUrl" alt="Part Image">
             <div class="card-body">
-                <input type="hidden" asp-for="@part.Id" />
                 <h5 class="card-title mt-1">@part.Name</h5>
                 <p class="mb-0">Availability: @part.Stock</p>
                 <p class="mb-0">Manufacturer: @part.Manufacturer</p>
@@ -27,14 +25,8 @@
             <div class="form-inline">
                 @if (User.IsInRole(RoleConstants.Manager))
                 {
-                    <a asp-controller="Parts" asp-action="Details" asp-route-id="@part.Id"
-               class="btn btn-success">Details</a>
-                    <a asp-controller="Parts" asp-action="Edit" asp-route-id="@part.Id"
-               class="btn btn-warning">Edit</a>
-                    @*<form 
-                        class="input-group-sm" asp-route-Id="@part.Id" asp-controller="Parts" asp-action="Edit">
-                        <input type="submit" value="Edit" class="fs-6 btn btn-success mb-3 p-2" />
-                    </form>*@
+                    @*<a asp-controller="Parts" asp-action="ViewDetails" asp-route-Id="@part.Id" class="btn btn-success">Details</a>*@
+                    <a asp-controller="Parts" asp-action="Edit" asp-route-Id="@part.Id" class="btn btn-warning">Edit</a>
                 }
             </div>
         </div>

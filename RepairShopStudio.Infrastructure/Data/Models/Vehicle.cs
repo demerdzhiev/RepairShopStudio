@@ -7,12 +7,10 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Vehicle;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Vehicle, owned by customer")]
-    public class Vehicle : BaseModel
+    public class Vehicle
     {
-        public Vehicle()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(VehicleMakeMaxLength)]
@@ -34,7 +32,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public DateTime FIrstRegistration { get; set; }
 
         [Comment("Engine type of the vehicle")]
-        public string EngineTypeId { get; set; } = null!;
+        public int EngineTypeId { get; set; }
 
         [ForeignKey(nameof(EngineTypeId))]
         public EngineType EngineType { get; set; } = null!;
@@ -49,7 +47,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Comment("VIN number of the vehicle")]
         public string VinNumber { get; set; } = null!;
 
-        public string CustomerId { get; set; } = null!;
+        public int CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
         [Comment("Customer/owner of the vehicle")]

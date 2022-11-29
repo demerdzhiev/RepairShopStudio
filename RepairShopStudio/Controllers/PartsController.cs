@@ -1,17 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using RepairShopStudio.Core.Contracts;
+using RepairShopStudio.Core.Extensions;
 using RepairShopStudio.Core.Models.Part;
+using RepairShopStudio.Infrastructure.Data;
 
 namespace RepairShopStudio.Controllers
 {
     public class PartsController : Controller
     {
         private readonly IPartService partService;
+        private readonly ApplicationDbContext context;
 
-        public PartsController(IPartService _partService)
+        public PartsController(IPartService _partService,
+            ApplicationDbContext _context)
         {
             partService = _partService;
+            context = _context;
         }
 
         [HttpGet]
@@ -55,8 +62,70 @@ namespace RepairShopStudio.Controllers
             }
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> Details(string id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if ((await partService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            var part = await partService.PartDetailsById(id);
+            var vehicleCompnentId = await partService.GetVehicleComponentId(id);
+
+            var model = new PartViewModel()
+            {
+                Id = id,
+                Name = part.Name,
+                Description = part.Description,
+                Manufacturer = part.Manufacturer,
+                OriginalMpn = part.OriginalMpn,
+                ImageUrl = part.ImageUrl,
+                Stock = part.Stock,
+                VehicleComponentId = vehicleCompnentId,
+                VehicleComponents = await partService.AllVehicleComponents()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, PartViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if ((await partService.Exists(model.Id)) == false)
+            {
+                ModelState.AddModelError("", "House does not exist");
+                model.VehicleComponents = await partService.AllVehicleComponents();
+
+                return View(model);
+            }
+
+            if ((await partService.VehicleComponentExists(model.VehicleComponentId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.VehicleComponentId), "Category does not exist");
+                model.VehicleComponents = await partService.AllVehicleComponents();
+
+                return View(model);
+            }
+
+            if (!ModelState.IsValid == false)
+            {
+                model.VehicleComponents = await partService.AllVehicleComponents();
+
+                return View(model);
+            }
+
+            await partService.Edit(model.Id, model);
+
+            return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetInformation() });
+        }
+
+        public async Task<IActionResult> Details (int id, string information)
         {
             if ((await partService.Exists(id)) == false)
             {
@@ -65,45 +134,14 @@ namespace RepairShopStudio.Controllers
 
             var model = await partService.PartDetailsById(id);
 
-            return RedirectToAction(nameof(Edit), new { id = id });
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(string id)
-        {
-            var part = await partService.GetPartById(id);
-
-            //var vehicleComponentId = await partService.GetVehicleComponentId(id);
-            //var VehicleComponents = await partService.GetVehicleComponentsAsync();
-
-            var model = new PartViewModel()
+            if (information != model.GetInformation())
             {
-                Name = part.Name,
-                Description = part.Description,
-                Manufacturer = part.Manufacturer,
-                ImageUrl = part.ImageUrl,
-                OriginalMpn = part.OriginalMpn,
-                PriceBuy = part.PriceBuy,
-                PriceSell = part.PriceSell
-                //VehicleComponentId = vehicleComponentId,
-                //VehicleComponents = VehicleComponents,
-            };
+                TempData["ErrorMessage"] = "Don't touch my slug!";
 
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(string id, PartViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
+                return RedirectToAction("Index", "Home");
             }
 
-            partService.Edit(id, model);
-
-            return RedirectToAction(nameof(Details), new { id = model.Id });
+            return View(model);
         }
     }
 }

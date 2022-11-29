@@ -17,11 +17,11 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var order = new Order()
             {
-                Id = "9961AF43-3CC2-48EE-B760-89FC2CFACF20",
+                Id = 1,
                 IssueDate = DateTime.Now.Date,
                 Number = $"0001/{DateTime.Now.Date}",
                 Note = "To arrive today",
-                SupplierId = "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616"
+                SupplierId = 1
             };
             orders.Add(order);
 

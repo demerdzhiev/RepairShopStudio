@@ -6,13 +6,13 @@ namespace RepairShopStudio.Infrastructure.Data.Models
     public class OperatingCardShopService
     {
         [Required]
-        public string OperatingCardId { get; set; } = null!;
+        public int OperatingCardId { get; set; }
 
         [ForeignKey(nameof(OperatingCardId))]
         public OperatingCard? OperatingCard { get; set; }
 
         [Required]
-        public string ShopServiceId { get; set; } = null!;
+        public int ShopServiceId { get; set; }
 
         [ForeignKey(nameof(ShopServiceId))]
         public ShopService? ShopService { get; set; }

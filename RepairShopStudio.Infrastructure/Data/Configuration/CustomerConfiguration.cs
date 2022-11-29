@@ -17,13 +17,13 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var customer = new Customer()
             {
-                Id = "94eb73a3-e208-4409-bbed-4fc326255fdc",
+                Id = 1,
                 Name = "Ivan Ivanov",
                 PhoneNumber = "099999999",
                 Email = "ivan.ivanov@abv.bg",
                 IsCorporate = true,
                 Uic = "1234543421234",
-                AddressId = "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0",
+                AddressId = 1,
                 ResponsiblePerson = "Ivan Ivanov"
             };
 
@@ -31,11 +31,12 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var customer2 = new Customer()
             {
-                Id = "38dea0ea-cd19-49b9-a280-b869461def95",
+                Id = 2,
                 Name = "Boris Borisov",
                 PhoneNumber = "0898888888",
                 Email = "boris.borisov@abv.bg",
-                IsCorporate = false
+                IsCorporate = false,
+                AddressId= 2
             };
 
             customers.Add(customer2);

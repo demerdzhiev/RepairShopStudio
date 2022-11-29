@@ -7,12 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Customer information")]
-    public class Customer : BaseModel
+    public class Customer
     {
-        public Customer()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(CustomerNameMaxLength)]
@@ -40,10 +38,10 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public string Uic { get; set; } = null!;
 
         [Comment("The address of the customer's office")]
-        public string AddressId { get; set; } = null!;
+        public int? AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
-        public Address? Address { get; set; }
+        public Address Address { get; set; } = null!;
 
         [StringLength(ResponsiblePersonNameMaxLength)]
         [Comment("Name of the responsible person of the customer's company")]

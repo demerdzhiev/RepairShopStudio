@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
-    public class OperatingCardParts : BaseModel
+    public class OperatingCardParts
     {
         [Required]
-        public string OperatingCardId { get; set; } = null!;
+        public int OperatingCardId { get; set; }
 
         [ForeignKey(nameof(OperatingCardId))]
         public OperatingCard? OperatingCard { get; set; }
 
         [Required]
-        public string PartId { get; set; } = null!;
+        public int PartId { get; set; }
 
         [ForeignKey(nameof(PartId))]
         public Part? Part { get; set; }

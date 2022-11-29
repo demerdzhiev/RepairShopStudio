@@ -7,12 +7,10 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Operating card for the current service")]
-    public class OperatingCard : BaseModel
+    public class OperatingCard
     {
-        public OperatingCard()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [Comment("Date of the creation of the document")]
@@ -33,7 +31,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Precision(18, 2)]
         public decimal TotalAmount { get; set; }
 
-        public string CustomerId { get; set; } = null!;
+        public int CustomerId { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
         public Customer? Customer { get; set; }

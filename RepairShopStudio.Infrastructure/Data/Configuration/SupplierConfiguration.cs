@@ -17,13 +17,13 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var supplier = new Supplier()
             {
-                Id = "EDD4D809-A15C-4C6C-BC01-E6B4E9D23616",
+                Id = 1,
                 Name = "Garvan",
                 CompanyName = "Garvan EOOD",
                 Uic = "123456789876",
                 PhoneNumber = "0898888888",
                 Email = "garvan@abv.bg",
-                AddressId = "f03b1057-88f7-47e2-a745-580c6150e371"
+                AddressId = 2
             };
 
             suppliers.Add(supplier);

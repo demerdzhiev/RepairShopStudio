@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
@@ -25,6 +24,7 @@ namespace RepairShopStudio.Core.Services
         {
             var entity = new Part()
             {
+                Id = model.Id,
                 Name = model.Name,
                 ImageUrl = model.ImageUrl,
                 Description = model.Description,
@@ -40,12 +40,11 @@ namespace RepairShopStudio.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<bool> Exists(string id)
+        public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Part>()
                 .AnyAsync(p => p.Id == id && p.IsActive);
         }
-
 
         public async Task<IEnumerable<PartViewModel>> GetAllAsync()
         {
@@ -56,6 +55,7 @@ namespace RepairShopStudio.Core.Services
             return entities
                 .Select(p => new PartViewModel
                 {
+                    Id = p.Id,
                     Name = p.Name,
                     ImageUrl = p.ImageUrl,
                     Stock = p.Stock,
@@ -67,24 +67,24 @@ namespace RepairShopStudio.Core.Services
                 });
         }
 
-
         public async Task<IEnumerable<VehicleComponent>> GetVehicleComponentsAsync()
         {
             return await context.VehicleComponents.ToListAsync();
         }
 
-        public async Task<string> GetVehicleComponentId(string partId)
+        public async Task<int> GetVehicleComponentId(int partId)
         {
             return (await repo.GetByIdAsync<Part>(partId)).VehicleComponentId;
         }
 
-        public async Task<PartViewModel> PartDetailsById(string id)
+        public async Task<PartDetailsModel> PartDetailsById(int id)
         {
             return await repo.AllReadonly<Part>()
                 .Where(p => p.IsActive)
                 .Where(p => p.Id == id)
-                .Select(p => new PartViewModel()
+                .Select(p => new PartDetailsModel()
                 {
+                    Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
                     ImageUrl = p.ImageUrl,
@@ -97,11 +97,11 @@ namespace RepairShopStudio.Core.Services
                 .FirstAsync();
         }
 
-        public async Task<IEnumerable<PartVehicleCopmonent>> AllVehicleComponents()
+        public async Task<IEnumerable<PartVehicleCopmonentModel>> AllVehicleComponents()
         {
             return await repo.AllReadonly<VehicleComponent>()
                 .OrderBy(c => c.Name)
-                .Select(c => new PartVehicleCopmonent()
+                .Select(c => new PartVehicleCopmonentModel()
                 {
                     Id = c.Id,
                     Name = c.Name
@@ -109,16 +109,18 @@ namespace RepairShopStudio.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<bool> VehicleComponentExists(string componentId)
+        public async Task<bool> VehicleComponentExists(int componentId)
         {
             return await repo.AllReadonly<VehicleComponent>()
                 .AnyAsync(c => c.Id == componentId);
         }
 
-        public async Task Edit(string partId, PartViewModel model)
+        public async Task<bool> Edit(int partId, PartViewModel model)
         {
-            var part = await repo.GetByIdAsync<Part>(partId);
+            var part = await context.FindAsync<Part>(partId);
 
+            if (part != null)
+            {
                 part.Name = model.Name;
                 part.OriginalMpn = model.OriginalMpn;
                 part.Manufacturer = model.Manufacturer;
@@ -128,11 +130,17 @@ namespace RepairShopStudio.Core.Services
                 part.ImageUrl = model.ImageUrl;
                 part.VehicleComponentId = model.VehicleComponentId;
 
+                context.Update(part);
                 context.SaveChanges();
-            
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Part was not found");
+
         }
 
-        public async Task<EditPartViewModel> GetPartForEditAsync(string id)
+        public async Task<EditPartViewModel> GetPartForEditAsync(int id)
         {
             
             var part = context.Parts.Find(id);
@@ -159,12 +167,10 @@ namespace RepairShopStudio.Core.Services
             throw new NullReferenceException("The part does not exist");
         }
 
-
-        public async Task<Part> GetPartById(string id)
+        public async Task<Part> GetPartById(int id)
         {
-            id = "d3b28ce4-9f35-442f-bcfa-7e708d6aca70";
-            Part part = await repo.GetByIdAsync<Part>(id);
-            return part;
+            return await context.Parts.FirstOrDefaultAsync(p => p.Id == id);
+
         }
     }
 }

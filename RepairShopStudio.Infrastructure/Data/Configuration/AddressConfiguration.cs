@@ -17,7 +17,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var address = new Address()
             {
-                Id = "6a27fcd0-81f5-412d-80c8-39cc0f6c81f0",
+                Id = 1,
                 AddressText = "Tsar Osvobodiltel str. 98",
                 TownName = "Varna",
                 ZipCode = "9000"
@@ -27,7 +27,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var address1 = new Address()
             {
-                Id = "f03b1057-88f7-47e2-a745-580c6150e371",
+                Id = 2,
                 AddressText = "Slivnitsa blv. 108",
                 TownName = "Varna",
                 ZipCode = "9000"

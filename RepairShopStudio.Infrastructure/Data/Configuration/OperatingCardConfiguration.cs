@@ -17,10 +17,10 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var operatingCard = new OperatingCard()
             {
-                Id = "badc0c29-a923-4f82-9f07-42417bf97c58",
+                Id = 1,
                 Date = DateTime.Now.Date,
                 DocumentNumber = $"0001{DateTime.Now.Date}",
-                CustomerId = "94eb73a3-e208-4409-bbed-4fc326255fdc",
+                CustomerId = 1,
                 ApplicationUserId = Guid.Parse("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
                 Discount = 10,
                 TotalAmount = (114.56M + 99.99M) * 0.9M 

@@ -9,6 +9,8 @@ namespace RepairShopStudio.Core.Models.Part
 {
     public class AddPartViewModel
     {
+        public int Id { get; set; }
+
         [Comment("The name of the part")]
         [StringLength(SparePartNameMaxLength, MinimumLength = SparePartNameMinLength)]
         public string Name { get; set; } = null!;
@@ -41,7 +43,7 @@ namespace RepairShopStudio.Core.Models.Part
         [Range(typeof(decimal), SparePartPriceMinValue, SparePartPriceMaxValue)]
         public decimal PriceSell { get; set; }
 
-        public string VehicleComponentId { get; set; } = null!;
+        public int VehicleComponentId { get; set; }
 
         [Comment("Name of vehicle component")]
         public IEnumerable<VehicleComponent> VehicleComponents { get; set; } = new List<VehicleComponent>();

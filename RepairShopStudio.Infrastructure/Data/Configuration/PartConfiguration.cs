@@ -17,7 +17,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
 
             var part = new Part()
             {
-                Id = "7349E46E-0F79-4D5A-8F09-A30B44BEDFA2",
+                Id = 1,
                 Name = "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)",
                 ImageUrl = "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg",
                 Stock = 4,
@@ -26,7 +26,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
                 Description = "Front",
                 PriceBuy = 99.98M,
                 PriceSell = 114.56M,
-                VehicleComponentId = "6e3cb03f-7a41-426a-9c72-0cd609511ccd"
+                VehicleComponentId = 2
             };
             parts.Add(part);
 

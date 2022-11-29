@@ -6,12 +6,10 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.SparePar
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Part, stored in the shop's warehouse")]
-    public class Part : BaseModel
+    public class Part
     {
-        public Part()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(SparePartNameMaxLength)]
@@ -54,8 +52,9 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Precision(18, 2)]
         public decimal PriceSell { get; set; }
 
+        [Required]
         [Comment("Affected part of the vehicle, where the part may be used")]
-        public string VehicleComponentId { get; set; } = null!;
+        public int VehicleComponentId { get; set; }
 
         [ForeignKey(nameof(VehicleComponentId))]
         public VehicleComponent VehicleComponent { get; set; } = null!;

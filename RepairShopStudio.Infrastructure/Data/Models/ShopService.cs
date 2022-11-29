@@ -7,12 +7,10 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.ShopServ
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
     [Comment("Services, offered by repair shop")]
-    public class ShopService : BaseModel
+    public class ShopService
     {
-        public ShopService()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [Key]
+        public int Id { get; set; }
 
         [Required]
         [StringLength(RepairServiceNameMaxLength)]
@@ -33,7 +31,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
         [Required]
         [Comment("Affected part of the vehicle")]
-        public string VehicleComponentId { get; set; } = null!;
+        public int VehicleComponentId { get; set; }
 
         [ForeignKey(nameof(VehicleComponentId))]
         public VehicleComponent VehicleComponent { get; set; } = null!;

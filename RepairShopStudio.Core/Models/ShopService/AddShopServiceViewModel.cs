@@ -23,7 +23,7 @@ namespace RepairShopStudio.Core.Models.ShopService
         [Precision(18, 2)]
         public decimal Price { get; set; }
 
-        public string VehicleComponentId { get; set; } = null!;
+        public int VehicleComponentId { get; set; }
 
         [Comment("Name of vehicle component")]
         public IEnumerable<VehicleComponent> VehicleComponents { get; set; } = new List<VehicleComponent>();

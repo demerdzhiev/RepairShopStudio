@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RepairShopStudio.Infrastructure.Data.Models;
+using RepairShopStudio.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace RepairShopStudio.Core.Models.Part
 {
-    public class PartViewModel
+    public class PartViewModel : IPartModel
     {
-        public string Id { get; set; } = null!;
+        public int Id { get; set; }
 
         [Comment("The name of the part")]
         public string Name { get; set; } = null!;
@@ -32,11 +31,11 @@ namespace RepairShopStudio.Core.Models.Part
         public decimal PriceBuy { get; set; }
 
         [Display(Name = "Vehicle controller")]
-        public string VehicleComponentId { get; set; } = null!;
+        public int VehicleComponentId { get; set; }
 
         [Comment("Name of vehicle component")]
         public string VehicleComponent { get; set; } = null!;
 
-        public IEnumerable<PartVehicleCopmonent> VehicleCopmonents { get; set; } = new List<PartVehicleCopmonent>();
+        public IEnumerable<PartVehicleCopmonentModel> VehicleComponents { get; set; } = new List<PartVehicleCopmonentModel>();
     }
 }
