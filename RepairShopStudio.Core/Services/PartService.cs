@@ -63,6 +63,7 @@ namespace RepairShopStudio.Core.Services
                     OriginalMpn = p.OriginalMpn,
                     Description = p.Description,
                     PriceSell = p.PriceSell,
+                    PriceBuy= p.PriceBuy,
                     VehicleComponent = p.VehicleComponent.Name
                 });
         }
@@ -91,6 +92,7 @@ namespace RepairShopStudio.Core.Services
                     Manufacturer = p.Manufacturer,
                     OriginalMpn = p.OriginalMpn,
                     PriceSell = p.PriceSell,
+                    PriceBuy = p.PriceBuy,
                     Stock = p.Stock,
                     VehicleComponent = p.VehicleComponent.Name
                 })
@@ -125,6 +127,7 @@ namespace RepairShopStudio.Core.Services
                 part.OriginalMpn = model.OriginalMpn;
                 part.Manufacturer = model.Manufacturer;
                 part.PriceSell = model.PriceSell;
+                part.PriceBuy = model.PriceBuy;
                 part.Stock = model.Stock;
                 part.Description = model.Description;
                 part.ImageUrl = model.ImageUrl;

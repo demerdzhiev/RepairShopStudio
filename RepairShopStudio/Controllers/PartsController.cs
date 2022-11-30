@@ -77,6 +77,8 @@ namespace RepairShopStudio.Controllers
             {
                 Id = id,
                 Name = part.Name,
+                PriceBuy = part.PriceBuy,
+                PriceSell = part.PriceSell,
                 Description = part.Description,
                 Manufacturer = part.Manufacturer,
                 OriginalMpn = part.OriginalMpn,
