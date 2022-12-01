@@ -1,4 +1,5 @@
 ﻿using RepairShopStudio.Core.Contracts;
+using RepairShopStudio.Core.Exceptions;
 using RepairShopStudio.Core.Services;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Common.User;
@@ -15,6 +16,8 @@ namespace RepairShopStudio.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPartService, PartService>();
             services.AddScoped<IShopServiceService, ShopServiceService>();
+            services.AddScoped<IGuard, Guard>();
+
 
             return services;
         }
