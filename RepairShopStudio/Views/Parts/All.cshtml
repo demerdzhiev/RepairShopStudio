@@ -24,7 +24,7 @@
                 <p>Vehicle component: @part.VehicleComponent</p>
             </div>
             <div class="form-inline">
-                @if (User.IsInRole(RoleConstants.Manager))
+                @if (User.IsInRole(RoleConstants.Administrator))
                 {
                     @*<a asp-controller="Parts" asp-action="ViewDetails" asp-route-Id="@part.Id" class="btn btn-success">Details</a>*@
                     <a asp-controller="Parts" asp-action="Edit" asp-route-Id="@part.Id" class="btn btn-warning">Edit</a>

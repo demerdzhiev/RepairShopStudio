@@ -39,7 +39,7 @@ namespace Library.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.Manager)]
+        [Authorize(Roles = RoleConstants.Administrator)]
         public IActionResult Register()
         {
             if (!User?.Identity?.IsAuthenticated ?? false)
@@ -53,7 +53,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.Manager)]
+        [Authorize(Roles = RoleConstants.Administrator)]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -138,7 +138,7 @@ namespace Library.Controllers
 
         public async Task<IActionResult> CreateRoles()
         {
-            await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Manager));
+            await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Administrator));
             await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Mechanic));
             await roleManager.CreateAsync(new ApplicationRole(RoleConstants.ServiceAdviser));
 
@@ -155,7 +155,7 @@ namespace Library.Controllers
             var user2 = await userManager.FindByEmailAsync(email2);
             var user3 = await userManager.FindByEmailAsync(email3);
 
-            await userManager.AddToRolesAsync(user, new string[] { RoleConstants.Manager, RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
+            await userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator, RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
             await userManager.AddToRolesAsync(user2, new string[] { RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
             await userManager.AddToRolesAsync(user3, new string[] { RoleConstants.Mechanic });
 

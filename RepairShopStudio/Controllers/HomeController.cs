@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Models;
 using System.Diagnostics;
+using static RepairShopStudio.Common.Constants.AdminConstants;
 
 namespace RepairShopStudio.Controllers
 {
@@ -8,6 +9,11 @@ namespace RepairShopStudio.Controllers
     {
         public IActionResult Index()
         {
+            if (User.IsInRole(AdminRolleName))
+            {
+                return RedirectToAction("Index", "Admin", new { area = "Admin" });
+            }
+
             return View();
         }
 
