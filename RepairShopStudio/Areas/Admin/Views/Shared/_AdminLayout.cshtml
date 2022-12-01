@@ -23,18 +23,21 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Houses</a>
-                        </li>*@
-                        @*@if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="All">Storage</a>
+                        </li>
+                        @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="Mine">My Houses</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">All employees</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="Add">Add House</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Add new employee</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become">Become Agent</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Add">Add new part</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="Add">Add new service</a>
                             </li>
                         }*@
                     </ul>

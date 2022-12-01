@@ -28,6 +28,10 @@
                 {
                     @*<a asp-controller="Parts" asp-action="ViewDetails" asp-route-Id="@part.Id" class="btn btn-success">Details</a>*@
                     <a asp-controller="Parts" asp-action="Edit" asp-route-Id="@part.Id" class="btn btn-warning">Edit</a>
+                    <form asp-action="Delete" asp-controller="Parts" method="post"> 
+                        <input name="id" type="hidden" value="@part.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 }
             </div>
         </div>

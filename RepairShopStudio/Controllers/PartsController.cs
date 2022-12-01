@@ -6,6 +6,7 @@ using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Extensions;
 using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
+using System;
 
 namespace RepairShopStudio.Controllers
 {
@@ -127,7 +128,7 @@ namespace RepairShopStudio.Controllers
             return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetInformation() });
         }
 
-        public async Task<IActionResult> Details (int id, string information)
+        public async Task<IActionResult> Details(int id, string information)
         {
             if ((await partService.Exists(id)) == false)
             {
@@ -144,6 +145,20 @@ namespace RepairShopStudio.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromForm] int id)
+        {
+            if ((await partService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            TempData["SuccessDeletePartMessage"] = "Part was deleted sucessfully";
+            await partService.Delete(id);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

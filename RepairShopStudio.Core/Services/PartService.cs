@@ -49,6 +49,7 @@ namespace RepairShopStudio.Core.Services
         public async Task<IEnumerable<PartViewModel>> GetAllAsync()
         {
             var entities = await context.Parts
+                .Where(p => p.IsActive)
                 .Include(p => p.VehicleComponent)
                 .ToListAsync();
 
@@ -174,6 +175,19 @@ namespace RepairShopStudio.Core.Services
         {
             return await context.Parts.FirstOrDefaultAsync(p => p.Id == id);
 
+        }
+
+        public async Task Delete(int id)
+        {
+            var part = await repo.All<Part>()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (part != null)
+            {
+                part.IsActive = false;
+
+                await repo.SaveChangesAsync();
+            }
         }
     }
 }

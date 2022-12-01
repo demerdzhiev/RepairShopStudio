@@ -16,5 +16,6 @@ namespace RepairShopStudio.Core.Contracts
         Task<bool> Edit(int partId, PartViewModel model);
         Task<EditPartViewModel> GetPartForEditAsync(int id);
         Task<Part> GetPartById(int id);
+        Task Delete(int id);
     }
 }

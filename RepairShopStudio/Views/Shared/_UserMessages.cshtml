@@ -20,3 +20,10 @@
         $(function () { toastr.success('@TempData[MessageConstant.SuccessMessage].ToString()'); });
     </script>
 }
+
+@if (TempData[MessageConstant.SuccessDeletePartMessage] != null)
+{
+    <script>
+        $(function () { toastr.success('@TempData[MessageConstant.SuccessDeletePartMessage].ToString()'); });
+    </script>
+}
