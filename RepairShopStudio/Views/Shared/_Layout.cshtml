@@ -1,4 +1,7 @@
-﻿@using RepairShopStudio.Common.Constants
+﻿@inject SignInManager<ApplicationUser> SignInManager
+
+@using RepairShopStudio.Common.Constants
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,12 +44,16 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="Add">Add new service</a>
                             </li>
                         }
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="All">Storage</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="All">Services</a>
                         </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
