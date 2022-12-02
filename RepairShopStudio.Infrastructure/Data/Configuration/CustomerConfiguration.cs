@@ -18,7 +18,7 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
             var customer = new Customer()
             {
                 Id = 1,
-                Name = "Ivan Ivanov",
+                Name = "Ivanov.Inc",
                 PhoneNumber = "099999999",
                 Email = "ivan.ivanov@abv.bg",
                 IsCorporate = true,

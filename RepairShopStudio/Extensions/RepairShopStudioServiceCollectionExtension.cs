@@ -17,6 +17,7 @@ namespace RepairShopStudio.Extensions
             services.AddScoped<IPartService, PartService>();
             services.AddScoped<IShopServiceService, ShopServiceService>();
             services.AddScoped<IGuard, Guard>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
 
             return services;
