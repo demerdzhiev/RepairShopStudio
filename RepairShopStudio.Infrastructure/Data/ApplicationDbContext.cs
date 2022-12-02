@@ -52,6 +52,10 @@ namespace RepairShopStudio.Infrastructure.Data
                 .HasMaxLength(60)
                 .IsRequired();
 
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.IsActive)
+                .HasDefaultValue(true);
+
             builder.Entity<SupplierSparePart>()
                 .HasKey(x => new { x.SupplierId, x.PartId });
 

@@ -6,7 +6,6 @@ using RepairShopStudio.Common.Constants;
 using RepairShopStudio.Core.Models.User;
 using RepairShopStudio.Infrastructure.Data.Common.User;
 using RepairShopStudio.Infrastructure.Data.Models.User;
-using System.Linq;
 
 namespace Library.Controllers
 {

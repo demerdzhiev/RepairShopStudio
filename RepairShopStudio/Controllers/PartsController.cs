@@ -125,7 +125,7 @@ namespace RepairShopStudio.Controllers
 
             await partService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetInformation() });
+            return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetPartInformation() });
         }
 
         public async Task<IActionResult> Details(int id, string information)
@@ -137,7 +137,7 @@ namespace RepairShopStudio.Controllers
 
             var model = await partService.PartDetailsById(id);
 
-            if (information != model.GetInformation())
+            if (information != model.GetPartInformation())
             {
                 TempData["ErrorMessage"] = "Don't touch my slug!";
 

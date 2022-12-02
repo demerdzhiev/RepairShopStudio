@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RepairShopStudio.Core.Contracts;
+using RepairShopStudio.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace RepairShopStudio.Core.Models.ShopService
 {
-    public class ShopServiceViewModel : IServiceModel
+    public class ShopServiceDetailsModel : IServiceModel
     {
+        [Key]
         public int Id { get; set; }
 
         [Comment("Name of the service")]
@@ -17,13 +20,7 @@ namespace RepairShopStudio.Core.Models.ShopService
         [Comment("Price of the service")]
         public decimal Price { get; set; }
 
-        [Display(Name = "Vehicle component")]
-        public int VehicleComponentId { get; set; }
-
-        [Comment("Name of vehicle component")]
+        [Comment("Affected part of the vehicle")]
         public string VehicleComponent { get; set; } = null!;
-
-        public IEnumerable<ShopServiceVehicleComponentModel> VehicleComponents { get; set; } 
-            = new List<ShopServiceVehicleComponentModel>();
     }
 }

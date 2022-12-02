@@ -31,9 +31,10 @@ namespace RepairShopStudio.Core.Models.Part
 
         [Comment("Selling price (by the repair shop)")]
         public decimal PriceSell { get; set; }
-        public int VehicleComponentId { get; set; }
 
-        [Comment("Name of vehicle component")]
-        public IEnumerable<PartVehicleCopmonentModel> VehicleComponents { get; set; } = new List<PartVehicleCopmonentModel>();
+        //public int VehicleComponentId { get; set; }
+
+        //[Comment("Name of vehicle component")]
+        //public IEnumerable<PartVehicleCopmonentModel> VehicleComponents { get; set; } = new List<PartVehicleCopmonentModel>();
     }
 }

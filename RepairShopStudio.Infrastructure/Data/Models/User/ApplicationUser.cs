@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.ApplicationUser;
 
 namespace RepairShopStudio.Infrastructure.Data.Models.User
@@ -16,5 +15,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models.User
         [Comment("User's last name")]
         [StringLength(ApplicationUserLastNameMaxLength)]
         public string? LastName { get; set; }
+
+        public bool IsActive { get; set; } = true;
     }
 }

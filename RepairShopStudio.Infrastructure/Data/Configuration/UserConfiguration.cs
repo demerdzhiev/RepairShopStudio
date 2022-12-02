@@ -20,6 +20,8 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
             var user = new ApplicationUser()
             {
                 Id = Guid.Parse("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"),
+                FirstName = "Ivan",
+                LastName = "Ivanov",
                 UserName = "General_Manager",
                 NormalizedUserName = "GENERAL_MANAGER",
                 Email = "manager_repair_shop@mail.com",
@@ -35,6 +37,8 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
             var user1 = new ApplicationUser()
             {
                 Id= Guid.Parse("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
+                FirstName = "Petar",
+                LastName = "Petrov",
                 UserName = "Mechanic",
                 NormalizedUserName = "MECHANIC",
                 Email = "mechanic_repair_shop@mail.com",
@@ -50,6 +54,8 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
             var user2 = new ApplicationUser()
             {
                 Id = Guid.Parse("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"),
+                FirstName = "Georgi",
+                LastName = "Georgiev",
                 UserName = "Service_Adviser",
                 NormalizedUserName = "SERVICE_ADVISER",
                 Email = "adviser_repair_shop@mail.com",

@@ -6,7 +6,7 @@ namespace RepairShopStudio.Core.Extensions
 {
     public static class ModelExtensions
     {
-        public static string GetInformation(this IPartModel part)
+        public static string GetPartInformation(this IPartModel part)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(GetName(part.Name.Replace(" ", "-")));
@@ -17,6 +17,15 @@ namespace RepairShopStudio.Core.Extensions
 
             return sb.ToString();
         }
+
+        public static string GetServiceInformation(this IServiceModel service)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(GetName(service.Name.Replace(" ", "-")));
+
+            return sb.ToString();
+        }
+
 
         private static string GetName(string name)
         {
