@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepairShopStudio.Core.Models.Address;
+using RepairShopStudio.Core.Models.EngineType;
+using RepairShopStudio.Core.Models.Vehicle;
+using RepairShopStudio.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
-using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
-using System.ComponentModel.DataAnnotations.Schema;
+using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
 
-namespace RepairShopStudio.Infrastructure.Data.Models
+namespace RepairShopStudio.Core.Models.Customer
 {
-    [Comment("Customer information")]
-    public class Customer
+    public class CustomerAddViewModel
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -35,25 +36,21 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
         [StringLength(UicMaxLength)]
         [Comment("The Unit Identification Code of the customer's company")]
-        public string Uic { get; set; } = null!;
-
-        [Comment("The address of the customer's office")]
-        public int? AddressId { get; set; }
-
-        [ForeignKey(nameof(AddressId))]
-        public Address Address { get; set; } = null!;
+        public string? Uic { get; set; }
 
         [StringLength(ResponsiblePersonNameMaxLength)]
         [Comment("Name of the responsible person of the customer's company")]
-        public string ResponsiblePerson { get; set; } = null!;
+        public string? ResponsiblePerson { get; set; }
+        public VehicleAddViewModel Vehicle { get; set; } = null!;
+        public AddressAddViewModel? Address { get; set; }
 
         //[Comment("Vehicle owned by the customer")]
-        //public int? VehicleId { get; set; }
-
-        //[ForeignKey(nameof(VehicleId))]
         //public Vehicle Vehicle { get; set; } = null!;
 
-        [Comment("Collection of vehicles, owned by the customer")]
-        public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+        //[Comment("The address of the customer's office")]
+        //public Address? Address { get; set; }
+
+        //[Comment("Collection of vehicles, owned by the customer")]
+        //public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
     }
 }

@@ -27,7 +27,7 @@ namespace RepairShopStudio.Controllers
         {
             var model = new AddShopServiceViewModel()
             {
-                VehicleComponents = (IEnumerable<Infrastructure.Data.Models.VehicleComponent>)await shopServiceService.GetVehicleComponentsAsync()
+                VehicleComponents = await shopServiceService.GetVehicleComponentsAsync()
             };
 
             return View(model);

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RepairShopStudio.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
@@ -46,6 +45,7 @@ namespace RepairShopStudio.Core.Models.Customer
         public int VehicleId { get; set; }
 
         [Comment("Collection of vehicles, owned by the customer")]
-        public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+        public ICollection<Infrastructure.Data.Models.Vehicle> Vehicles { get; set; } 
+            = new List<Infrastructure.Data.Models.Vehicle>();
     }
 }
