@@ -56,6 +56,10 @@ namespace RepairShopStudio.Infrastructure.Data
                 .Property(u => u.IsActive)
                 .HasDefaultValue(true);
 
+            builder.Entity<OperatingCard>()
+                .Property(oc => oc.IsActive)
+                .HasDefaultValue(true);
+
             builder.Entity<SupplierSparePart>()
                 .HasKey(x => new { x.SupplierId, x.PartId });
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepairShopStudio.Infrastructure.Migrations
 {
-    public partial class newSetUpDb : Migration
+    public partial class SetUpDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -277,7 +277,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     TotalAmount = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "The total amount of parts and services"),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Discount = table.Column<double>(type: "float", nullable: false)
+                    Discount = table.Column<double>(type: "float", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    VehicleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -424,12 +426,18 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     PriceSell = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Selling price (by the repair shop)"),
                     VehicleComponentId = table.Column<int>(type: "int", nullable: false, comment: "Affected part of the vehicle, where the part may be used"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    OperatingCardId = table.Column<int>(type: "int", nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: true),
                     ShopServiceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parts_OperatingCards_OperatingCardId",
+                        column: x => x.OperatingCardId,
+                        principalTable: "OperatingCards",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Parts_Orders_OrderId",
                         column: x => x.OrderId,
@@ -478,17 +486,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 columns: table => new
                 {
                     SupplierId = table.Column<int>(type: "int", nullable: false),
-                    PartId = table.Column<int>(type: "int", nullable: false),
-                    OperatingCardId = table.Column<int>(type: "int", nullable: true)
+                    PartId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SupplierSparePart", x => new { x.SupplierId, x.PartId });
-                    table.ForeignKey(
-                        name: "FK_SupplierSparePart_OperatingCards_OperatingCardId",
-                        column: x => x.OperatingCardId,
-                        principalTable: "OperatingCards",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_SupplierSparePart_Parts_PartId",
                         column: x => x.PartId,
@@ -518,9 +520,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "a899609f-ae60-451a-8539-17e8baa8e498", "adviser_repair_shop@mail.com", false, "Georgi", true, "Georgiev", false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEPvs/1/dc16sSBPjVFyLvvirryWnTIM+eNMdMKRWzu1ezYKmNbiymPsGh+f3uewSRA==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
-                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "4fc38b04-9c43-4049-8f06-1612e4860f1e", "mechanic_repair_shop@mail.com", false, "Petar", true, "Petrov", false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAEGNzmeoM9iel224/P683pJkVJlop+cETvMASUPk7mVtPDDTbXm3W8GxAvjE4aaVi8w==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
-                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "df7d8c39-9307-4ae6-b74a-f34ab6a9702a", "manager_repair_shop@mail.com", false, "Ivan", true, "Ivanov", false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEJGUkh9rZlBN8GerMi7DE9wllBiqj9ICUpr+wD7VLc7Pu4oci0sUEn2X9LF4OEBmsQ==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
+                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "8ebcb8e1-0f79-45aa-ab48-b512cfbcb3bb", "adviser_repair_shop@mail.com", false, "Georgi", true, "Georgiev", false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEIQhRTVUM1rBhG9YLwb6EDZzmFmKPw9dPAyWXXN2n3GLDQK8t/tGlo3y440e9wkvaw==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
+                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "ebf1936f-c944-4c8b-9b43-a105a638a796", "mechanic_repair_shop@mail.com", false, "Petar", true, "Petrov", false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAELGFO8NpR6j2buzbhtbfg+V+Ky5KCGd4kMvBb9eYYB0+5bnRbQyMFKxpv+opN168CA==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
+                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "b8590cc7-fea7-4516-90f2-19a09fc08de3", "manager_repair_shop@mail.com", false, "Ivan", true, "Ivanov", false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEIGt0EgHix2KJqh+N3yr3mGHiKEenwuCfxvCERECBuJw0prgBv9tyUnncuReodYnxg==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -569,8 +571,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Parts",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsActive", "Manufacturer", "Name", "OrderId", "OriginalMpn", "PriceBuy", "PriceSell", "ShopServiceId", "Stock", "VehicleComponentId" },
-                values: new object[] { 1, "Front", "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg", true, "Zimmerman", "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)", null, "400.3649.52", 99.98m, 114.56m, null, 4, 2 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsActive", "Manufacturer", "Name", "OperatingCardId", "OrderId", "OriginalMpn", "PriceBuy", "PriceSell", "ShopServiceId", "Stock", "VehicleComponentId" },
+                values: new object[] { 1, "Front", "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg", true, "Zimmerman", "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)", null, null, "400.3649.52", 99.98m, 114.56m, null, 4, 2 });
 
             migrationBuilder.InsertData(
                 table: "ShopServices",
@@ -584,8 +586,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "OperatingCards",
-                columns: new[] { "Id", "ApplicationUserId", "CustomerId", "Date", "Discount", "DocumentNumber", "TotalAmount" },
-                values: new object[] { 1, new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 1, new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local), 10.0, "000112/4/2022 12:00:00 AM", 193.095m });
+                columns: new[] { "Id", "ApplicationUserId", "CustomerId", "Date", "Discount", "DocumentNumber", "IsActive", "TotalAmount", "VehicleId" },
+                values: new object[] { 1, new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 1, new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local), 10.0, "000112/4/2022 12:00:00 AM", true, 193.095m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
@@ -671,6 +673,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Parts_OperatingCardId",
+                table: "Parts",
+                column: "OperatingCardId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Parts_OrderId",
                 table: "Parts",
                 column: "OrderId");
@@ -699,11 +706,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 name: "IX_Suppliers_AddressId",
                 table: "Suppliers",
                 column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SupplierSparePart_OperatingCardId",
-                table: "SupplierSparePart",
-                column: "OperatingCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SupplierSparePart_PartId",
