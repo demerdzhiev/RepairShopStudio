@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.JsonPatch.Adapters;
+using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.Customer;
 using RepairShopStudio.Core.Models.EngineType;
@@ -26,6 +27,17 @@ namespace RepairShopStudio.Core.Services
 
         public async Task AddCorporateCutomerAsync(CustomerAddViewModel customerModel)
         {
+            var address = new Address()
+            {
+                Id = customerModel.Address.Id,
+                AddressText = customerModel.Address.AddressText,
+                ZipCode = customerModel.Address.ZipCode,
+                TownName = customerModel.Address.TownName
+            };
+
+            await context.AddAsync<Address>(address);
+            await context.SaveChangesAsync();
+
             var customer = new Customer()
             {
                 Id = customerModel.Id,
@@ -33,14 +45,11 @@ namespace RepairShopStudio.Core.Services
                 Email = customerModel.Email,
                 PhoneNumber = customerModel.PhoneNumber,
                 IsCorporate = true,
-                Address = new Address()
-                {
-                    Id = customerModel.Address.Id,
-                    AddressText = customerModel.Address.AddressText,
-                    ZipCode = customerModel.Address.ZipCode,
-                    TownName = customerModel.Address.TownName
-                }
+                ResponsiblePerson = customerModel.ResponsiblePerson,
+                Uic = customerModel.Uic,
+                AddressId = address.Id
             };
+
             await context.AddAsync<Customer>(customer);
             await context.SaveChangesAsync();
 
@@ -108,6 +117,8 @@ namespace RepairShopStudio.Core.Services
             var entities = await context.Customers
                 .Include(c => c.Address)
                 .Include(c => c.Vehicles)
+                .OrderByDescending(c => c.IsCorporate)
+                .ThenBy(c => c.Name)
                 .ToListAsync();
 
             return entities

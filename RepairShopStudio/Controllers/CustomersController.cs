@@ -90,7 +90,7 @@ namespace RepairShopStudio.Controllers
 
             try
             {
-                await customerService.AddRegularCutomerAsync(customerModel);
+                await customerService.AddCorporateCutomerAsync(customerModel);
 
                 return RedirectToAction(nameof(All));
             }
