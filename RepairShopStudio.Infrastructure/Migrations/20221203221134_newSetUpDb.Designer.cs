@@ -12,8 +12,8 @@ using RepairShopStudio.Infrastructure.Data;
 namespace RepairShopStudio.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221127103301_SetupDB")]
-    partial class SetupDB
+    [Migration("20221203221134_newSetUpDb")]
+    partial class newSetUpDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -204,8 +204,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
                         .HasComment("Name of the customer");
 
                     b.Property<string>("PhoneNumber")
@@ -239,7 +239,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             AddressId = 1,
                             Email = "ivan.ivanov@abv.bg",
                             IsCorporate = true,
-                            Name = "Ivan Ivanov",
+                            Name = "Ivanov.Inc",
                             PhoneNumber = "099999999",
                             ResponsiblePerson = "Ivan Ivanov",
                             Uic = "1234543421234"
@@ -290,6 +290,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = 3,
                             Name = "Hybrid"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Electric"
                         });
                 });
 
@@ -379,9 +384,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             Id = 1,
                             ApplicationUserId = new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
                             CustomerId = 1,
-                            Date = new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Discount = 10.0,
-                            DocumentNumber = "000111/27/2022 12:00:00 AM",
+                            DocumentNumber = "000112/4/2022 12:00:00 AM",
                             TotalAmount = 193.095m
                         });
                 });
@@ -458,9 +463,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = 1,
                             IsActive = true,
-                            IssueDate = new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            IssueDate = new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Note = "To arrive today",
-                            Number = "0001/11/27/2022 12:00:00 AM",
+                            Number = "0001/12/4/2022 12:00:00 AM",
                             SupplierId = 1
                         });
                 });
@@ -752,6 +757,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasComment("User's first name");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<string>("LastName")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)")
@@ -810,13 +820,16 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8dccd13f-cd0e-4664-80b5-ac9012b6c971",
+                            ConcurrencyStamp = "df7d8c39-9307-4ae6-b74a-f34ab6a9702a",
                             Email = "manager_repair_shop@mail.com",
                             EmailConfirmed = false,
+                            FirstName = "Ivan",
+                            IsActive = true,
+                            LastName = "Ivanov",
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "GENERAL_MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFexXCjZmPLlUNA1DN1hBl6XQd4L+rwfMwum+THX907NpGV61/6BjoFMP1SOm6sNjA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJGUkh9rZlBN8GerMi7DE9wllBiqj9ICUpr+wD7VLc7Pu4oci0sUEn2X9LF4OEBmsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e",
                             TwoFactorEnabled = false,
@@ -826,13 +839,16 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0309938-31fa-4aea-a48a-bcb2efd5e63d",
+                            ConcurrencyStamp = "4fc38b04-9c43-4049-8f06-1612e4860f1e",
                             Email = "mechanic_repair_shop@mail.com",
                             EmailConfirmed = false,
+                            FirstName = "Petar",
+                            IsActive = true,
+                            LastName = "Petrov",
                             LockoutEnabled = false,
                             NormalizedEmail = "MECHANIC_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "MECHANIC",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAH7KkOEhWNS85hZa5/bvOtFS05fysXr7clpa4bKcvd1LXmc+oo2DwuRl+7YuFG2/w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGNzmeoM9iel224/P683pJkVJlop+cETvMASUPk7mVtPDDTbXm3W8GxAvjE4aaVi8w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "5755db6a-132e-475d-93b6-d6c2f46f6fad",
                             TwoFactorEnabled = false,
@@ -842,13 +858,16 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "41b32cf4-94fa-424a-9765-b84eecd720d6",
+                            ConcurrencyStamp = "a899609f-ae60-451a-8539-17e8baa8e498",
                             Email = "adviser_repair_shop@mail.com",
                             EmailConfirmed = false,
+                            FirstName = "Georgi",
+                            IsActive = true,
+                            LastName = "Georgiev",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADVISER_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "SERVICE_ADVISER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDjQ3pMLZIuQr/ZS4siWWmeUybo7woq58XezeYLex03d/bveiTob29QexcSJIyxw+Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPvs/1/dc16sSBPjVFyLvvirryWnTIM+eNMdMKRWzu1ezYKmNbiymPsGh+f3uewSRA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "780e294a-90d6-4b9f-987f-a958b729a0b3",
                             TwoFactorEnabled = false,
@@ -925,6 +944,18 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             Model = "W164 350",
                             Power = 272,
                             VinNumber = "12312324125"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CustomerId = 2,
+                            EngineTypeId = 1,
+                            FIrstRegistration = new DateTime(2013, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LicensePLate = "B5432PA",
+                            Make = "BMW",
+                            Model = "E320",
+                            Power = 156,
+                            VinNumber = "12312324642"
                         });
                 });
 

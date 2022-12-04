@@ -10,25 +10,25 @@ namespace RepairShopStudio.Core.Models.Vehicle
         public int Id { get; set; }
 
         [Required]
-        [StringLength(VehicleMakeMaxLength)]
+        [StringLength(VehicleMakeMaxLength, MinimumLength = VehicleMakeMinLength)]
         [Comment("Vehicle make name")]
-        public string Make { get; set; } = null!;
+        public string? Make { get; set; }
 
         [Required]
-        [StringLength(VehicleModelMaxLength)]
+        [StringLength(VehicleModelMaxLength, MinimumLength = VehicleModelMinLength)]
         [Comment("Vehicle model name")]
-        public string Model { get; set; } = null!;
+        public string? Model { get; set; }
 
         [Required]
-        [StringLength(LicensePlateMaxLength)]
+        [StringLength(LicensePlateMaxLength, MinimumLength = LicensePlateMinLength)]
         [Comment("License plate of the vehicle")]
-        public string LicensePLate { get; set; } = null!;
+        public string? LicensePLate { get; set; }
 
         [Required]
         [Comment("Date of the first registration of the vehicle")]
         public DateTime FIrstRegistration { get; set; }
 
-        public string EngineType { get; set; } = null!;
+        public int EngineTypeId { get; set; }
 
         [Required]
         [Range(EngineMinPower, EngineMaxPower)]
@@ -38,9 +38,12 @@ namespace RepairShopStudio.Core.Models.Vehicle
         [Required]
         [StringLength(VinNumberLength)]
         [Comment("VIN number of the vehicle")]
-        public string VinNumber { get; set; } = null!;
+        public string? VinNumber { get; set; }
 
-        public int EngineTypeId { get; set; }
-        public IEnumerable<EngineTypeViewModel> EngineTypes { get; set; } = new List<EngineTypeViewModel>();
+        public ICollection<Infrastructure.Data.Models.EngineType> EngineTypes { get; set; }
+            = new List<Infrastructure.Data.Models.EngineType>();
+
+        //public int EngineTypeId { get; set; }
+        //public IEnumerable<EngineTypeViewModel> EngineTypes { get; set; } = new List<EngineTypeViewModel>();
     }
 }

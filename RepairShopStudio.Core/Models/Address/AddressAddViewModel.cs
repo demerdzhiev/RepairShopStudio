@@ -9,12 +9,12 @@ namespace RepairShopStudio.Core.Models.Address
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(AddressTextMaxLength)]
+        [StringLength(AddressTextMaxLength, MinimumLength = AddressTextMinLength)]
         [Comment("Adrres text - street, number, etc.")]
         public string AddressText { get; set; } = null!;
 
         [Required]
-        [MaxLength(AddressTextMaxLength)]
+        [StringLength(AddressTextMaxLength, MinimumLength = AddressTextMinLength)]
         [Comment("Town name")]
         public string TownName { get; set; } = null!;
 

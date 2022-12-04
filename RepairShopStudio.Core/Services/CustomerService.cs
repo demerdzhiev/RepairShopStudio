@@ -2,10 +2,12 @@
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.Customer;
 using RepairShopStudio.Core.Models.EngineType;
-using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
-using RepairShopStudio.Infrastructure.Data.Models;
+using Address = RepairShopStudio.Infrastructure.Data.Models.Address;
+using Customer = RepairShopStudio.Infrastructure.Data.Models.Customer;
+using EngineType = RepairShopStudio.Infrastructure.Data.Models.EngineType;
+using Vehicle = RepairShopStudio.Infrastructure.Data.Models.Vehicle;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -22,38 +24,71 @@ namespace RepairShopStudio.Core.Services
             repo = _repo;
         }
 
-        public async Task AddCutomerAsync(CustomerAddViewModel model)
+        public async Task AddCorporateCutomerAsync(CustomerAddViewModel customerModel)
         {
-            var entity = new Customer()
+            var customer = new Customer()
             {
-                Id = model.Id,
-                Name = model.Name,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                IsCorporate = model.IsCorporate,
+                Id = customerModel.Id,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                PhoneNumber = customerModel.PhoneNumber,
+                IsCorporate = true,
                 Address = new Address()
                 {
-                    Id = model.Address.Id,
-                    ZipCode = model.Address.ZipCode,
-                    AddressText = model.Address.AddressText,
-                    TownName = model.Address.TownName,
-                },
-                ResponsiblePerson = model.ResponsiblePerson,
-                Uic = model.Uic,
-                //Vehicle = new Vehicle()
-                //{
-                //    Id = model.Vehicle.Id,
-                //    Make = model.Vehicle.Make,
-                //    Model = model.Vehicle.Model,
-                //    VinNumber = model.Vehicle.VinNumber,
-                //    FIrstRegistration = model.Vehicle.FIrstRegistration,
-                //    EngineTypeId = model.Vehicle.EngineTypeId,
-                //    LicensePLate = model.Vehicle.LicensePLate,
-                //    Power = model.Vehicle.Power
-                //}
+                    Id = customerModel.Address.Id,
+                    AddressText = customerModel.Address.AddressText,
+                    ZipCode = customerModel.Address.ZipCode,
+                    TownName = customerModel.Address.TownName
+                }
+            };
+            await context.AddAsync<Customer>(customer);
+            await context.SaveChangesAsync();
+
+            var vehicle = new Vehicle()
+            {
+                Id = customerModel.Vehicle.Id,
+                Make = customerModel.Vehicle.Make,
+                Model = customerModel.Vehicle.Model,
+                VinNumber = customerModel.Vehicle.VinNumber,
+                Power = customerModel.Vehicle.Power,
+                EngineTypeId = customerModel.Vehicle.EngineTypeId,
+                LicensePLate = customerModel.Vehicle.LicensePLate,
+                FIrstRegistration = customerModel.Vehicle.FIrstRegistration,
+                CustomerId = customer.Id
             };
 
-            await context.Customers.AddAsync(entity);
+            await context.AddAsync<Vehicle>(vehicle);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AddRegularCutomerAsync(CustomerAddViewModel customerModel)
+        {
+            var customer = new Customer()
+            {
+                Id = customerModel.Id,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                PhoneNumber = customerModel.PhoneNumber,
+                IsCorporate = false,
+            };
+
+            await context.AddAsync<Customer>(customer);
+            await context.SaveChangesAsync();
+
+            var vehicle = new Vehicle()
+            {
+                Id = customerModel.Vehicle.Id,
+                Make = customerModel.Vehicle.Make,
+                Model = customerModel.Vehicle.Model,
+                VinNumber = customerModel.Vehicle.VinNumber,
+                Power = customerModel.Vehicle.Power,
+                EngineTypeId = customerModel.Vehicle.EngineTypeId,
+                LicensePLate = customerModel.Vehicle.LicensePLate,
+                FIrstRegistration = customerModel.Vehicle.FIrstRegistration,
+                CustomerId = customer.Id
+            };
+
+            await context.AddAsync<Vehicle>(vehicle);
             await context.SaveChangesAsync();
         }
 
@@ -84,10 +119,16 @@ namespace RepairShopStudio.Core.Services
                     Vehicles = p.Vehicles,
                     Email = p.Email,
                     PhoneNumber = p.PhoneNumber,
-                    Address = $"{p.Address.ZipCode}, {p.Address.AddressText}, {p.Address.TownName}",
+                    Address = $"{p.Address?.ZipCode}, {p.Address?.AddressText}, {p.Address?.TownName}",
                     ResponsiblePerson = p.ResponsiblePerson,
                     Uic = p.Uic
                 });
         }
+
+        public async Task<IEnumerable<EngineType>> GetEngineTypesAsync()
+        {
+            return await context.EngineTypes.ToListAsync();
+        }
+
     }
 }

@@ -45,6 +45,8 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
                 Name = "Electric"
             };
 
+            engineTypes.Add(electricEngine);
+
             return engineTypes;
         }
     }

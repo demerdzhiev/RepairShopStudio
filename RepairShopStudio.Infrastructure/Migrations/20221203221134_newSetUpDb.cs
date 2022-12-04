@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepairShopStudio.Infrastructure.Migrations
 {
-    public partial class SetupDB : Migration
+    public partial class newSetUpDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true, comment: "User's first name"),
                     LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true, comment: "User's last name"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     UserName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
@@ -115,7 +116,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false, comment: "Name of the customer"),
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false, comment: "Name of the customer"),
                     PhoneNumber = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: false, comment: "Phone number of the cusotmer"),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Email of the customer"),
                     IsCorporate = table.Column<bool>(type: "bit", nullable: false, comment: "Defines if the customer is corporate or individual"),
@@ -514,12 +515,12 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "41b32cf4-94fa-424a-9765-b84eecd720d6", "adviser_repair_shop@mail.com", false, null, null, false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEDjQ3pMLZIuQr/ZS4siWWmeUybo7woq58XezeYLex03d/bveiTob29QexcSJIyxw+Q==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
-                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "a0309938-31fa-4aea-a48a-bcb2efd5e63d", "mechanic_repair_shop@mail.com", false, null, null, false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAEAH7KkOEhWNS85hZa5/bvOtFS05fysXr7clpa4bKcvd1LXmc+oo2DwuRl+7YuFG2/w==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
-                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "8dccd13f-cd0e-4664-80b5-ac9012b6c971", "manager_repair_shop@mail.com", false, null, null, false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEFexXCjZmPLlUNA1DN1hBl6XQd4L+rwfMwum+THX907NpGV61/6BjoFMP1SOm6sNjA==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
+                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "a899609f-ae60-451a-8539-17e8baa8e498", "adviser_repair_shop@mail.com", false, "Georgi", true, "Georgiev", false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEPvs/1/dc16sSBPjVFyLvvirryWnTIM+eNMdMKRWzu1ezYKmNbiymPsGh+f3uewSRA==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
+                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "4fc38b04-9c43-4049-8f06-1612e4860f1e", "mechanic_repair_shop@mail.com", false, "Petar", true, "Petrov", false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAEGNzmeoM9iel224/P683pJkVJlop+cETvMASUPk7mVtPDDTbXm3W8GxAvjE4aaVi8w==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
+                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "df7d8c39-9307-4ae6-b74a-f34ab6a9702a", "manager_repair_shop@mail.com", false, "Ivan", true, "Ivanov", false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEJGUkh9rZlBN8GerMi7DE9wllBiqj9ICUpr+wD7VLc7Pu4oci0sUEn2X9LF4OEBmsQ==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -529,7 +530,8 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 {
                     { 1, "Gasoline" },
                     { 2, "Diesel" },
-                    { 3, "Hybrid" }
+                    { 3, "Hybrid" },
+                    { 4, "Electric" }
                 });
 
             migrationBuilder.InsertData(
@@ -561,7 +563,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 columns: new[] { "Id", "AddressId", "Email", "IsCorporate", "Name", "PhoneNumber", "ResponsiblePerson", "Uic" },
                 values: new object[,]
                 {
-                    { 1, 1, "ivan.ivanov@abv.bg", true, "Ivan Ivanov", "099999999", "Ivan Ivanov", "1234543421234" },
+                    { 1, 1, "ivan.ivanov@abv.bg", true, "Ivanov.Inc", "099999999", "Ivan Ivanov", "1234543421234" },
                     { 2, 2, "boris.borisov@abv.bg", false, "Boris Borisov", "0898888888", null, null }
                 });
 
@@ -583,17 +585,21 @@ namespace RepairShopStudio.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "OperatingCards",
                 columns: new[] { "Id", "ApplicationUserId", "CustomerId", "Date", "Discount", "DocumentNumber", "TotalAmount" },
-                values: new object[] { 1, new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 1, new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), 10.0, "000111/27/2022 12:00:00 AM", 193.095m });
+                values: new object[] { 1, new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 1, new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local), 10.0, "000112/4/2022 12:00:00 AM", 193.095m });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "IsActive", "IssueDate", "Note", "Number", "SupplierId" },
-                values: new object[] { 1, true, new DateTime(2022, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), "To arrive today", "0001/11/27/2022 12:00:00 AM", 1 });
+                values: new object[] { 1, true, new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local), "To arrive today", "0001/12/4/2022 12:00:00 AM", 1 });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "CustomerId", "EngineTypeId", "FIrstRegistration", "LicensePLate", "Make", "Model", "Power", "VinNumber" },
-                values: new object[] { 1, 1, 2, new DateTime(2013, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "B5466HA", "Mercedes-Benz", "W164 350", 272, "12312324125" });
+                values: new object[,]
+                {
+                    { 1, 1, 2, new DateTime(2013, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "B5466HA", "Mercedes-Benz", "W164 350", 272, "12312324125" },
+                    { 4, 2, 1, new DateTime(2013, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "B5432PA", "BMW", "E320", 156, "12312324642" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

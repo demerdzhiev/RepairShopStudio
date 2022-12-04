@@ -41,17 +41,17 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public int? AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
-        public Address Address { get; set; } = null!;
+        public Address? Address { get; set; } = null!;
 
         [StringLength(ResponsiblePersonNameMaxLength)]
         [Comment("Name of the responsible person of the customer's company")]
-        public string ResponsiblePerson { get; set; } = null!;
+        public string? ResponsiblePerson { get; set; } = null!;
 
         //[Comment("Vehicle owned by the customer")]
         //public int? VehicleId { get; set; }
 
         //[ForeignKey(nameof(VehicleId))]
-        //public Vehicle Vehicle { get; set; } = null!;
+        //public Vehicle? Vehicle { get; set; } = null!;
 
         [Comment("Collection of vehicles, owned by the customer")]
         public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();

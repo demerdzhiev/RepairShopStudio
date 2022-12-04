@@ -24,7 +24,8 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
                 IsCorporate = true,
                 Uic = "1234543421234",
                 AddressId = 1,
-                ResponsiblePerson = "Ivan Ivanov"
+                ResponsiblePerson = "Ivan Ivanov",
+                //VehicleId = 1,
             };
 
             customers.Add(customer);
@@ -36,7 +37,8 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
                 PhoneNumber = "0898888888",
                 Email = "boris.borisov@abv.bg",
                 IsCorporate = false,
-                AddressId= 2
+                AddressId= 2,
+                //VehicleId = 4
             };
 
             customers.Add(customer2);

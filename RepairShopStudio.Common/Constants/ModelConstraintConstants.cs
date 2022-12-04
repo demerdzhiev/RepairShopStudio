@@ -69,19 +69,19 @@ namespace RepairShopStudio.Common.Constants
         public class Vehicle
         {
             public const int VehicleMakeMaxLength = 30;
-            public const int VehicleMakeMinLength = 5;
+            public const int VehicleMakeMinLength = 3;
             public const int VehicleModelMaxLength = 70;
             public const int VehicleModelMinLength = 1;
             public const int LicensePlateMaxLength = 8;
             public const int LicensePlateMinLength = 7;
             public const int VinNumberLength = 17;
             public const int EngineMaxPower = 1914;
-            public const int EngineMinPower = 10;
+            public const int EngineMinPower = 0;
         }
 
         public class Customer
         {
-            public const int CustomerNameMaxLength = 70;
+            public const int CustomerNameMaxLength = 40;
             public const int CustomerNameMinLength = 8;
         }
 
