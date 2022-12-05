@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Models.Customer;
+using RepairShopStudio.Core.Models.CustomerModels;
 using RepairShopStudio.Core.Models.Vehicle;
 using RepairShopStudio.Infrastructure.Data;
 

@@ -1,4 +1,4 @@
-﻿using RepairShopStudio.Core.Models.Customer;
+﻿using RepairShopStudio.Core.Models.CustomerModels;
 using RepairShopStudio.Core.Models.EngineType;
 using RepairShopStudio.Infrastructure.Data.Models;
 

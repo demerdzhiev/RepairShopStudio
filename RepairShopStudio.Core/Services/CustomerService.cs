@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.JsonPatch.Adapters;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Models.Customer;
+using RepairShopStudio.Core.Models.CustomerModels;
 using RepairShopStudio.Core.Models.EngineType;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;

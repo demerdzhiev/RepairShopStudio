@@ -5,6 +5,7 @@ using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
+using RepairShopStudio.Infrastructure.Data.Models.User;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -19,6 +20,28 @@ namespace RepairShopStudio.Core.Services
             context = _context;
             repo = _repo;
         }
+
+        public async Task AddOperatingCardAsync(OperatingCardAddViewModel model)
+        {
+            var entity = new OperatingCard()
+            {
+                Id = model.Id,
+                ApplicationUserId = Guid.Parse(model.ApplicationUserId),
+                DocumentNumber = model.DocumentNumber,
+                Discount = (double)model.Discount,
+                CustomerId = model.CustomerId,
+                Date = model.IssueDate,
+                VehicleId = model.VehicleId,
+                IsActive = model.IsActive,
+                Parts = (ICollection<Part>)model.Parts,
+                ShopServices = (ICollection<ShopService>)model.Services,
+                TotalAmount = model.TotalAmount
+            };
+
+            await context.OperatingCards.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<OperatingCardViewModel>> GetAllAsync()
         {
             var entities = await context.OperatingCards
@@ -42,6 +65,31 @@ namespace RepairShopStudio.Core.Services
                     DocumentNumber = oc.DocumentNumber,
                     Discount = (decimal)oc.Discount
                 });
+        }
+
+        public async Task<IEnumerable<Customer>> GetCustomersAsync()
+        {
+            return await context.Customers.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        {
+            return await context.Vehicles.ToListAsync();
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetMechanicsAsync()
+        {
+            return await context.Users.Where(u => u.UserName.ToLower().Contains("mechanic")).ToListAsync();
+        }
+
+        public IEnumerable<Part> GetParts()
+        {
+            return context.Parts.ToList();
+        }
+
+        public IEnumerable<ShopService> GetShopServices()
+        {
+            return  context.ShopServices.ToList();
         }
     }
 }
