@@ -152,6 +152,12 @@ namespace RepairShopStudio.Core.Services
                 card.IsActive = false;
             }
 
+            var part = await context.Parts.FirstOrDefaultAsync(p => p.Id == card.PartId);
+            if (part != null)
+            {
+                part.Stock -= 1;
+            }
+            
             await context.SaveChangesAsync();
         }
     }
