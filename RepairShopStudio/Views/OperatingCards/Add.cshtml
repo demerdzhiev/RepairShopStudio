@@ -1,104 +1,13 @@
 ﻿@model OperatingCardAddViewModel
 
 @{
-    ViewBag.Title = "Add new part to the storage";
+    ViewBag.Title = "Generate new operating card";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post">
-            <input type="hidden" asp-for="@Model.DocumentNumber" />
-            <div class="mb-3">
-                <label asp-for="@Model.CustomerId" class="form-label">Customer</label>
-                <select asp-for="@Model.CustomerId" class="form-control">
-                    @foreach (var customer in Model.Customers)
-                    {
-                        <option value="@customer.Id">@customer.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.VehicleId" class="form-label">Vehicle</label>
-                <select asp-for="@Model.VehicleId" class="form-control">
-                    @foreach (var vehicle in Model.Vehicles)
-                    {
-                        @if (vehicle.CustomerId == Model.CustomerId)
-                        {
-                            <option value="@vehicle.Id">@vehicle.LicensePLate</option>
-                        }
-                    }
-                </select>
-                <span asp-validation-for="VehicleId" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.ApplicationUserId" class="form-label">Mechanic</label>
-                <select asp-for="@Model.ApplicationUserId" class="form-control">
-                    @foreach (var mechanic in Model.ApplicationUsers)
-                    {
-
-                        <option value="@mechanic.Id">@mechanic.FirstName @mechanic.LastName</option>
-                        
-                    }
-                </select>
-                <span asp-validation-for="ApplicationUserId" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                @using (Html.BeginForm("Add", "OperatingCards", FormMethod.Post))
-                {
-                    @Html.Label("Parts:")
-                    <br />
-                    <br />
-                    @Html.ListBoxFor(m => m.PartIds, Model.Parts, new { @class = "listbox" })
-                    <br />
-                    <br />
-                    <input type="submit" value="Confirm part/s" />
-                }
-            </div>
-            <div class="mb-3">
-                @using (Html.BeginForm("Add", "OperatingCards", FormMethod.Post))
-                {
-                    @Html.Label("Services:")
-                    <br />
-                    <br />
-                    @Html.ListBoxFor(m => m.ServiceIds, Model.Services, new { @class = "listbox" })
-                    <br />
-                    <br />
-                    <input type="submit" value="Confirm service/s" />
-                }
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Discount" class="form-label">Discount</label>
-                <input asp-for="@Model.Discount" class="form-control" value="" />
-                <span asp-validation-for="Discount" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.TotalAmount" class="form-label">Total amount</label>
-                <input asp-for="@Model.TotalAmount" class="form-control" value="" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@DateTime.Today" class="form-label">Date</label>
-                <input asp-for="@DateTime.Today" class="form-control" value="" />
-                <span asp-validation-for="IssueDate" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Add part" />
-            </div>
-        </form>
-    </div>
-</div>
-
-    <script type="text/javascript">
-        $(function () {
-            $('.listbox').multiselect({
-                includeSelectAllOption: true
-            });
-        });
-    </script>
+<partial name="_OperatingCardFormPartial" model="@Model" />
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

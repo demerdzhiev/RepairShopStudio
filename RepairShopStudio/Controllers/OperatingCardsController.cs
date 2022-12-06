@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.OperatingCard;
+using System.Security.Claims;
 
 namespace RepairShopStudio.Controllers
 {
@@ -23,56 +24,38 @@ namespace RepairShopStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public async Task<IActionResult> Add(int customerId)
         {
             var model = new OperatingCardAddViewModel()
             {
-                Customers = await operatingCardService.GetCustomersAsync(),
-                Vehicles = await operatingCardService.GetVehicles(),
+                CustomerId = customerId,
+                CustomerName = await operatingCardService.GetCustomerNameById(customerId),
+                Vehicles = await operatingCardService.GetCustomerVehicles(customerId),
                 ApplicationUsers = await operatingCardService.GetMechanicsAsync(),
-                Parts = BindPartsList(),
-                Services = BindServicesList()
+                Parts = await operatingCardService.GetPartsAsync(),
+                ShopServices = await operatingCardService.GetShopServicesAsync(),
+                IsActive = true
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(OperatingCardAddViewModel model)
+        public async Task<IActionResult> Add(OperatingCardAddViewModel model, int customerId)
         {
-            if (model.PartIds != null)
-            {
-                List<SelectListItem> selectedParts
-                    = model.Parts.Where(p => model.PartIds.Contains(int.Parse(p.Value))).ToList();
 
-                foreach (var part in selectedParts)
-                {
-                    part.Selected = true;
-                }
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    model.CustomerId = customerId;
+            //    model.CustomerName = await operatingCardService.GetCustomerNameById(customerId);
+            //    model.Vehicles = await operatingCardService.GetCustomerVehicles(customerId);
+            //    model.ApplicationUsers = await operatingCardService.GetMechanicsAsync();
+            //    model.Parts = await operatingCardService.GetPartsAsync();
+            //    model.ShopServices = await operatingCardService.GetShopServicesAsync();
+            //    model.IsActive = true;
 
-            if (model.ServiceIds != null)
-            {
-                List<SelectListItem> selectedServices
-                    = model.Services.Where(s => model.ServiceIds.Contains(int.Parse(s.Value))).ToList();
-
-                foreach (var service in selectedServices)
-                {
-                    service.Selected = true;
-                }
-            }
-
-
-            if (!ModelState.IsValid)
-            {
-                model.Customers = (ICollection<Infrastructure.Data.Models.Customer>)operatingCardService.GetCustomersAsync();
-                model.Vehicles = (ICollection<Infrastructure.Data.Models.Vehicle>)operatingCardService.GetVehicles();
-                model.ApplicationUsers = (ICollection<Infrastructure.Data.Models.User.ApplicationUser>)operatingCardService.GetMechanicsAsync();
-                model.Parts = BindPartsList();
-                model.Services = BindServicesList();
-
-                return View(model);
-            }
+            //    return View(model);
+            //}
 
             try
             {
@@ -88,34 +71,27 @@ namespace RepairShopStudio.Controllers
             }
         }
 
-        public List<SelectListItem> BindPartsList()
+        public async Task<IActionResult> Finish(int cardId)
         {
-            var selectParts = new List<SelectListItem>();
-            var parts = operatingCardService.GetParts();
-            foreach (var part in parts)
+            try
             {
-                selectParts.Add(new SelectListItem
-                {
-                    Text = part.Name,
-                    Value = part.Id.ToString()
-                });
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                await operatingCardService.MarkRepairAsFinishedAsync(cardId, userId);
             }
-            return selectParts;
+            catch(Exception)
+            {
+                throw new ArgumentException("Something went wrong...");
+            }
+
+            return RedirectToAction(nameof(All));
         }
 
-        public List<SelectListItem> BindServicesList()
+        [HttpGet]
+        public async Task<IActionResult> AllFinished()
         {
-            var selectServices = new List<SelectListItem>();
-            var services = operatingCardService.GetShopServices();
-            foreach (var service in services)
-            {
-                selectServices.Add(new SelectListItem
-                {
-                    Text = service.Name,
-                    Value = service.Id.ToString()
-                });
-            }
-            return selectServices;
+            var model = await operatingCardService.GetAllFinishedAsync();
+
+            return View(model);
         }
     }
 }

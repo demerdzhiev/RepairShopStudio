@@ -21,13 +21,6 @@
                 <p><b>Date of creation:</b> @card.IssueDate</p>
                 <p class="mb-0"><b>Status:</b> @(card.IsActive ? "Pending" : "Done")</p>
             </div>
-            <div class="form-inline">
-                @if (User.IsInRole(RoleConstants.Mechanic))
-                {
-                    <a asp-controller="OperatingCards" asp-action="Finish" asp-route-cardId="@card.Id" class="btn btn-warning">Mark as finished</a>
-                    
-                }
-            </div>
         </div>
     }
 </div>

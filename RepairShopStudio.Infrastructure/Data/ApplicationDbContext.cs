@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Infrastructure.Data.Configuration;
 using RepairShopStudio.Infrastructure.Data.Models;
 using RepairShopStudio.Infrastructure.Data.Models.User;
+using System.Reflection.Emit;
 
 namespace RepairShopStudio.Infrastructure.Data
 {
@@ -27,6 +28,7 @@ namespace RepairShopStudio.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new JobTItleConfiguration());
             builder.ApplyConfiguration(new AddressConfiguration());
@@ -52,8 +54,16 @@ namespace RepairShopStudio.Infrastructure.Data
                 .HasMaxLength(60)
                 .IsRequired();
 
+            builder.Entity<OperatingCard>()
+                .Property(u => u.DocumentNumber)
+                .IsRequired(false);
+
             builder.Entity<ApplicationUser>()
                 .Property(u => u.IsActive)
+                .HasDefaultValue(true);
+
+            builder.Entity<OperatingCard>()
+                .Property(oc => oc.IsActive)
                 .HasDefaultValue(true);
 
             builder.Entity<OperatingCard>()
@@ -80,6 +90,8 @@ namespace RepairShopStudio.Infrastructure.Data
             builder.Entity<Customer>()
                 .Property(p => p.Uic)
                 .IsRequired(false);
+
+            
         }
     }
 }

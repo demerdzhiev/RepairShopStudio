@@ -12,8 +12,8 @@ using RepairShopStudio.Infrastructure.Data;
 namespace RepairShopStudio.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221204215706_SetUpDb")]
-    partial class SetUpDb
+    [Migration("20221206131304_PartAndServiceAddedToOpCard")]
+    partial class PartAndServiceAddedToOpCard
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -354,11 +354,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Date of the creation of the document");
 
-                    b.Property<double>("Discount")
-                        .HasColumnType("float");
-
                     b.Property<string>("DocumentNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasComment("The number of current document");
@@ -368,10 +364,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("money")
-                        .HasComment("The total amount of parts and services");
+                    b.Property<int?>("PartId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ServiceId")
+                        .HasColumnType("int");
 
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
@@ -381,6 +378,10 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("PartId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("OperatingCards");
 
@@ -392,11 +393,11 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             Id = 1,
                             ApplicationUserId = new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
                             CustomerId = 1,
-                            Date = new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            Discount = 10.0,
-                            DocumentNumber = "000112/4/2022 12:00:00 AM",
+                            Date = new DateTime(2022, 12, 6, 0, 0, 0, 0, DateTimeKind.Local),
+                            DocumentNumber = "B5466HA12/6/2022 12:00:00 AM",
                             IsActive = true,
-                            TotalAmount = 193.095m,
+                            PartId = 1,
+                            ServiceId = 1,
                             VehicleId = 1
                         });
                 });
@@ -473,9 +474,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = 1,
                             IsActive = true,
-                            IssueDate = new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            IssueDate = new DateTime(2022, 12, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             Note = "To arrive today",
-                            Number = "0001/12/4/2022 12:00:00 AM",
+                            Number = "0001/12/6/2022 12:00:00 AM",
                             SupplierId = 1
                         });
                 });
@@ -512,9 +513,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasComment("The name of the part");
 
-                    b.Property<int?>("OperatingCardId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
@@ -546,8 +544,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasComment("Affected part of the vehicle, where the part may be used");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OperatingCardId");
 
                     b.HasIndex("OrderId");
 
@@ -599,9 +595,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasColumnType("nvarchar(60)")
                         .HasComment("Name of the service");
 
-                    b.Property<int?>("OperatingCardId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("money")
@@ -612,8 +605,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .HasComment("Affected part of the vehicle");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OperatingCardId");
 
                     b.HasIndex("VehicleComponentId");
 
@@ -830,7 +821,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b8590cc7-fea7-4516-90f2-19a09fc08de3",
+                            ConcurrencyStamp = "e54fccde-0984-45e7-bd1a-14bebfcded6f",
                             Email = "manager_repair_shop@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Ivan",
@@ -839,7 +830,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "GENERAL_MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIGt0EgHix2KJqh+N3yr3mGHiKEenwuCfxvCERECBuJw0prgBv9tyUnncuReodYnxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELYqdcNgmbE8aU8up16cUOhliyMY8iutF8aLSy0Bi+g/0zPFGPsf6ZsXJsetARdA8g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e",
                             TwoFactorEnabled = false,
@@ -849,7 +840,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ebf1936f-c944-4c8b-9b43-a105a638a796",
+                            ConcurrencyStamp = "c35aefcd-4868-4521-b847-43c2ffdd5f24",
                             Email = "mechanic_repair_shop@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Petar",
@@ -858,7 +849,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MECHANIC_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "MECHANIC",
-                            PasswordHash = "AQAAAAEAACcQAAAAELGFO8NpR6j2buzbhtbfg+V+Ky5KCGd4kMvBb9eYYB0+5bnRbQyMFKxpv+opN168CA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGOCXPNTjii4efX2qaz5Z1XuRttw7Ze0sY/ns/xKOviVer5SFXTZuTqnMz2qqdG+aw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "5755db6a-132e-475d-93b6-d6c2f46f6fad",
                             TwoFactorEnabled = false,
@@ -868,7 +859,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         {
                             Id = new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ebcb8e1-0f79-45aa-ab48-b512cfbcb3bb",
+                            ConcurrencyStamp = "5878fada-aeab-4d5f-9988-33391e8c3eb0",
                             Email = "adviser_repair_shop@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Georgi",
@@ -877,7 +868,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADVISER_REPAIR_SHOP@MAIL.COM",
                             NormalizedUserName = "SERVICE_ADVISER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIQhRTVUM1rBhG9YLwb6EDZzmFmKPw9dPAyWXXN2n3GLDQK8t/tGlo3y440e9wkvaw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKg2Q8si+Z/6VeJYLtqg4lAe8qOa9hGQJmLZCgAPvLv8ZR6F+xJHmbk1LILkzExTAQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "780e294a-90d6-4b9f-987f-a958b729a0b3",
                             TwoFactorEnabled = false,
@@ -1101,9 +1092,21 @@ namespace RepairShopStudio.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Part", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId");
+
+                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.ShopService", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId");
+
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Part");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCardParts", b =>
@@ -1128,7 +1131,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCardShopService", b =>
                 {
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", "OperatingCard")
-                        .WithMany("OperatingCardShopServices")
+                        .WithMany()
                         .HasForeignKey("OperatingCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1157,10 +1160,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Part", b =>
                 {
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", null)
-                        .WithMany("Parts")
-                        .HasForeignKey("OperatingCardId");
-
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.Order", null)
                         .WithMany("Parts")
                         .HasForeignKey("OrderId");
@@ -1180,10 +1179,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.ShopService", b =>
                 {
-                    b.HasOne("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", null)
-                        .WithMany("ShopServices")
-                        .HasForeignKey("OperatingCardId");
-
                     b.HasOne("RepairShopStudio.Infrastructure.Data.Models.VehicleComponent", "VehicleComponent")
                         .WithMany()
                         .HasForeignKey("VehicleComponentId")
@@ -1245,15 +1240,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Customer", b =>
                 {
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.OperatingCard", b =>
-                {
-                    b.Navigation("OperatingCardShopServices");
-
-                    b.Navigation("Parts");
-
-                    b.Navigation("ShopServices");
                 });
 
             modelBuilder.Entity("RepairShopStudio.Infrastructure.Data.Models.Order", b =>

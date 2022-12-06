@@ -21,7 +21,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
         [Required]
         [Comment("Part's availability")]
-        [Range (0, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Stock { get; set; }
 
         [Required]
@@ -42,7 +42,7 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         [Comment("Delivery price (by the supplier)")]
         [Range(typeof(decimal), SparePartPriceMinValue, SparePartPriceMaxValue)]
         [Column(TypeName = "money")]
-        [Precision(18,2)]
+        [Precision(18, 2)]
         public decimal PriceBuy { get; set; }
 
         [Required]

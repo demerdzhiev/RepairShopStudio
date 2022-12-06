@@ -19,11 +19,11 @@ namespace RepairShopStudio.Infrastructure.Data.Configuration
             {
                 Id = 1,
                 Date = DateTime.Now.Date,
-                DocumentNumber = $"0001{DateTime.Now.Date}",
+                DocumentNumber = $"B5466HA/06.12.2022",
                 CustomerId = 1,
                 ApplicationUserId = Guid.Parse("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
-                Discount = 10,
-                TotalAmount = (114.56M + 99.99M) * 0.9M,
+                PartId = 1,
+                ServiceId = 1,
                 VehicleId = 1,
             };
 

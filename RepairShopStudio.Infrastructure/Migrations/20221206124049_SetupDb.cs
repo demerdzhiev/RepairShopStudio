@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepairShopStudio.Infrastructure.Migrations
 {
-    public partial class SetUpDb : Migration
+    public partial class SetupDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -267,17 +267,41 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShopServices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "Name of the service"),
+                    Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false, comment: "Description of the service"),
+                    Price = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Price of the service"),
+                    VehicleComponentId = table.Column<int>(type: "int", nullable: false, comment: "Affected part of the vehicle"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopServices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShopServices_VehicleComponents_VehicleComponentId",
+                        column: x => x.VehicleComponentId,
+                        principalTable: "VehicleComponents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Services, offered by repair shop");
+
+            migrationBuilder.CreateTable(
                 name: "OperatingCards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of the creation of the document"),
-                    DocumentNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "The number of current document"),
-                    TotalAmount = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "The total amount of parts and services"),
+                    DocumentNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, comment: "The number of current document"),
+                    PartId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Discount = table.Column<double>(type: "float", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     VehicleId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -357,36 +381,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 comment: "Order of parts properties");
 
             migrationBuilder.CreateTable(
-                name: "ShopServices",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false, comment: "Name of the service"),
-                    Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false, comment: "Description of the service"),
-                    Price = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Price of the service"),
-                    VehicleComponentId = table.Column<int>(type: "int", nullable: false, comment: "Affected part of the vehicle"),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    OperatingCardId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShopServices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ShopServices_OperatingCards_OperatingCardId",
-                        column: x => x.OperatingCardId,
-                        principalTable: "OperatingCards",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ShopServices_VehicleComponents_VehicleComponentId",
-                        column: x => x.VehicleComponentId,
-                        principalTable: "VehicleComponents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Services, offered by repair shop");
-
-            migrationBuilder.CreateTable(
                 name: "OperatingCardShopService",
                 columns: table => new
                 {
@@ -426,18 +420,12 @@ namespace RepairShopStudio.Infrastructure.Migrations
                     PriceSell = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false, comment: "Selling price (by the repair shop)"),
                     VehicleComponentId = table.Column<int>(type: "int", nullable: false, comment: "Affected part of the vehicle, where the part may be used"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    OperatingCardId = table.Column<int>(type: "int", nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: true),
                     ShopServiceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Parts_OperatingCards_OperatingCardId",
-                        column: x => x.OperatingCardId,
-                        principalTable: "OperatingCards",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Parts_Orders_OrderId",
                         column: x => x.OrderId,
@@ -520,9 +508,9 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "8ebcb8e1-0f79-45aa-ab48-b512cfbcb3bb", "adviser_repair_shop@mail.com", false, "Georgi", true, "Georgiev", false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEIQhRTVUM1rBhG9YLwb6EDZzmFmKPw9dPAyWXXN2n3GLDQK8t/tGlo3y440e9wkvaw==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
-                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "ebf1936f-c944-4c8b-9b43-a105a638a796", "mechanic_repair_shop@mail.com", false, "Petar", true, "Petrov", false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAELGFO8NpR6j2buzbhtbfg+V+Ky5KCGd4kMvBb9eYYB0+5bnRbQyMFKxpv+opN168CA==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
-                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "b8590cc7-fea7-4516-90f2-19a09fc08de3", "manager_repair_shop@mail.com", false, "Ivan", true, "Ivanov", false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEIGt0EgHix2KJqh+N3yr3mGHiKEenwuCfxvCERECBuJw0prgBv9tyUnncuReodYnxg==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
+                    { new Guid("4d3bb951-2772-4ae8-b6bb-eb4e80426b0e"), 0, "71d9e096-281e-428d-85a0-e8fa800a7f65", "adviser_repair_shop@mail.com", false, "Georgi", true, "Georgiev", false, null, "ADVISER_REPAIR_SHOP@MAIL.COM", "SERVICE_ADVISER", "AQAAAAEAACcQAAAAEEMlOaY0AHtIHDrmo040H77rvrYCAM6dyNy1JrU2LyVVEcGLM21CkqaaaX2ZD9Sa4w==", null, false, "780e294a-90d6-4b9f-987f-a958b729a0b3", false, "Service_Adviser" },
+                    { new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 0, "95cb6e27-a9c5-4d09-ae2e-e54370a14ac8", "mechanic_repair_shop@mail.com", false, "Petar", true, "Petrov", false, null, "MECHANIC_REPAIR_SHOP@MAIL.COM", "MECHANIC", "AQAAAAEAACcQAAAAEBu3bl1NakP25uHGEQS3/CyCtbfU62N5axnYuD5zM4p9Wm40on1lDYjVIQ/AOt4x4g==", null, false, "5755db6a-132e-475d-93b6-d6c2f46f6fad", false, "Mechanic" },
+                    { new Guid("8bc5851a-9b57-4d66-99ae-4bfd11f26bd2"), 0, "bb78c1ab-c0f8-4cc3-a9e1-66ad6edc325f", "manager_repair_shop@mail.com", false, "Ivan", true, "Ivanov", false, null, "MANAGER_REPAIR_SHOP@MAIL.COM", "GENERAL_MANAGER", "AQAAAAEAACcQAAAAEE4/v/2mtFqYh4DTo5L5R4C2r6I+OW6d8zGsfgNhgc6It1O5zE78brG2WLRtfDkMMQ==", null, false, "70c7ac29-fc79-45e7-9d29-b922b7cd7f1e", false, "General_Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -571,13 +559,13 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Parts",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsActive", "Manufacturer", "Name", "OperatingCardId", "OrderId", "OriginalMpn", "PriceBuy", "PriceSell", "ShopServiceId", "Stock", "VehicleComponentId" },
-                values: new object[] { 1, "Front", "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg", true, "Zimmerman", "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)", null, null, "400.3649.52", 99.98m, 114.56m, null, 4, 2 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsActive", "Manufacturer", "Name", "OrderId", "OriginalMpn", "PriceBuy", "PriceSell", "ShopServiceId", "Stock", "VehicleComponentId" },
+                values: new object[] { 1, "Front", "https://www.zimmermann-bremsentechnik.eu/images/product_images/info_images/400_3649_52.jpg", true, "Zimmerman", "Sport Brake Disc for MERCEDES-BENZ M-KLASSE (W164)", null, "400.3649.52", 99.98m, 114.56m, null, 4, 2 });
 
             migrationBuilder.InsertData(
                 table: "ShopServices",
-                columns: new[] { "Id", "Description", "IsActive", "Name", "OperatingCardId", "Price", "VehicleComponentId" },
-                values: new object[] { 1, "Check all compnents in breaking sistem and repairing those that need it", true, "Breaks check and repairs", null, 65m, 4 });
+                columns: new[] { "Id", "Description", "IsActive", "Name", "Price", "VehicleComponentId" },
+                values: new object[] { 1, "Check all compnents in breaking sistem and repairing those that need it", true, "Breaks check and repairs", 65m, 4 });
 
             migrationBuilder.InsertData(
                 table: "Suppliers",
@@ -586,13 +574,13 @@ namespace RepairShopStudio.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "OperatingCards",
-                columns: new[] { "Id", "ApplicationUserId", "CustomerId", "Date", "Discount", "DocumentNumber", "IsActive", "TotalAmount", "VehicleId" },
-                values: new object[] { 1, new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 1, new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local), 10.0, "000112/4/2022 12:00:00 AM", true, 193.095m, 1 });
+                columns: new[] { "Id", "ApplicationUserId", "CustomerId", "Date", "DocumentNumber", "IsActive", "PartId", "ServiceId", "VehicleId" },
+                values: new object[] { 1, new Guid("59bff60d-d8d8-4ca8-9da9-48149761e9db"), 1, new DateTime(2022, 12, 6, 0, 0, 0, 0, DateTimeKind.Local), "000112/6/2022 12:00:00 AM", true, 0, 0, 1 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "IsActive", "IssueDate", "Note", "Number", "SupplierId" },
-                values: new object[] { 1, true, new DateTime(2022, 12, 4, 0, 0, 0, 0, DateTimeKind.Local), "To arrive today", "0001/12/4/2022 12:00:00 AM", 1 });
+                values: new object[] { 1, true, new DateTime(2022, 12, 6, 0, 0, 0, 0, DateTimeKind.Local), "To arrive today", "0001/12/6/2022 12:00:00 AM", 1 });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
@@ -673,11 +661,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parts_OperatingCardId",
-                table: "Parts",
-                column: "OperatingCardId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Parts_OrderId",
                 table: "Parts",
                 column: "OrderId");
@@ -691,11 +674,6 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 name: "IX_Parts_VehicleComponentId",
                 table: "Parts",
                 column: "VehicleComponentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShopServices_OperatingCardId",
-                table: "ShopServices",
-                column: "OperatingCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShopServices_VehicleComponentId",
@@ -759,10 +737,19 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "OperatingCards");
+
+            migrationBuilder.DropTable(
                 name: "Parts");
 
             migrationBuilder.DropTable(
                 name: "EngineTypes");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -774,16 +761,7 @@ namespace RepairShopStudio.Infrastructure.Migrations
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
-                name: "OperatingCards");
-
-            migrationBuilder.DropTable(
                 name: "VehicleComponents");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

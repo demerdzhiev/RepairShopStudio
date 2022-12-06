@@ -27,16 +27,16 @@ namespace RepairShopStudio.Core.Services
             {
                 Id = model.Id,
                 ApplicationUserId = Guid.Parse(model.ApplicationUserId),
-                DocumentNumber = model.DocumentNumber,
-                Discount = (double)model.Discount,
                 CustomerId = model.CustomerId,
-                Date = model.IssueDate,
+                Date = DateTime.Today,
                 VehicleId = model.VehicleId,
-                IsActive = model.IsActive,
-                Parts = (ICollection<Part>)model.Parts,
-                ShopServices = (ICollection<ShopService>)model.Services,
-                TotalAmount = model.TotalAmount
+                IsActive = true,
+                PartId = model.PartId,
+                ServiceId = model.ServiceId
             };
+
+            entity.DocumentNumber 
+                = $"{context.Vehicles.FirstOrDefault(v => v.Id == entity.VehicleId).LicensePLate}/{entity.Date.ToString("dd.MM.yyyy")}";
 
             await context.OperatingCards.AddAsync(entity);
             await context.SaveChangesAsync();
@@ -45,7 +45,10 @@ namespace RepairShopStudio.Core.Services
         public async Task<IEnumerable<OperatingCardViewModel>> GetAllAsync()
         {
             var entities = await context.OperatingCards
+                .Where(oc => oc.IsActive == true)
                 .Include(c => c.Customer)
+                .Include(p => p.Part)
+                .Include(s => s.Service)
                 .Include(cv => cv.Customer.Vehicles)
                 .Include(au => au.ApplicationUser)
                 .ToListAsync();
@@ -56,15 +59,49 @@ namespace RepairShopStudio.Core.Services
                     Id = oc.Id,
                     CustomerName = oc.Customer.Name,
                     MechanicName = $"{oc.ApplicationUser.FirstName} {oc.ApplicationUser.LastName}",
-                    Parts = oc.Parts,
-                    Services = oc.ShopServices,
+                    PartName = oc.Part.Name,
+                    ServiceName = oc.Service.Name,
                     IsActive = oc.IsActive,
-                    IssueDate = oc.Date.ToString(),
+                    IssueDate = oc.Date.ToString("dd.MM.yyyy"),
                     VehicleLicensePlate = oc.Customer.Vehicles.FirstOrDefault(v => v.Id == oc.VehicleId).LicensePLate,
-                    TotalAmount = oc.TotalAmount,
                     DocumentNumber = oc.DocumentNumber,
-                    Discount = (decimal)oc.Discount
                 });
+        }
+
+        public async Task<IEnumerable<OperatingCardViewModel>> GetAllFinishedAsync()
+        {
+            var entities = await context.OperatingCards
+                .Where(oc => oc.IsActive == false)
+                .Include(c => c.Customer)
+                .Include(p => p.Part)
+                .Include(s => s.Service)
+                .Include(cv => cv.Customer.Vehicles)
+                .Include(au => au.ApplicationUser)
+                .ToListAsync();
+
+            return entities
+                .Select(oc => new OperatingCardViewModel
+                {
+                    Id = oc.Id,
+                    CustomerName = oc.Customer.Name,
+                    MechanicName = $"{oc.ApplicationUser.FirstName} {oc.ApplicationUser.LastName}",
+                    PartName = oc.Part.Name,
+                    ServiceName = oc.Service.Name,
+                    IsActive = oc.IsActive,
+                    IssueDate = oc.Date.ToString("dd.MM.yyyy"),
+                    VehicleLicensePlate = oc.Customer.Vehicles.FirstOrDefault(v => v.Id == oc.VehicleId).LicensePLate,
+                    DocumentNumber = oc.DocumentNumber,
+                });
+        }
+
+        public async Task<string> GetCustomerNameById(int cutomerId)
+        {
+            var customer = context.Customers
+                .Where(c => c.Id == cutomerId)
+                .Select(c => c.Name)
+                .FirstOrDefaultAsync();
+
+            return await customer;
         }
 
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
@@ -72,9 +109,9 @@ namespace RepairShopStudio.Core.Services
             return await context.Customers.ToListAsync();
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetCustomerVehicles(int customerId)
         {
-            return await context.Vehicles.ToListAsync();
+            return await context.Vehicles.Where(v => v.CustomerId == customerId).ToListAsync();
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetMechanicsAsync()
@@ -82,14 +119,40 @@ namespace RepairShopStudio.Core.Services
             return await context.Users.Where(u => u.UserName.ToLower().Contains("mechanic")).ToListAsync();
         }
 
-        public IEnumerable<Part> GetParts()
+        public async Task<IEnumerable<Part>> GetPartsAsync()
         {
-            return context.Parts.ToList();
+            return await context.Parts.ToListAsync();
         }
 
-        public IEnumerable<ShopService> GetShopServices()
+        public async Task<IEnumerable<ShopService>> GetShopServicesAsync()
         {
-            return  context.ShopServices.ToList();
+            return await context.ShopServices.ToListAsync();
+        }
+
+        public async Task MarkRepairAsFinishedAsync(int cardId, string userId)
+        {
+            var user = await context.Users
+               .Where(u => u.Id == Guid.Parse(userId))
+               .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            var card = await context.OperatingCards.FirstOrDefaultAsync(m => m.Id == cardId);
+
+            if (card == null)
+            {
+                throw new ArgumentException("Invalid card ID");
+            }
+
+            if (card.ApplicationUserId == user.Id)
+            {
+                card.IsActive = false;
+            }
+
+            await context.SaveChangesAsync();
         }
     }
 }

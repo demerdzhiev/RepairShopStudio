@@ -135,31 +135,31 @@ namespace Library.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //public async Task<IActionResult> CreateRoles()
-        //{
-        //    await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Administrator));
-        //    await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Mechanic));
-        //    await roleManager.CreateAsync(new ApplicationRole(RoleConstants.ServiceAdviser));
+        public async Task<IActionResult> CreateRoles()
+        {
+            await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Administrator));
+            await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Mechanic));
+            await roleManager.CreateAsync(new ApplicationRole(RoleConstants.ServiceAdviser));
 
-        //    return RedirectToAction("Index", "Home");
-        //}
+            return RedirectToAction("Index", "Home");
+        }
 
-        //public async Task<IActionResult> AddUsersToRoles()
-        //{
-        //    string email1 = "manager_repair_shop@mail.com";
-        //    string email2 = "adviser_repair_shop@mail.com";
-        //    string email3 = "mechanic_repair_shop@mail.com";
+        public async Task<IActionResult> AddUsersToRoles()
+        {
+            string email1 = "manager_repair_shop@mail.com";
+            string email2 = "adviser_repair_shop@mail.com";
+            string email3 = "mechanic_repair_shop@mail.com";
 
-        //    var user = await userManager.FindByEmailAsync(email1);
-        //    var user2 = await userManager.FindByEmailAsync(email2);
-        //    var user3 = await userManager.FindByEmailAsync(email3);
+            var user = await userManager.FindByEmailAsync(email1);
+            var user2 = await userManager.FindByEmailAsync(email2);
+            var user3 = await userManager.FindByEmailAsync(email3);
 
-        //    await userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator, RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
-        //    await userManager.AddToRolesAsync(user2, new string[] { RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
-        //    await userManager.AddToRolesAsync(user3, new string[] { RoleConstants.Mechanic });
+            await userManager.AddToRolesAsync(user, new string[] { RoleConstants.Administrator, RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
+            await userManager.AddToRolesAsync(user2, new string[] { RoleConstants.ServiceAdviser, RoleConstants.Mechanic });
+            await userManager.AddToRolesAsync(user3, new string[] { RoleConstants.Mechanic });
 
-        //    return RedirectToAction("Index", "Home");
-        //}
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
