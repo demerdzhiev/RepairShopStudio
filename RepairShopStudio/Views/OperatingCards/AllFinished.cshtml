@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<OperatingCardViewModel>
 
 @{
-    ViewBag.Title = "Operating cards in progress";
+    ViewBag.Title = "Completed oprating cards";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -19,7 +19,7 @@
                 <p class="mb-0"><b>Part:</b> @card.PartName</p>
                 <p class="mb-0"><b>Service:</b> @card.ServiceName</p>
                 <p><b>Date of creation:</b> @card.IssueDate</p>
-                <p class="mb-0"><b>Status:</b> @(card.IsActive ? "Pending" : "Done")</p>
+                <p class="mb-0"><b>Status:</b> @(card.IsActive ? "Pending" : "Completed")</p>
             </div>
         </div>
     }

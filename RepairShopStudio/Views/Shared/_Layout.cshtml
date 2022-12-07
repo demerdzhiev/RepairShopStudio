@@ -73,23 +73,46 @@
                         </li>*@
                         @if (this.User.IsInRole(RoleConstants.Administrator))
                         {
-                            <li class="nav-item">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Employees</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Index">All employees</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Register">Add new employee</a>
+                                </div>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="ShopServices" asp-action="All">All services</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="ShopServices" asp-action="Add">Add new service</a>
+                                </div>
+                            </li>
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">All employees</a>
-                            </li>
-                            <li class="nav-item">
+                            </li>*@
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Add new employee</a>
-                            </li>
-                            <li class="nav-item">
+                            </li>*@
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Add">Add new part</a>
-                            </li>
-                            <li class="nav-item">
+                            </li>*@
+                           @* <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="Add">Add new service</a>
-                            </li>
+                            </li>*@
 
                         }
                         @if (this.User.IsInRole(RoleConstants.ServiceAdviser))
                         {
-                            <li class="nav-item">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Customers</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="All">All</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="AddRegular">Add regular</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="AddCorporate">Add corporate</a>
+                                </div>
+                            </li>
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="All">All customers</a>
                             </li>
                             <li class="nav-item">
@@ -97,27 +120,40 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="AddCorporate">Add corporate customer</a>
-                            </li>
+                            </li>*@
                             
                         }
                         @if (this.User.IsInRole(RoleConstants.Mechanic))
                         {
-                            <li class="nav-item">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Operatnig cards</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="OperatingCards" asp-action="All">Pending</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="OperatingCards" asp-action="AllFinished">Completed</a>
+                                </div>
+                            </li>
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="OperatingCards" asp-action="All">Pending OC</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="OperatingCards" asp-action="AllFinished">Finished OC</a>
+                            </li>*@
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Storage</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Parts" asp-action="All">All parts</a>
+                                    @if (this.User.IsInRole(RoleConstants.Administrator) || this.User.IsInRole(RoleConstants.ServiceAdviser))
+                                    {
+                                        <a class="dropdown-item" asp-area="" asp-controller="Parts" asp-action="Add">Add new part</a>
+                                    }
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="All">Storage</a>
-                            </li>
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="All">Services</a>
-                            </li>
+                            </li>*@
                             
-
                         }
-@*                        @if (SignInManager.IsSignedIn(User))
+                        @*@if (SignInManager.IsSignedIn(User))
                         {
                         
                         }*@
