@@ -1,41 +1,48 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.Part;
 
 namespace RepairShopStudio.Core.Models.Part
 {
+    [Comment(ViewModelMain)]
     public class PartViewModel : IPartModel
     {
+        [Comment(ViewModelId)]
         public int Id { get; set; }
 
-        [Comment("The name of the part")]
+        [Comment(ViewModelName)]
         public string Name { get; set; } = null!;
 
-        [Comment("ImageURl of the part")]
+        [Comment(ViewModelImageUrl)]
         public string? ImageUrl { get; set; }
 
-        [Comment("Part's availability")]
+        [Comment(ViewModelStock)]
         public int Stock { get; set; }
 
-        [Comment("Manufacturer's name of the part")]
+        [Comment(ViewModelManufacturer)]
         public string Manufacturer { get; set; } = null!;
 
-        [Comment("Part's MPN by the car manufacturer")]
+        [Comment(ViewModelOriginalMpn)]
         public string OriginalMpn { get; set; } = null!;
 
-        [Comment("Description of the part")]
+        [Comment(ViewModelDescription)]
         public string? Description { get; set; }
 
-        [Comment("Selling price (by the repair shop)")]
+        [Comment(ViewModelPriceSell)]
         public decimal PriceSell { get; set; }
+
+        [Comment(ViewModelPriceBuy)]
         public decimal PriceBuy { get; set; }
 
+        [Comment(ViewModelVehicleComponentId)]
         [Display(Name = "Vehicle component")]
         public int VehicleComponentId { get; set; }
 
-        [Comment("Name of vehicle component")]
+        [Comment(ViewModelVehicleComponent)]
         public string VehicleComponent { get; set; } = null!;
 
+        [Comment(ViewModelVehicleComponents)]
         public IEnumerable<PartVehicleCopmonentModel> VehicleComponents { get; set; } = new List<PartVehicleCopmonentModel>();
     }
 }

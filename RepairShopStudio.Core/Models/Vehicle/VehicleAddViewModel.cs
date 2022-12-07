@@ -1,49 +1,51 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RepairShopStudio.Core.Models.EngineType;
 using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Vehicle;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.Vehicle;
 
 namespace RepairShopStudio.Core.Models.Vehicle
 {
+    [Comment(AddViewModelMain)]
     public class VehicleAddViewModel
     {
+        [Comment(AddViewModelId)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(VehicleMakeMaxLength, MinimumLength = VehicleMakeMinLength)]
-        [Comment("Vehicle make name")]
+        [Comment(AddViewModelMake)]
         public string? Make { get; set; }
 
         [Required]
         [StringLength(VehicleModelMaxLength, MinimumLength = VehicleModelMinLength)]
-        [Comment("Vehicle model name")]
+        [Comment(AddViewModelModel)]
         public string? Model { get; set; }
 
         [Required]
         [StringLength(LicensePlateMaxLength, MinimumLength = LicensePlateMinLength)]
-        [Comment("License plate of the vehicle")]
+        [Comment(AddViewModelLicensePLate)]
         public string? LicensePLate { get; set; }
 
         [Required]
-        [Comment("Date of the first registration of the vehicle")]
+        [Comment(AddViewModelFIrstRegistration)]
         public DateTime FIrstRegistration { get; set; }
 
+        [Comment(AddViewModelEngineTypeId)]
         public int EngineTypeId { get; set; }
 
         [Required]
         [Range(EngineMinPower, EngineMaxPower)]
-        [Comment("Enginge power in Hp")]
+        [Comment(AddViewModelPower)]
         public int Power { get; set; }
 
         [Required]
         [StringLength(VinNumberLength)]
-        [Comment("VIN number of the vehicle")]
+        [Comment(AddViewModelVinNumber)]
         public string? VinNumber { get; set; }
 
+        [Comment(AddViewModelEngineTypes)]
         public ICollection<Infrastructure.Data.Models.EngineType> EngineTypes { get; set; }
             = new List<Infrastructure.Data.Models.EngineType>();
 
-        //public int EngineTypeId { get; set; }
-        //public IEnumerable<EngineTypeViewModel> EngineTypes { get; set; } = new List<EngineTypeViewModel>();
     }
 }

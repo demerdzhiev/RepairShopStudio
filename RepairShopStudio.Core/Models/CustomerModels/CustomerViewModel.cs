@@ -1,50 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
-using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.Custommer;
 
 namespace RepairShopStudio.Core.Models.CustomerModels
 {
+    [Comment(ViewModelMain)]
     public class CustomerViewModel
     {
+        [Comment(ViewModelId)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(CustomerNameMaxLength)]
-        [Comment("Name of the customer")]
+        [Comment(ViewModelName)]
         public string Name { get; set; } = null!;
 
-        [Required]
-        [Phone]
-        [StringLength(PhoneNumberMaxLength)]
-        [Comment("Phone number of the cusotmer")]
+        [Comment(ViewModelPhoneNumber)]
         public string PhoneNumber { get; set; } = null!;
 
-        [Required]
-        [EmailAddress]
-        [StringLength(EmailMaxLength)]
-        [Comment("Email of the customer")]
+        [Comment(ViewModelEmail)]
         public string Email { get; set; } = null!;
 
-        [Required]
-        [Comment("Defines if the customer is corporate or individual")]
+        [Comment(ViewModelIsCorporate)]
         public bool IsCorporate { get; set; }
 
-        [StringLength(UicMaxLength)]
-        [Comment("The Unit Identification Code of the customer's company")]
+        [Comment(ViewModelUic)]
         public string Uic { get; set; } = null!;
 
-        [Comment("The address of the customer's office")]
+        [Comment(ViewModelAddress)]
         public string? Address { get; set; }
 
-        [StringLength(ResponsiblePersonNameMaxLength)]
-        [Comment("Name of the responsible person of the customer's company")]
+        [Comment(ViewModelResponsiblePerson)]
         public string ResponsiblePerson { get; set; } = null!;
 
-        [Comment("Vehicle owned by the customer")]
+        [Comment(ViewModelVehicleId)]
         public int VehicleId { get; set; }
 
-        [Comment("Collection of vehicles, owned by the customer")]
+        [Comment(ViewModelVehicles)]
         public ICollection<Infrastructure.Data.Models.Vehicle> Vehicles { get; set; } 
             = new List<Infrastructure.Data.Models.Vehicle>();
     }

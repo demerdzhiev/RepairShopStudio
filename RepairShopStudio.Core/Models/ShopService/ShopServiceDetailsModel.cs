@@ -1,26 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Infrastructure.Data.Models;
-using System.ComponentModel.DataAnnotations;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.ShopService;
 
 namespace RepairShopStudio.Core.Models.ShopService
 {
+    [Comment(DetailsViewModelMain)]
     public class ShopServiceDetailsModel : IServiceModel
     {
-        [Key]
+        [Comment(DetailsViewModelId)]
         public int Id { get; set; }
 
-        [Comment("Name of the service")]
+        [Comment(DetailsViewModelName)]
         public string Name { get; set; } = null!;
 
-        [Comment("Description of the service")]
+        [Comment(DetailsViewModelDescription)]
         public string Description { get; set; } = null!;
 
-        [Comment("Price of the service")]
+        [Comment(DetailsViewModelPrice)]
         public decimal Price { get; set; }
 
-        [Comment("Affected part of the vehicle")]
+        [Comment(DetailsViewModelVehicleComponent)]
         public string VehicleComponent { get; set; } = null!;
     }
 }

@@ -1,51 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RepairShopStudio.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.SparePart;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.Part;
 
 namespace RepairShopStudio.Core.Models.Part
 {
+    [Comment(AddViewModelMain)]
     public class AddPartViewModel
     {
+        [Required]
+        [Comment(AddViewModelId)]
         public int Id { get; set; }
 
-        [Comment("The name of the part")]
+        [Comment(AddViewModelName)]
         [StringLength(SparePartNameMaxLength, MinimumLength = SparePartNameMinLength)]
         public string Name { get; set; } = null!;
 
-        [Comment("ImageURl of the part")]
+        [Comment(AddViewModelImageUrl)]
         [StringLength(SparePartImageUrlMaxLength, MinimumLength = SparePartImageUrlMinLength)]
         public string? ImageUrl { get; set; }
 
-        [Comment("Part's availability")]
+        [Comment(AddViewModelStock)]
         [Range(0, int.MaxValue)]
         public int Stock { get; set; }
 
-        [Comment("Manufacturer's name of the part")]
+        [Comment(AddViewModelManufacturer)]
         [StringLength(SparePartManufacturerNameMaxLength, MinimumLength = SparePartManufacturerNameMinLength)]
         public string Manufacturer { get; set; } = null!;
 
-        [Comment("Part's MPN by the car manufacturer")]
+        [Comment(AddViewModelOriginalMpn)]
         [StringLength(SparePartOriginalMpnMaxLength, MinimumLength = SparePartOriginalMpnMinLength)]
         public string OriginalMpn { get; set; } = null!;
 
-        [Comment("Description of the part")]
+        [Comment(AddViewModelDescription)]
         [StringLength(SparePartDescriptionMaxLength, MinimumLength = SparePartDescriptionMinLength)]
         public string? Description { get; set; }
 
-        [Comment("Delivery price (by the supplier)")]
+        [Comment(AddViewModelPriceBuy)]
         [Range(typeof(decimal), SparePartPriceMinValue, SparePartPriceMaxValue)]
         public decimal PriceBuy { get; set; }
 
-        [Comment("Selling price (by the repair shop)")]
+        [Comment(AddViewModelPriceSell)]
         [Range(typeof(decimal), SparePartPriceMinValue, SparePartPriceMaxValue)]
         public decimal PriceSell { get; set; }
 
+        [Comment(AddViewModelVehicleComponentId)]
         public int VehicleComponentId { get; set; }
 
-        [Comment("Name of vehicle component")]
+        [Comment(AddViewModelVehicleComponents)]
         public IEnumerable<VehicleComponent> VehicleComponents { get; set; } = new List<VehicleComponent>();
     }
 }

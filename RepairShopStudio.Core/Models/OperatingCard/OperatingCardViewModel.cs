@@ -1,36 +1,38 @@
-﻿using RepairShopStudio.Infrastructure.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.OperatingCard;
 
 namespace RepairShopStudio.Core.Models.OperatingCard
 {
+    [Comment(ViewModelMain)]
     public class OperatingCardViewModel
     {
+        [Comment(ViewModelId)]
         public int Id { get; set; }
 
-        public int PartId { get; set; }
+        [Comment(ViewModelPartName)]
         public string PartName { get; set; } = null!;
 
-        public int ServiceId { get; set; }
+        [Comment(ViewModelServiceName)]
         public string ServiceName { get; set; } = null!;
+
+        [Comment(ViewModelCustomerName)]
         public string CustomerName { get; set; } = null!;
 
+        [Comment(ViewModelVehicleLicensePlate)]
         public string VehicleLicensePlate { get; set; } = null!;
 
-        public Infrastructure.Data.Models.Part Part { get; set; }
-
-        public ICollection<Infrastructure.Data.Models.Part> Parts { get; set; }
-            = new List<Infrastructure.Data.Models.Part>();
-
+        [Comment(ViewModelMechanicName)]
         public string MechanicName { get; set; } = null!;
 
-        public string IssueDate { get; set; } = null!;
-
-        public bool IsActive { get; set; } = true;
-
+        [Comment(ViewModelDocumentNumber)] 
         public string DocumentNumber { get; set; } = null!;
 
-        public Infrastructure.Data.Models.ShopService Service { get; set; }
+        [Comment(ViewModelIssueDate)] 
+        public string IssueDate { get; set; } = null!;
 
-        public ICollection<Infrastructure.Data.Models.ShopService> Services { get; set; }
-            = new List<Infrastructure.Data.Models.ShopService>();
+        [Comment(ViewModelIsActive)]
+        public bool IsActive { get; set; } = true;
+
+
     }
 }

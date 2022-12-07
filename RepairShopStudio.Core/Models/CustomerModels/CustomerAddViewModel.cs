@@ -4,53 +4,48 @@ using RepairShopStudio.Core.Models.Vehicle;
 using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.Custommer;
 
 namespace RepairShopStudio.Core.Models.CustomerModels
 {
+    [Comment(AddViewModelMain)]
     public class CustomerAddViewModel
     {
         public int Id { get; set; }
 
         [Required]
         [StringLength(CustomerNameMaxLength, MinimumLength = CustomerNameMinLength)]
-        [Comment("Name of the customer")]
+        [Comment(AddViewModelName)]
         public string Name { get; set; } = null!;
 
         [Required]
         [Phone]
         [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
-        [Comment("Phone number of the cusotmer")]
+        [Comment(AddViewModelPhoneNumber)]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [EmailAddress]
         [StringLength(EmailMaxLength)]
-        [Comment("Email of the customer")]
+        [Comment(AddViewModelEmail)]
         public string Email { get; set; } = null!;
 
         [Required]
-        [Comment("Defines if the customer is corporate or individual")]
+        [Comment(AddViewModelIsCorporate)]
         public bool IsCorporate { get; set; }
 
         [StringLength(UicMaxLength)]
-        [Comment("The Unit Identification Code of the customer's company")]
+        [Comment(AddViewModelUic)]
         public string? Uic { get; set; }
 
         [StringLength(ResponsiblePersonNameMaxLength)]
-        [Comment("Name of the responsible person of the customer's company")]
+        [Comment(AddViewModelResponsiblePerson)]
         public string? ResponsiblePerson { get; set; }
 
+        [Comment(AddViewModelVehicle)]
         public VehicleAddViewModel? Vehicle { get; set; } = null!;
+
+        [Comment(AddViewModelAddress)]
         public AddressAddViewModel? Address { get; set; }
-
-        //[Comment("Vehicle owned by the customer")]
-        //public Vehicle Vehicle { get; set; } = null!;
-
-        //[Comment("The address of the customer's office")]
-        //public Address? Address { get; set; }
-
-        //[Comment("Collection of vehicles, owned by the customer")]
-        //public ICollection<Infrastructure.Data.Models.EngineType> EngineTypes { get; set; }
-        //    = new List<Infrastructure.Data.Models.EngineType>();
     }
 }

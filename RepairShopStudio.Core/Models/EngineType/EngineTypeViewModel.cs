@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using static RepairShopStudio.Common.Constants.ModelConstraintConstants.EngineType;
+using static RepairShopStudio.Common.Constants.ModelCommentConstants.EngineType;
 
 namespace RepairShopStudio.Core.Models.EngineType
 {
+    [Comment(ViewModelMain)]
     public class EngineTypeViewModel
     {
+        [Comment(ViewModelId)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(EngineTypeNameMaxLength)]
-        [Comment("Name of engine type")]
+        [Comment(ViewModelName)]
         public string Name { get; set; } = null!;
     }
 }
