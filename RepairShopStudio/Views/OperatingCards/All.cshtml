@@ -24,7 +24,7 @@
             <div class="form-inline">
                 @if (User.IsInRole(RoleConstants.Mechanic))
                 {
-                    <a asp-controller="OperatingCards" asp-action="Finish" asp-route-cardId="@card.Id" class="btn btn-warning">Mark as finished</a>
+                    <a asp-controller="OperatingCards" asp-action="Finish" asp-route-cardId="@card.Id" class="btn btn-danger">Mark as finished</a>
                     
                 }
             </div>

@@ -71,6 +71,7 @@ namespace RepairShopStudio.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> Finish(int cardId)
         {
             try

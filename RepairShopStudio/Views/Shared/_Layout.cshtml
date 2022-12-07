@@ -85,6 +85,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="Add">Add new service</a>
                             </li>
+
                         }
                         @if (this.User.IsInRole(RoleConstants.ServiceAdviser))
                         {
@@ -97,17 +98,29 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="AddCorporate">Add corporate customer</a>
                             </li>
+                            
                         }
-
-                        @if (SignInManager.IsSignedIn(User))
+                        @if (this.User.IsInRole(RoleConstants.Mechanic))
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="All">Storage</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="All">Services</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="OperatingCards" asp-action="All">Pending OC</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="OperatingCards" asp-action="AllFinished">Finished OC</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="All">Storage</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ShopServices" asp-action="All">Services</a>
+                            </li>
+                            
+
                         }
+@*                        @if (SignInManager.IsSignedIn(User))
+                        {
+                        
+                        }*@
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

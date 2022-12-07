@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.OperatingCard;
-using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
@@ -157,7 +156,12 @@ namespace RepairShopStudio.Core.Services
             {
                 part.Stock -= 1;
             }
-            
+
+            if(card != null)
+            {
+                card.IsActive = false;
+            }
+
             await context.SaveChangesAsync();
         }
     }
