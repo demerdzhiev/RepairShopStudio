@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using static RepairShopStudio.Common.Constants.DbModelCommentConstants.OperatingCardParts;
 
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
+    [Comment(OperatingCardPartsMain)]
     public class OperatingCardParts
     {
         [Required]

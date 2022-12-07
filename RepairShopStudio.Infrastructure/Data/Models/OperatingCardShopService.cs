@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static RepairShopStudio.Common.Constants.DbModelCommentConstants.OperatingCardShopService;
 
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
+    [Comment(OperatingCardShopServiceMain)]
     public class OperatingCardShopService
     {
         [Required]

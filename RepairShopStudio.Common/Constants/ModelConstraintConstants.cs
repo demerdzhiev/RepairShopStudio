@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RepairShopStudio.Common.Constants
 {
-    public class ModelConstraintConstants
+    public static class ModelConstraintConstants
     {
-        public class Common
+        public static class Common
         {
             public const int PhoneNumberMaxLength = 17;
             public const int PhoneNumberMinLength = 13;
@@ -20,7 +20,7 @@ namespace RepairShopStudio.Common.Constants
             public const int ResponsiblePersonNameMinLength = 8;
             public const int DocumentNumberMaxLength = 50;
         }
-        public class ShopService
+        public static class ShopService
         {
             public const int RepairServiceNameMaxLength = 60;
             public const int RepairServiceNameMinLength = 5;
@@ -30,7 +30,7 @@ namespace RepairShopStudio.Common.Constants
             public const string ShopServicePriceMinValue = "0.1";
         }
 
-        public class SparePart
+        public static class SparePart
         {
             public const int SparePartNameMaxLength = 50;
             public const int SparePartNameMinLength = 5;
@@ -47,7 +47,7 @@ namespace RepairShopStudio.Common.Constants
 
         }
 
-        public class Supplier
+        public static class Supplier
         {
             public const int SupplierNameMaxLength = 50;
             public const int SupplierNameMinLength = 5;
@@ -56,7 +56,7 @@ namespace RepairShopStudio.Common.Constants
 
         }
 
-        public class Address
+        public static class Address
         {
             public const int TownNameMaxLength = 50;
             public const int TownNameMinLength = 5;
@@ -66,7 +66,7 @@ namespace RepairShopStudio.Common.Constants
             public const int ZipCodeMinLength = 3;
         }
 
-        public class Vehicle
+        public static class Vehicle
         {
             public const int VehicleMakeMaxLength = 30;
             public const int VehicleMakeMinLength = 3;
@@ -79,13 +79,13 @@ namespace RepairShopStudio.Common.Constants
             public const int EngineMinPower = 0;
         }
 
-        public class Customer
+        public static class Customer
         {
             public const int CustomerNameMaxLength = 40;
             public const int CustomerNameMinLength = 8;
         }
 
-        public class Employee
+        public static class Employee
         {
             public const int EmployeeNameMaxLength = 70;
             public const int EmployeeNameMinLength = 8;
@@ -96,17 +96,17 @@ namespace RepairShopStudio.Common.Constants
             public const int OrderNoteMaxLength = 200;
         }
 
-        public class VehicleComponent
+        public static class VehicleComponent
         {
             public const int VehicleComponentNameMaxLength = 50;
             public const int VehicleComponentNameMinLength = 4;
         }
-        public class EngineType
+        public static class EngineType
         {
             public const int EngineTypeNameMaxLength = 10;
             public const int EngineTypeNameMinLength = 5;
         }
-        public class ApplicationUser
+        public static class ApplicationUser
         {
             public const int ApplicationUserFirstNameMaxLength = 40;
             public const int ApplicationUserFirstNameMinLength = 3;
@@ -116,7 +116,7 @@ namespace RepairShopStudio.Common.Constants
             public const int ApplicationUserUserNameMinLength = 3;
         }
 
-        public class JobTitle
+        public static class JobTitle
         {
             public const int JobTitleNameMaxLength = 20;
             public const int JobTitleNameMinLength = 5;

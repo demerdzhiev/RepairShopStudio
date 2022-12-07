@@ -2,58 +2,55 @@
 using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
+using static RepairShopStudio.Common.Constants.DbModelCommentConstants.Customer;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
-    [Comment("Customer information")]
+    [Comment(CustomerMain)]
     public class Customer
     {
         [Key]
+        [Comment(CustomerId)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(CustomerNameMaxLength)]
-        [Comment("Name of the customer")]
+        [Comment(CustomerName)]
         public string Name { get; set; } = null!;
 
         [Required]
         [Phone]
         [StringLength(PhoneNumberMaxLength)]
-        [Comment("Phone number of the cusotmer")]
+        [Comment(CustomerPhoneNumber)]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [EmailAddress]
         [StringLength(EmailMaxLength)]
-        [Comment("Email of the customer")]
+        [Comment(CustomerEmail)]
         public string Email { get; set; } = null!;
 
         [Required]
-        [Comment("Defines if the customer is corporate or individual")]
+        [Comment(CustomerIsCorporate)]
         public bool IsCorporate { get; set; }
 
         [StringLength(UicMaxLength)]
-        [Comment("The Unit Identification Code of the customer's company")]
+        [Comment(CustomerUic)]
         public string Uic { get; set; } = null!;
 
-        [Comment("The address of the customer's office")]
+        [Comment(CustomerAddressId)]
         public int? AddressId { get; set; }
 
         [ForeignKey(nameof(AddressId))]
+        [Comment(CustomerAddress)]
         public Address? Address { get; set; } = null!;
 
         [StringLength(ResponsiblePersonNameMaxLength)]
-        [Comment("Name of the responsible person of the customer's company")]
+        [Comment(CustomerResponsiblePerson)]
         public string? ResponsiblePerson { get; set; } = null!;
 
-        //[Comment("Vehicle owned by the customer")]
-        //public int? VehicleId { get; set; }
-
-        //[ForeignKey(nameof(VehicleId))]
-        //public Vehicle? Vehicle { get; set; } = null!;
-
-        [Comment("Collection of vehicles, owned by the customer")]
+        [Comment(CustomerVehicles)]
         public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
     }
 }

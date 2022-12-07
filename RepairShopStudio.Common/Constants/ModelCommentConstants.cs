@@ -1,8 +1,8 @@
 ﻿namespace RepairShopStudio.Common.Constants
 {
-    public class ModelCommentConstants
+    public static class ModelCommentConstants
     {
-        public class Address
+        public static class Address
         {
             public const string AddViewModelMain = "Model, used to add addresses";
             public const string AddViewModelAddressText = "Adrres text - street, number, etc.";
@@ -10,7 +10,7 @@
             public const string AddViewModelZipCode = "ZIP code of the town";
         }
 
-        public class Custommer
+        public static class Custommer
         {
             public const string AddViewModelMain = "Model, used to add new customers";
             public const string AddViewModelName = "Name of the customer";
@@ -35,14 +35,14 @@
             public const string ViewModelVehicles = "Collection of vehicles, owned by the customer";
         }
 
-        public class EngineType
+        public static class EngineType
         {
             public const string ViewModelMain = "Model, used to view engine types details";
             public const string ViewModelId = "Id of the engine type";
             public const string ViewModelName = "Name of engine type";
         }
 
-        public class OperatingCard
+        public static class OperatingCard
         {
             public const string AddViewModelMain = "Model, uset to add operating cards";
             public const string AddViewModelId = "Id of the operating card";
@@ -71,7 +71,7 @@
             public const string ViewModelIsActive = "Property that defines if the operating card is active";
         }
 
-        public class Part
+        public static class Part
         {
             public const string AddViewModelMain = "Model, used to add new parts to the storage";
             public const string AddViewModelId = "The id of the part";
@@ -132,7 +132,7 @@
             public const string ViewModelVehicleComponents = "Collection of all vehicle components";
         }
 
-        public class ShopService
+        public static class ShopService
         {
             public const string AddViewModelMain = "Model, used to add new shop service";
             public const string AddViewModelName = "Name of the service";
@@ -162,14 +162,14 @@
             public const string ServiceViewModelVehicleComponents = "Collection of all vehicle components";
         }
 
-        public class Statistics
+        public static class Statistics
         {
             public const string ServiceViewModelMain = "Model, used to generate statistics";
             public const string ServiceViewModelTotalParts = "Propery for the count of all of the parts into the storage";
             public const string ServiceViewModelTotalServices = "Propery for the count of all of the services";
         }
 
-        public class User
+        public static class User
         {
             public const string EditViewModelMain = "Model, used to edit the user";
             public const string EditViewModelUser = "Propery that defines the current user";
@@ -189,7 +189,7 @@
             public const string RegisterViewModelConfirmPassword = "User's pasword for confirmation";
         }
 
-        public class Vehicle
+        public static class Vehicle
         {
             public const string AddViewModelMain = "Model, used to add a vehicle";
             public const string AddViewModelId = "The Id of the vehicle";

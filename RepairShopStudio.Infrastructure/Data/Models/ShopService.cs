@@ -3,43 +3,47 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.ShopService;
+using static RepairShopStudio.Common.Constants.DbModelCommentConstants.ShopService;
 
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
-    [Comment("Services, offered by repair shop")]
+    [Comment(ShopServiceMain)]
     public class ShopService
     {
         [Key]
+        [Comment(ShopServiceId)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(RepairServiceNameMaxLength)]
-        [Comment("Name of the service")]
+        [Comment(ShopServiceName)]
         public string Name { get; set; } = null!;
 
         [Required]
         [StringLength(RepairServiceDescriptionMaxLength)]
-        [Comment("Description of the service")]
+        [Comment(ShopServiceDescription)]
         public string Description { get; set; } = null!;
 
         [Required]
-        [Comment("Price of the service")]
+        [Comment(ShopServicePrice)]
         [Range(typeof(decimal), ShopServicePriceMinValue, ShopServicePriceMaxValue)]
         [Column(TypeName = "money")]
         [Precision(18, 2)]
         public decimal Price { get; set; }
 
         [Required]
-        [Comment("Affected part of the vehicle")]
+        [Comment(ShopServiceVehicleComponentId)]
         public int VehicleComponentId { get; set; }
 
         [ForeignKey(nameof(VehicleComponentId))]
+        [Comment(ShopServiceVehicleComponent)]
         public VehicleComponent VehicleComponent { get; set; } = null!;
 
         [Required]
-        [Comment("Spare parts needed for the service")]
+        [Comment(ShopServiceParts)]
         public ICollection<Part> Parts { get; set; } = new List<Part>();
 
+        [Comment(ShopServiceIsActive)]
         public bool IsActive { get; set; } = true;
 
     }

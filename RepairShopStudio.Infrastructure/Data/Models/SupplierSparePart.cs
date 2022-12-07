@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static RepairShopStudio.Common.Constants.DbModelCommentConstants.SupplierSparePart;
 
 namespace RepairShopStudio.Infrastructure.Data.Models
 {
-    [Comment("Mapping entity between suppliers and parts")]
+    [Comment(SupplierSparePartMain)]
     public class SupplierSparePart
     {
         [Required]
