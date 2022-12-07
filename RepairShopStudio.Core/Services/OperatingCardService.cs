@@ -146,7 +146,7 @@ namespace RepairShopStudio.Core.Services
                 throw new ArgumentException("Invalid card ID");
             }
 
-            if (card.ApplicationUserId == user.Id)
+            if (card.ApplicationUserId == Guid.Parse(userId))
             {
                 card.IsActive = false;
             }
