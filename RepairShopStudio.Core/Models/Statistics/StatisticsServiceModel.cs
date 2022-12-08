@@ -11,5 +11,11 @@ namespace RepairShopStudio.Core.Models.Statistics
 
         [Comment(ServiceViewModelTotalServices)]
         public int TotalServices { get; init; }
+
+        [Comment(ServiceViewModelTotalCustomers)]
+        public int TotalCustomers { get; init; }
+
+        [Comment(ServiceViewModelTotalOpeartingCards)]
+        public int TotalOperatingCards { get; init; }
     }
 }

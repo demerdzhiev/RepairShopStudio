@@ -19,6 +19,10 @@ namespace RepairShopStudio.Controllers
             context = _context;
         }
 
+        /// <summary>
+        /// Get all customers from the Data-Base
+        /// </summary>
+        /// <returns>List of all customers</returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -27,6 +31,10 @@ namespace RepairShopStudio.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Get information for properties with more than one value
+        /// </summary>
+        /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
         public IActionResult AddRegular()
         {
@@ -41,6 +49,11 @@ namespace RepairShopStudio.Controllers
             return View(customerModel);
         }
 
+        /// <summary>
+        /// Adding non-corpoarte custommer
+        /// </summary>
+        /// <param name="customerModel"></param>
+        /// <returns>New non-corporate customer in Data-Base</returns>
         [HttpPost]
         public async Task<IActionResult> AddRegular(CustomerAddViewModel customerModel)
         {
@@ -64,6 +77,10 @@ namespace RepairShopStudio.Controllers
             }
         }
 
+        /// <summary>
+        /// Get information for properties with more than one value
+        /// </summary>
+        /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
         public IActionResult AddCorporate()
         {
@@ -78,6 +95,11 @@ namespace RepairShopStudio.Controllers
             return View(customerModel);
         }
 
+        /// <summary>
+        /// Adding corpoarte custommer
+        /// </summary>
+        /// <param name="customerModel"></param>
+        /// <returns>New corporate customer in Data-Base</returns>
         [HttpPost]
         public async Task<IActionResult> AddCorporate(CustomerAddViewModel customerModel)
         {

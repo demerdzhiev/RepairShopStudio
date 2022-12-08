@@ -26,12 +26,12 @@ namespace RepairShopStudio.Infrastructure.Data.Models
         public int? PartId { get; set; }
 
         [Comment(OperatingCardPart)]
-        public Part Part { get; set; }
+        public Part? Part { get; set; }
 
         [Comment(OperatingCardServiceId)]
         public int? ServiceId { get; set; }
         [Comment(OperatingCardService)]
-        public ShopService Service { get; set; }
+        public ShopService? Service { get; set; }
 
         [Comment(OperatingCardCustomerId)]
         public int CustomerId { get; set; }

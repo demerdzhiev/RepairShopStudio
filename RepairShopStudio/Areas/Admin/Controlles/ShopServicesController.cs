@@ -14,6 +14,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             shopServiceService = _shopServiceService;
         }
 
+        /// <summary>
+        /// Get all shop services from Data-Base
+        /// </summary>
+        /// <returns>List of all shop-services</returns>
         public async Task<IActionResult> All()
         {
             var model = await shopServiceService.GetAllAsync();
@@ -32,6 +36,11 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Add new shop service to Data-Base
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Create new shop service and add it to Data-Base</returns>
         [HttpPost]
         public async Task<IActionResult> Add(AddShopServiceViewModel model)
         {
@@ -54,6 +63,11 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             }
         }
 
+        /// <summary>
+        /// Check if a shop service exists and takes it's details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Details of a certain shop service</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -78,6 +92,12 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Update shop service properties value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns>Update properties value of an already existing shop service</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ShopServiceViewModel model)
         {
@@ -114,6 +134,12 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetServiceInformation() });
         }
 
+        /// <summary>
+        /// Get details for a certain shop service
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="information"></param>
+        /// <returns>Details for a certain shop service from Data-Base</returns>
         public async Task<IActionResult> Details(int id, string information)
         {
             if ((await shopServiceService.Exists(id)) == false)
@@ -133,6 +159,11 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Delete certain shop service
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Set IsActive property of a certain shop service to false</returns>
         [HttpPost]
         public async Task<IActionResult> Delete([FromForm] int id)
         {

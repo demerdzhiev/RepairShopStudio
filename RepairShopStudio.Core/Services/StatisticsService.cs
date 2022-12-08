@@ -14,6 +14,10 @@ namespace RepairShopStudio.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Get the count of all records for certain enteties
+        /// </summary>
+        /// <returns>Integers representing to count of the records</returns>
         public async Task<StatisticsServiceModel> Total()
         {
             int totalParts = await repo.AllReadonly<Part>()
@@ -22,10 +26,18 @@ namespace RepairShopStudio.Core.Services
             int totalServices = await repo.AllReadonly<ShopService>()
                 .CountAsync(s => s.IsActive);
 
+            int totalCustomers = await repo.AllReadonly<Customer>()
+                .CountAsync();
+
+            int totalOperatingCards = await repo.AllReadonly<OperatingCard>()
+                .CountAsync();
+
             return new StatisticsServiceModel()
             {
                 TotalParts = totalParts,
-                TotalServices = totalServices
+                TotalServices = totalServices,
+                TotalCustomers = totalCustomers,
+                TotalOperatingCards = totalOperatingCards
             };
         }
     }

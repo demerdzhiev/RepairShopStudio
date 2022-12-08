@@ -15,6 +15,10 @@ namespace RepairShopStudio.Controllers
             operatingCardService = _operatingCardService;
         }
 
+        /// <summary>
+        /// Get all operating cards from Data-Base
+        /// </summary>
+        /// <returns>A list of operating cards</returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -71,6 +75,12 @@ namespace RepairShopStudio.Controllers
         //    }
         //}
 
+        /// <summary>
+        /// Update opearting card status to "Completed"
+        /// </summary>
+        /// <param name="cardId"></param>
+        /// <returns>Add current operating card to collection "AllFinished"</returns>
+        /// <exception cref="ArgumentException"></exception>
         [HttpGet]
         public async Task<IActionResult> Finish(int cardId)
         {
@@ -87,6 +97,10 @@ namespace RepairShopStudio.Controllers
             return RedirectToAction(nameof(All));
         }
 
+        /// <summary>
+        /// Get all finished operating cards from Data-Base
+        /// </summary>
+        /// <returns>A list of operating cards with property IsActive == true</returns>
         [HttpGet]
         public async Task<IActionResult> AllFinished()
         {

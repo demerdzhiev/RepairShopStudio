@@ -19,6 +19,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             context = _context;
         }
 
+        /// <summary>
+        /// Get all customers from Data-Base
+        /// </summary>
+        /// <returns>List of all customers</returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -27,6 +31,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Get information for properties with more than one value
+        /// </summary>
+        /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
         public IActionResult AddRegular()
         {
@@ -41,6 +49,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(customerModel);
         }
 
+        /// <summary>
+        /// Add non-corporate customer to Data-Base
+        /// </summary>
+        /// <returns>Add customer without Address, Uic and Responsible person properties</returns>
         [HttpPost]
         public async Task<IActionResult> AddRegular(CustomerAddViewModel customerModel)
         {
@@ -64,6 +76,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             }
         }
 
+        /// <summary>
+        /// Get information for properties with more than one value
+        /// </summary>
+        /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
         public IActionResult AddCorporate()
         {
@@ -78,6 +94,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(customerModel);
         }
 
+        /// <summary>
+        /// Add corporate customer to Data-Base
+        /// </summary>
+        /// <returns>Add customer with Address, Uic and Responsible person properties</returns>
         [HttpPost]
         public async Task<IActionResult> AddCorporate(CustomerAddViewModel customerModel)
         {

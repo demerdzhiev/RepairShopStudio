@@ -134,6 +134,10 @@ namespace Library.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Manually create default roles
+        /// </summary>
+        /// <returns>Create Administrator, Mechanic and Service-Adviser roles</returns>
         public async Task<IActionResult> CreateRoles()
         {
             await roleManager.CreateAsync(new ApplicationRole(RoleConstants.Administrator));
@@ -143,6 +147,10 @@ namespace Library.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Manually add default users to their roles
+        /// </summary>
+        /// <returns>Add administraor, mechanic and service-adviser to their roles</returns>
         public async Task<IActionResult> AddUsersToRoles()
         {
             string email1 = "manager_repair_shop@mail.com";

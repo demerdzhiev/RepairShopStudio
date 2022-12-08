@@ -24,6 +24,11 @@ namespace RepairShopStudio.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Add new user, vehicle and address to Data-Base
+        /// </summary>
+        /// <param name="customerModel"></param>
+        /// <returns>Create new customer with it's vehicle and Address</returns>
         public async Task AddCorporateCutomerAsync(CustomerAddViewModel customerModel)
         {
             var address = new Address()
@@ -69,6 +74,11 @@ namespace RepairShopStudio.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Add new user and vehicle to Data-Base
+        /// </summary>
+        /// <param name="customerModel"></param>
+        /// <returns>Create new customer (without Uic and Responsible person) and Vehicle</returns>
         public async Task AddRegularCutomerAsync(CustomerAddViewModel customerModel)
         {
             var customer = new Customer()
@@ -100,6 +110,10 @@ namespace RepairShopStudio.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all engine types
+        /// </summary>
+        /// <returns>List of EngyneTypesViewModel for all engine types</returns>
         public async Task<IEnumerable<EngineTypeViewModel>> AllEngineTypesAsync()
         {
             return await repo.AllReadonly<EngineType>()
@@ -111,6 +125,11 @@ namespace RepairShopStudio.Core.Services
                 .ToListAsync();
         }
 
+
+        /// <summary>
+        /// Get all customers
+        /// </summary>
+        /// <returns>List of all customers</returns>
         public async Task<IEnumerable<CustomerViewModel>> GetAllAsync()
         {
             var entities = await context.Customers
@@ -135,6 +154,10 @@ namespace RepairShopStudio.Core.Services
                 });
         }
 
+        /// <summary>
+        /// Get all engine types
+        /// </summary>
+        /// <returns>List of all engine types</returns>
         public async Task<IEnumerable<EngineType>> GetEngineTypesAsync()
         {
             return await context.EngineTypes.ToListAsync();

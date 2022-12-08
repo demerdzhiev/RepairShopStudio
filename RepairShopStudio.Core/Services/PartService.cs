@@ -20,6 +20,11 @@ namespace RepairShopStudio.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Create new part
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Add new part to Data-Base</returns>
         public async Task AddPartAsync(AddPartViewModel model)
         {
             var entity = new Part()
@@ -40,12 +45,21 @@ namespace RepairShopStudio.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Check if a part with certain Id exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Boolean wich defines if the certain part exits</returns>
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Part>()
                 .AnyAsync(p => p.Id == id && p.IsActive);
         }
 
+        /// <summary>
+        /// Get all parts from Data-Base
+        /// </summary>
+        /// <returns>List of all parts</returns>
         public async Task<IEnumerable<PartViewModel>> GetAllAsync()
         {
             var entities = await context.Parts
@@ -69,16 +83,30 @@ namespace RepairShopStudio.Core.Services
                 });
         }
 
+        /// <summary>
+        /// Get all vehicle components from Data-Base
+        /// </summary>
+        /// <returns>List of all vehicle components</returns>
         public async Task<IEnumerable<VehicleComponent>> GetVehicleComponentsAsync()
         {
             return await context.VehicleComponents.ToListAsync();
         }
 
+        /// <summary>
+        /// Get a certain vehicle component by a part's Id
+        /// </summary>
+        /// <param name="partId"></param>
+        /// <returns>Vehicle compnonent's Id</returns>
         public async Task<int> GetVehicleComponentId(int partId)
         {
             return (await repo.GetByIdAsync<Part>(partId)).VehicleComponentId;
         }
 
+        /// <summary>
+        /// Get details for a certain part by it's Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>PartDetailsModel with inormation about a certain Part</returns>
         public async Task<PartDetailsModel> PartDetailsById(int id)
         {
             return await repo.AllReadonly<Part>()
@@ -100,6 +128,10 @@ namespace RepairShopStudio.Core.Services
                 .FirstAsync();
         }
 
+        /// <summary>
+        /// Get all vehicle components
+        /// </summary>
+        /// <returns>List of PartVehicleCopmonentModel for all vehicle components</returns>
         public async Task<IEnumerable<PartVehicleCopmonentModel>> AllVehicleComponents()
         {
             return await repo.AllReadonly<VehicleComponent>()
@@ -112,12 +144,24 @@ namespace RepairShopStudio.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Check if a vehicle component with certain Id exists
+        /// </summary>
+        /// <param name="componentId"></param>
+        /// <returns>Boolean wich defines if the certain vehicle componen exits</returns>
         public async Task<bool> VehicleComponentExists(int componentId)
         {
             return await repo.AllReadonly<VehicleComponent>()
                 .AnyAsync(c => c.Id == componentId);
         }
 
+        /// <summary>
+        /// Get a certain part from Data-Base by it's Id and modifies it's properties value
+        /// </summary>
+        /// <param name="partId"></param>
+        /// <param name="model"></param>
+        /// <returns>Updated part</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public async Task<bool> Edit(int partId, PartViewModel model)
         {
             var part = await context.FindAsync<Part>(partId);
@@ -144,6 +188,12 @@ namespace RepairShopStudio.Core.Services
 
         }
 
+        /// <summary>
+        /// Get a certain part by it's Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>EditPartViewModel with loaded information about a certain part</returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task<EditPartViewModel> GetPartForEditAsync(int id)
         {
             
@@ -171,12 +221,22 @@ namespace RepairShopStudio.Core.Services
             throw new NullReferenceException("The part does not exist");
         }
 
+        /// <summary>
+        /// Get part from Data-Base by it's Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Part</returns>
         public async Task<Part> GetPartById(int id)
         {
             return await context.Parts.FirstOrDefaultAsync(p => p.Id == id);
 
         }
 
+        /// <summary>
+        /// Get part from Data-Base by it's Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Set the part's property IsActive to false</returns>
         public async Task Delete(int id)
         {
             var part = await repo.All<Part>()

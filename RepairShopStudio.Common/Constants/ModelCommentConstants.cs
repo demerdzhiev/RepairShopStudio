@@ -167,6 +167,8 @@
             public const string ServiceViewModelMain = "Model, used to generate statistics";
             public const string ServiceViewModelTotalParts = "Propery for the count of all of the parts into the storage";
             public const string ServiceViewModelTotalServices = "Propery for the count of all of the services";
+            public const string ServiceViewModelTotalCustomers = "Propery for the count of all of the customers";
+            public const string ServiceViewModelTotalOpeartingCards = "Propery for the count of all of the operating cards";
         }
 
         public static class User

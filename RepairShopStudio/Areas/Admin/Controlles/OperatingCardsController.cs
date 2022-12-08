@@ -14,6 +14,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             operatingCardService = _operatingCardService;
         }
 
+        /// <summary>
+        /// Get all operating cards from Data-Base
+        /// </summary>
+        /// <returns>A list of operating cards</returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -22,6 +26,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Get information for properties with more than one value
+        /// </summary>
+        /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
         public async Task<IActionResult> Add(int customerId)
         {
@@ -39,6 +47,12 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Create new Operating card
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="customerId"></param>
+        /// <returns>Add new operating card to Data-Base</returns>
         [HttpPost]
         public async Task<IActionResult> Add(OperatingCardAddViewModel model, int customerId)
         {
@@ -70,6 +84,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             }
         }
 
+        /// <summary>
+        /// Get all finished operating cards from Data-Base
+        /// </summary>
+        /// <returns>A list of operating cards with property IsActive == true</returns>
         [HttpGet]
         public async Task<IActionResult> AllFinished()
         {

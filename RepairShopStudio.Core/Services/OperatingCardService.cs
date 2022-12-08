@@ -20,6 +20,11 @@ namespace RepairShopStudio.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Create new operating card
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Add new operating card to Data-Base</returns>
         public async Task AddOperatingCardAsync(OperatingCardAddViewModel model)
         {
             var entity = new OperatingCard()
@@ -41,6 +46,10 @@ namespace RepairShopStudio.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all operating cards from Data-Base
+        /// </summary>
+        /// <returns>List of all operating cards</returns>
         public async Task<IEnumerable<OperatingCardViewModel>> GetAllAsync()
         {
             var entities = await context.OperatingCards
@@ -67,6 +76,10 @@ namespace RepairShopStudio.Core.Services
                 });
         }
 
+        /// <summary>
+        /// Get all operating cards with property IsActive == false from Data-Base
+        /// </summary>
+        /// <returns>List of all completed operating cards</returns>
         public async Task<IEnumerable<OperatingCardViewModel>> GetAllFinishedAsync()
         {
             var entities = await context.OperatingCards
@@ -93,6 +106,11 @@ namespace RepairShopStudio.Core.Services
                 });
         }
 
+        /// <summary>
+        /// Get a customer with a certain Id from Data-Base
+        /// </summary>
+        /// <param name="cutomerId"></param>
+        /// <returns>Customer</returns>
         public async Task<string> GetCustomerNameById(int cutomerId)
         {
             var customer = context.Customers
@@ -103,31 +121,59 @@ namespace RepairShopStudio.Core.Services
             return await customer;
         }
 
+        /// <summary>
+        /// Get all customers from Data-Base
+        /// </summary>
+        /// <returns>A list of all customers</returns>
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             return await context.Customers.ToListAsync();
         }
 
+        /// <summary>
+        /// Get vehicles of a certain customer
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns>List of vehicles owned by a certain customer</returns>
         public async Task<IEnumerable<Vehicle>> GetCustomerVehicles(int customerId)
         {
             return await context.Vehicles.Where(v => v.CustomerId == customerId).ToListAsync();
         }
 
+        /// <summary>
+        /// Get all users in role "Mechanic"
+        /// </summary>
+        /// <returns>List of all users in role "Mechanic"</returns>
         public async Task<IEnumerable<ApplicationUser>> GetMechanicsAsync()
         {
             return await context.Users.Where(u => u.UserName.ToLower().Contains("mechanic")).ToListAsync();
         }
 
+        /// <summary>
+        /// Get all parts from Data-Base
+        /// </summary>
+        /// <returns>List of all parts</returns>
         public async Task<IEnumerable<Part>> GetPartsAsync()
         {
             return await context.Parts.ToListAsync();
         }
 
+        /// <summary>
+        /// Get all shop services from Data-Base
+        /// </summary>
+        /// <returns>List of all shop services</returns>
         public async Task<IEnumerable<ShopService>> GetShopServicesAsync()
         {
             return await context.ShopServices.ToListAsync();
         }
 
+        /// <summary>
+        /// Check if the curren user is the same as the mechanic with assigned certain operating card, set the card's status to complete and removes 1ps of the part from the Data-Base
+        /// </summary>
+        /// <param name="cardId"></param>
+        /// <param name="userId"></param>
+        /// <returns>Set the operating card's status to Complete and update part's stock</returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task MarkRepairAsFinishedAsync(int cardId, string userId)
         {
             var user = await context.Users
@@ -146,7 +192,7 @@ namespace RepairShopStudio.Core.Services
                 throw new ArgumentException("Invalid card ID");
             }
 
-            if (card.ApplicationUserId == Guid.Parse(userId))
+            if (card != null && card.ApplicationUserId == Guid.Parse(userId))
             {
                 card.IsActive = false;
             }
@@ -155,11 +201,6 @@ namespace RepairShopStudio.Core.Services
             if (part != null)
             {
                 part.Stock -= 1;
-            }
-
-            if(card != null)
-            {
-                card.IsActive = false;
             }
 
             await context.SaveChangesAsync();

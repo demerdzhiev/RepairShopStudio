@@ -14,6 +14,10 @@ namespace RepairShopStudio.Controllers
             shopServiceService = _shopServiceService;
         }
 
+        /// <summary>
+        /// Get all Shop services from the Data-Base
+        /// </summary>
+        /// <returns>A list of all shop services</returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {

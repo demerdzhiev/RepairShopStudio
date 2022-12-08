@@ -19,13 +19,19 @@
         <h2 class="col-md-4 text-center" id="total-parts"></h2>
         <h2 class="col-md-4 text-center" id="total-services"></h2>
     </div>
+    <div class="row">
+        <h2 class="col-md-4 text-center" id="total-customers"></h2>
+        <h2 class="col-md-4 text-center" id="total-operating-cards"></h2>
+    </div>
 </div>
 @section Scripts {
     <script>
         $('#statistics-button').on('click', ev => {
-            $.get('/api/statistics', (data) => {
-                $('#total-parts').text(data.totalParts + "parts");
+            $.get('https://localhost:7244/api/statistics', (data) => {
+                $('#total-parts').text(data.totalParts + " parts");
                 $('#total-services').text(data.totalServices + " services");
+                $('#total-customers').text(data.totalCustomers + " customers");
+                $('#total-operating-cards').text(data.totalOperatingCards + " operating cards");
                 $('#statistics').removeClass('d-none');
                 $('#statistics-button').hide();
             });

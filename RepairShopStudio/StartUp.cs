@@ -42,7 +42,7 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-//app.SeedRolesInDatabase();
+app.SeedRolesInDatabase();
 
 if (app.Environment.IsDevelopment())
 {

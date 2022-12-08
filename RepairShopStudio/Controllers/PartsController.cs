@@ -22,6 +22,10 @@ namespace RepairShopStudio.Controllers
             context = _context;
         }
 
+        /// <summary>
+        /// Get all parts from Data-Base
+        /// </summary>
+        /// <returns>A list of all parts</returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {

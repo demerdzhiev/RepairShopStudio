@@ -29,12 +29,21 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             roleManager = _roleManager;
             unitOfWork = _unitOfWork;
         }
+
+        /// <summary>
+        /// Get all users from Data-Base
+        /// </summary>
+        /// <returns>List of all registered users</returns>
         public IActionResult Index()
         {
             var users = unitOfWork.User.GetUsers();
             return View(users);
         }
 
+        /// <summary>
+        /// Check if the current user is authenticated to register new user
+        /// </summary>
+        /// <returns>View with a registration form</returns>
         [HttpGet]
         [Authorize(Roles = RoleConstants.Administrator)]
         public IActionResult Register()
@@ -49,6 +58,10 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(model);
         }
 
+        /// <summary>
+        /// Create new user
+        /// </summary>
+        /// <returns>Register and add new user to Data-Base</returns>
         [HttpPost]
         [Authorize(Roles = RoleConstants.Administrator)]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -84,7 +97,11 @@ namespace RepairShopStudio.Areas.Admin.Controlles
 
         }
 
-
+        /// <summary>
+        /// Get all information for a certain user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A view with information for a certain user to be edited</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -117,6 +134,11 @@ namespace RepairShopStudio.Areas.Admin.Controlles
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Tool to manage user's information and roles
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns>Update user information</returns>
         [HttpPost]
         public async Task<IActionResult> OnPostAsync(EditUserViewModel data)
         {

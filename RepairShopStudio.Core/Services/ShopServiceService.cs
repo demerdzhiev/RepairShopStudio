@@ -21,6 +21,11 @@ namespace RepairShopStudio.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Create shop service
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Add new shop service to Data-Base</returns>
         public async Task AddAsync(AddShopServiceViewModel model)
         {
             var entity = new ShopService()
@@ -35,6 +40,10 @@ namespace RepairShopStudio.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all vehicle components
+        /// </summary>
+        /// <returns>List of ShopServiceVehicleComponentModel for all vehicle components</returns>
         public async Task<IEnumerable<ShopServiceVehicleComponentModel>> AllVehicleComponents()
         {
             return await repo.AllReadonly<VehicleComponent>()
@@ -47,6 +56,11 @@ namespace RepairShopStudio.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get shop service from Data-Base by it's Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Set the service's property IsActive to false</returns>
         public async Task Delete(int id)
         {
             var service = await repo.All<ShopService>()
@@ -60,6 +74,13 @@ namespace RepairShopStudio.Core.Services
             }
         }
 
+        /// <summary>
+        /// Get a certain shop service from Data-Base by it's Id and modifies it's properties value
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <param name="model"></param>
+        /// <returns>Updated shop service</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public async Task<bool> Edit(int serviceId, ShopServiceViewModel model)
         {
             var service = await context.FindAsync<ShopService>(serviceId);
@@ -80,12 +101,21 @@ namespace RepairShopStudio.Core.Services
             throw new InvalidOperationException("Part was not found");
         }
 
+        /// <summary>
+        /// Check if a shop service with certain Id exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Boolean wich defines if the certain shop service exits</returns>
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<ShopService>()
                 .AnyAsync(p => p.Id == id && p.IsActive);
         }
 
+        /// <summary>
+        /// Get all shop services from Data-Base
+        /// </summary>
+        /// <returns>List of all shop services</returns>
         public async Task<IEnumerable<ShopServiceViewModel>> GetAllAsync()
         {
             var entities = await context.ShopServices
@@ -106,16 +136,30 @@ namespace RepairShopStudio.Core.Services
            
         }
 
+        /// <summary>
+        /// Get a certain vehicle component by a service's Id
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <returns>Vehicle compnonent's Id</returns>
         public async Task<int> GetVehicleComponentId(int serviceId)
         {
             return (await repo.GetByIdAsync<ShopService>(serviceId)).VehicleComponentId;
         }
 
+        /// <summary>
+        /// Get all vehicle components from Data-Base
+        /// </summary>
+        /// <returns>List of all vehicle components</returns>
         public async Task<IEnumerable<VehicleComponent>> GetVehicleComponentsAsync()
         {
             return await context.VehicleComponents.ToListAsync();
         }
 
+        /// <summary>
+        /// Get details for a certain shop service by it's Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ShopServiceDetailsModel with inormation about a certain shop service</returns>
         public async Task<ShopServiceDetailsModel> ServiceDetailsById(int id)
         {
             return await repo.AllReadonly<ShopService>()
@@ -132,6 +176,11 @@ namespace RepairShopStudio.Core.Services
                 .FirstAsync();
         }
 
+        /// <summary>
+        /// Check if a vehicle component with certain Id exists
+        /// </summary>
+        /// <param name="componentId"></param>
+        /// <returns>Boolean wich defines if the certain vehicle componen exits</returns>
         public async Task<bool> VehicleComponentExists(int componentId)
         {
             return await repo.AllReadonly<VehicleComponent>()
