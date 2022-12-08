@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Extensions;
-using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
-using System;
 
 namespace RepairShopStudio.Controllers
 {
+    [Authorize]
     public class PartsController : Controller
     {
         private readonly IPartService partService;

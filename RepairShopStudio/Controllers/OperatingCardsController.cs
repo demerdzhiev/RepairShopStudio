@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Models.OperatingCard;
 using System.Security.Claims;
+using static RepairShopStudio.Common.Constants.RoleConstants;
 
 namespace RepairShopStudio.Controllers
 {
+    [Authorize]
     public class OperatingCardsController : Controller
     {
         private readonly IOperatingCardService operatingCardService;
@@ -82,6 +83,7 @@ namespace RepairShopStudio.Controllers
         /// <returns>Add current operating card to collection "AllFinished"</returns>
         /// <exception cref="ArgumentException"></exception>
         [HttpGet]
+        [Authorize(Mechanic)]
         public async Task<IActionResult> Finish(int cardId)
         {
             try

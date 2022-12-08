@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Extensions;
-using RepairShopStudio.Core.Models.ShopService;
 
 namespace RepairShopStudio.Controllers
 {
+    [Authorize]
     public class ShopServicesController : Controller
     {
         private readonly IShopServiceService shopServiceService;

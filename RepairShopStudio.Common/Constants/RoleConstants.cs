@@ -7,9 +7,4 @@
         public const string ServiceAdviser = "ServiceAdviser";
     }
 
-    public static class AdminConstants
-    {
-        public const string AdminAreaName = "Admin";
-        public const string AdminRolleName = "Administrator";
-    }
 }

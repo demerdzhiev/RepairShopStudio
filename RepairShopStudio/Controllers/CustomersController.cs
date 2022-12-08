@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.CustomerModels;
 using RepairShopStudio.Core.Models.Vehicle;
 using RepairShopStudio.Infrastructure.Data;
+using static RepairShopStudio.Common.Constants.RoleConstants;
 
 namespace RepairShopStudio.Controllers
 {
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly ICustomerService customerService;
@@ -24,6 +27,7 @@ namespace RepairShopStudio.Controllers
         /// </summary>
         /// <returns>List of all customers</returns>
         [HttpGet]
+        [Authorize(ServiceAdviser)]
         public async Task<IActionResult> All()
         {
             var model = await customerService.GetAllAsync();
@@ -36,6 +40,7 @@ namespace RepairShopStudio.Controllers
         /// </summary>
         /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
+        [Authorize(ServiceAdviser)]
         public IActionResult AddRegular()
         {
             var customerModel = new CustomerAddViewModel()
@@ -55,6 +60,7 @@ namespace RepairShopStudio.Controllers
         /// <param name="customerModel"></param>
         /// <returns>New non-corporate customer in Data-Base</returns>
         [HttpPost]
+        [Authorize(ServiceAdviser)]
         public async Task<IActionResult> AddRegular(CustomerAddViewModel customerModel)
         {
             if (!ModelState.IsValid)
@@ -82,6 +88,7 @@ namespace RepairShopStudio.Controllers
         /// </summary>
         /// <returns>A view with information with information already loaded in it</returns>
         [HttpGet]
+        [Authorize(ServiceAdviser)]
         public IActionResult AddCorporate()
         {
             var customerModel = new CustomerAddViewModel()
@@ -101,6 +108,7 @@ namespace RepairShopStudio.Controllers
         /// <param name="customerModel"></param>
         /// <returns>New corporate customer in Data-Base</returns>
         [HttpPost]
+        [Authorize(ServiceAdviser)]
         public async Task<IActionResult> AddCorporate(CustomerAddViewModel customerModel)
         {
             if (!ModelState.IsValid)

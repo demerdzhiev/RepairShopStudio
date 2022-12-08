@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Models;
 using System.Diagnostics;
 using static RepairShopStudio.Common.Constants.AdminConstants;
@@ -7,6 +8,7 @@ namespace RepairShopStudio.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -16,6 +18,7 @@ namespace RepairShopStudio.Controllers
         /// Check if the current user is in Admin role
         /// </summary>
         /// <returns>Redirects to Admin aerea</returns>
+        [Authorize(AdminRolleName)]
         public IActionResult ToAdminArea()
         {
             if (User.IsInRole(AdminRolleName))
