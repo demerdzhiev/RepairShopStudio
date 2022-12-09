@@ -5,6 +5,7 @@ using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
 using RepairShopStudio.Infrastructure.Data.Models.User;
+using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -39,9 +40,15 @@ namespace RepairShopStudio.Core.Services
                 ServiceId = model.ServiceId
             };
 
+            if (entity == null)
+            {
+                throw new InvalidOperationException(InvalidOperatingCardException);
+            }
+
             entity.DocumentNumber 
                 = $"{context.Vehicles.FirstOrDefault(v => v.Id == entity.VehicleId).LicensePLate}/{entity.Date.ToString("dd.MM.yyyy")}";
 
+            
             await context.OperatingCards.AddAsync(entity);
             await context.SaveChangesAsync();
         }
@@ -60,6 +67,11 @@ namespace RepairShopStudio.Core.Services
                 .Include(cv => cv.Customer.Vehicles)
                 .Include(au => au.ApplicationUser)
                 .ToListAsync();
+
+            if (entities == null)
+            {
+                throw new InvalidOperationException(InvalidGetAllOperatingCardsException);
+            }
 
             return entities
                 .Select(oc => new OperatingCardViewModel
@@ -91,6 +103,11 @@ namespace RepairShopStudio.Core.Services
                 .Include(au => au.ApplicationUser)
                 .ToListAsync();
 
+            if (entities == null)
+            {
+                throw new InvalidOperationException(InvalidGetAllFinishedOperatingCardsException);
+            }
+
             return entities
                 .Select(oc => new OperatingCardViewModel
                 {
@@ -118,6 +135,11 @@ namespace RepairShopStudio.Core.Services
                 .Select(c => c.Name)
                 .FirstOrDefaultAsync();
 
+            if (customer == null)
+            {
+                throw new NullReferenceException(InvalidCustomerIdException);
+            }
+
             return await customer;
         }
 
@@ -127,7 +149,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>A list of all customers</returns>
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
-            return await context.Customers.ToListAsync();
+            var result = await context.Customers.ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetCustomersException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -137,7 +166,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of vehicles owned by a certain customer</returns>
         public async Task<IEnumerable<Vehicle>> GetCustomerVehicles(int customerId)
         {
-            return await context.Vehicles.Where(v => v.CustomerId == customerId).ToListAsync();
+            var result = await context.Vehicles.Where(v => v.CustomerId == customerId).ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetCustomerVehiclesException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -146,7 +182,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of all users in role "Mechanic"</returns>
         public async Task<IEnumerable<ApplicationUser>> GetMechanicsAsync()
         {
-            return await context.Users.Where(u => u.UserName.ToLower().Contains("mechanic")).ToListAsync();
+            var result = await context.Users.Where(u => u.UserName.ToLower().Contains("mechanic")).ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetMechanicsException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -155,7 +198,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of all parts</returns>
         public async Task<IEnumerable<Part>> GetPartsAsync()
         {
-            return await context.Parts.ToListAsync();
+            var result = await context.Parts.ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetPartsException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -164,7 +214,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of all shop services</returns>
         public async Task<IEnumerable<ShopService>> GetShopServicesAsync()
         {
-            return await context.ShopServices.ToListAsync();
+            var result = await context.ShopServices.ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetShopServicesException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -182,14 +239,14 @@ namespace RepairShopStudio.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid user ID");
+                throw new ArgumentException(InvalidUserIdExceptionMessage);
             }
 
             var card = await context.OperatingCards.FirstOrDefaultAsync(m => m.Id == cardId);
 
             if (card == null)
             {
-                throw new ArgumentException("Invalid card ID");
+                throw new ArgumentException(InvalidCardIdExceptionMessage);
             }
 
             if (card != null && card.ApplicationUserId == Guid.Parse(userId))
@@ -201,6 +258,10 @@ namespace RepairShopStudio.Core.Services
             if (part != null)
             {
                 part.Stock -= 1;
+            }
+            else
+            {
+                throw new ArgumentException(PartDoesNotExistExceptionMessage);
             }
 
             await context.SaveChangesAsync();

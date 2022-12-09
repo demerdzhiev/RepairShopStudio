@@ -8,6 +8,7 @@ using Address = RepairShopStudio.Infrastructure.Data.Models.Address;
 using Customer = RepairShopStudio.Infrastructure.Data.Models.Customer;
 using EngineType = RepairShopStudio.Infrastructure.Data.Models.EngineType;
 using Vehicle = RepairShopStudio.Infrastructure.Data.Models.Vehicle;
+using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -39,6 +40,11 @@ namespace RepairShopStudio.Core.Services
                 TownName = customerModel.Address.TownName
             };
 
+            if (address == null)
+            {
+                throw new InvalidOperationException(InvalidAddressException);
+            }
+
             await context.AddAsync<Address>(address);
             await context.SaveChangesAsync();
 
@@ -53,6 +59,11 @@ namespace RepairShopStudio.Core.Services
                 Uic = customerModel.Uic,
                 AddressId = address.Id
             };
+
+            if (customer == null)
+            {
+                throw new InvalidOperationException(InvalidCustomerException);
+            }
 
             await context.AddAsync<Customer>(customer);
             await context.SaveChangesAsync();
@@ -69,6 +80,11 @@ namespace RepairShopStudio.Core.Services
                 FIrstRegistration = customerModel.Vehicle.FIrstRegistration,
                 CustomerId = customer.Id
             };
+
+            if (vehicle == null)
+            {
+                throw new InvalidOperationException(InvalidVehicleException);
+            }
 
             await context.AddAsync<Vehicle>(vehicle);
             await context.SaveChangesAsync();
@@ -90,6 +106,11 @@ namespace RepairShopStudio.Core.Services
                 IsCorporate = false,
             };
 
+            if (customer == null)
+            {
+                throw new InvalidOperationException(InvalidCustomerException);
+            }
+
             await context.AddAsync<Customer>(customer);
             await context.SaveChangesAsync();
 
@@ -105,6 +126,11 @@ namespace RepairShopStudio.Core.Services
                 FIrstRegistration = customerModel.Vehicle.FIrstRegistration,
                 CustomerId = customer.Id
             };
+
+            if (vehicle == null)
+            {
+                throw new InvalidOperationException(InvalidVehicleException);
+            }
 
             await context.AddAsync<Vehicle>(vehicle);
             await context.SaveChangesAsync();
@@ -139,6 +165,11 @@ namespace RepairShopStudio.Core.Services
                 .ThenBy(c => c.Name)
                 .ToListAsync();
 
+            if (entities == null)
+            {
+                throw new NullReferenceException(InvalidGetAllException);
+            }
+
             return entities
                 .Select(p => new CustomerViewModel
                 {
@@ -160,7 +191,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of all engine types</returns>
         public async Task<IEnumerable<EngineType>> GetEngineTypesAsync()
         {
-            return await context.EngineTypes.ToListAsync();
+            var result = await context.EngineTypes.ToListAsync();
+
+            if (result == null)
+            {
+                throw new NullReferenceException(InvalidGetEngineTypeException);
+            }
+
+            return result;
         }
 
     }

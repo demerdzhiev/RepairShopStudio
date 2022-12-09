@@ -22,11 +22,23 @@ namespace RepairShopStudio.Areas.Admin.Controlles
         /// Get all parts from Data-Base
         /// </summary>
         /// <returns>A list of all parts</returns>
-        public async Task<IActionResult> All()
+        [HttpGet]
+        public async Task<IActionResult> All([FromQuery] PartsQueryModel query)
         {
-            var model = await partService.GetAllAsync();
+            var result = await partService.AllAsync(
+                query.SearchTerm,
+                query.Manufacturer,
+                query.VehicleComponent,
+                query.Sorting,
+                query.CurrentPage,
+                PartsQueryModel.PartsPerPage);
 
-            return View(model);
+            query.TotalPartsCount = result.TotalPartsCount;
+            query.VehicleComponents = await partService.AllVehicleComponentsNames();
+            query.Manufacturers = await partService.AllManufacturers();
+            query.Parts = result.Parts;
+
+            return View(query);
         }
 
         /// <summary>

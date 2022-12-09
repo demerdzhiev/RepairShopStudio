@@ -4,6 +4,7 @@ using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
+using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -41,6 +42,11 @@ namespace RepairShopStudio.Core.Services
                 VehicleComponentId = model.VehicleComponentId
             };
 
+            if (entity == null)
+            {
+                throw new InvalidOperationException(InvalidPartException);
+            }
+
             await context.Parts.AddAsync(entity);
             await context.SaveChangesAsync();
         }
@@ -52,8 +58,10 @@ namespace RepairShopStudio.Core.Services
         /// <returns>Boolean wich defines if the certain part exits</returns>
         public async Task<bool> Exists(int id)
         {
-            return await repo.AllReadonly<Part>()
+            var result = await repo.AllReadonly<Part>()
                 .AnyAsync(p => p.Id == id && p.IsActive);
+
+            return result;
         }
 
         /// <summary>
@@ -66,6 +74,11 @@ namespace RepairShopStudio.Core.Services
                 .Where(p => p.IsActive)
                 .Include(p => p.VehicleComponent)
                 .ToListAsync();
+
+            if (entities == null)
+            {
+                throw new InvalidOperationException(InvalidGetPartsException);
+            }
 
             return entities
                 .Select(p => new PartViewModel
@@ -89,7 +102,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of all vehicle components</returns>
         public async Task<IEnumerable<VehicleComponent>> GetVehicleComponentsAsync()
         {
-            return await context.VehicleComponents.ToListAsync();
+            var result = await context.VehicleComponents.ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetVehicleComponentsException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -99,7 +119,13 @@ namespace RepairShopStudio.Core.Services
         /// <returns>Vehicle compnonent's Id</returns>
         public async Task<int> GetVehicleComponentId(int partId)
         {
-            return (await repo.GetByIdAsync<Part>(partId)).VehicleComponentId;
+            var result = (await repo.GetByIdAsync<Part>(partId)).VehicleComponentId;
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetPartVehicleComponentException);
+            }
+            return result;
         }
 
         /// <summary>
@@ -109,7 +135,7 @@ namespace RepairShopStudio.Core.Services
         /// <returns>PartDetailsModel with inormation about a certain Part</returns>
         public async Task<PartDetailsModel> PartDetailsById(int id)
         {
-            return await repo.AllReadonly<Part>()
+            var part =  await repo.AllReadonly<Part>()
                 .Where(p => p.IsActive)
                 .Where(p => p.Id == id)
                 .Select(p => new PartDetailsModel()
@@ -126,6 +152,13 @@ namespace RepairShopStudio.Core.Services
                     VehicleComponent = p.VehicleComponent.Name
                 })
                 .FirstAsync();
+
+            if (part == null)
+            {
+                throw new InvalidOperationException(InvalidGetPartDeatalsException);
+            }
+
+            return part;
         }
 
         /// <summary>
@@ -134,7 +167,7 @@ namespace RepairShopStudio.Core.Services
         /// <returns>List of PartVehicleCopmonentModel for all vehicle components</returns>
         public async Task<IEnumerable<PartVehicleCopmonentModel>> AllVehicleComponents()
         {
-            return await repo.AllReadonly<VehicleComponent>()
+            var result =  await repo.AllReadonly<VehicleComponent>()
                 .OrderBy(c => c.Name)
                 .Select(c => new PartVehicleCopmonentModel()
                 {
@@ -142,6 +175,13 @@ namespace RepairShopStudio.Core.Services
                     Name = c.Name
                 })
                 .ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetVehicleComponentsException);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -184,7 +224,7 @@ namespace RepairShopStudio.Core.Services
                 return true;
             }
 
-            throw new InvalidOperationException("Part was not found");
+            throw new InvalidOperationException(InvalidPartIdException);
 
         }
 
@@ -218,7 +258,7 @@ namespace RepairShopStudio.Core.Services
                 return result;
             }
 
-            throw new NullReferenceException("The part does not exist");
+            throw new NullReferenceException(InvalidPartIdException);
         }
 
         /// <summary>
@@ -228,7 +268,14 @@ namespace RepairShopStudio.Core.Services
         /// <returns>Part</returns>
         public async Task<Part> GetPartById(int id)
         {
-            return await context.Parts.FirstOrDefaultAsync(p => p.Id == id);
+            var result = await context.Parts.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidPartIdException);
+            }
+
+            return result;
 
         }
 
@@ -248,6 +295,10 @@ namespace RepairShopStudio.Core.Services
 
                 await repo.SaveChangesAsync();
             }
+            else
+            {
+                throw new NullReferenceException(InvalidPartIdException);
+            }
         }
 
         /// <summary>
@@ -259,13 +310,18 @@ namespace RepairShopStudio.Core.Services
         /// <param name="sorting"></param>
         /// <param name="currentPage"></param>
         /// <param name="housesPerPage"></param>
-        /// <returns></returns>
+        /// <returns>List of all parts in data-base</returns>
         /// <exception cref="NotImplementedException"></exception>
         public async Task<PartsQueryModel> AllAsync(string? vehicleComponent = null, string? manufacturer = null, string? searchTerm = null, PartSorting sorting = PartSorting.Newest, int currentPage = 1, int partsPerPage = 1)
         {
             var result = new PartsQueryModel();
             var parts = repo.AllReadonly<Part>()
                 .Where(p => p.IsActive);
+
+            if (parts == null)
+            {
+                throw new NullReferenceException(InvalidGetPartsException);
+            }
 
             if (string.IsNullOrEmpty(vehicleComponent) == false)
             {
@@ -318,20 +374,42 @@ namespace RepairShopStudio.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Get all vehicle components name
+        /// </summary>
+        /// <returns>List of all vehicle component name</returns>
         public async Task<IEnumerable<string>> AllVehicleComponentsNames()
         {
-            return await repo.AllReadonly<Part>()
+            var result = await repo.AllReadonly<Part>()
                 .Select(p => p.VehicleComponent.Name)
                 .Distinct()
                 .ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetVehicleComponentsException);
+            }
+
+            return result; 
         }
 
+        /// <summary>
+        /// Geta all parts manufacturers
+        /// </summary>
+        /// <returns>List of all parts manufacturers</returns>
         public async Task<IEnumerable<string>> AllManufacturers()
         {
-            return await repo.AllReadonly<Part>()
+            var result = await repo.AllReadonly<Part>()
                 .Select(c => c.Manufacturer)
                 .Distinct()
                 .ToListAsync();
+
+            if (result == null)
+            {
+                throw new InvalidOperationException(InvalidGetManufacturersException);
+            }
+
+            return result;
         }
     }
 }

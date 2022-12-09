@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RepairShopStudio.Core.Contracts;
+using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
 
 namespace RepairShopStudio.Controllers
 {
@@ -22,6 +23,11 @@ namespace RepairShopStudio.Controllers
         public async Task<IActionResult> All()
         {
             var model = await shopServiceService.GetAllAsync();
+
+            if (model == null)
+            {
+                throw new InvalidOperationException(InvalidGetShopServicesException);
+            }
 
             return View(model);
         }
