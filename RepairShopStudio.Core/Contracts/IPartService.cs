@@ -28,5 +28,16 @@ namespace RepairShopStudio.Core.Contracts
         Task<Part> GetPartById(int id);
 
         Task Delete(int id);
+
+        Task<PartsQueryModel> AllAsync(
+            string? vehicleComponent = null,
+            string? manufacturer = null,
+            string? searchTerm = null,
+            PartSorting sorting = PartSorting.Newest,
+            int currentPage = 1,
+            int housesPerPage = 1);
+
+        Task<IEnumerable<string>> AllVehicleComponentsNames();
+        Task<IEnumerable<string>> AllManufacturers();
     }
 }

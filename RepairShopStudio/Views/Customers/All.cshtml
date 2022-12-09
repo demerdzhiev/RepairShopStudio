@@ -7,6 +7,13 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
+@if (!ViewData.ModelState.IsValid && ViewData.ModelState["Error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewData.ModelState["Error"].Errors.First().ErrorMessage
+    </div>
+}
+
 <div class="text-center row">
     @foreach (var customer in Model)
     {
@@ -44,3 +51,7 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

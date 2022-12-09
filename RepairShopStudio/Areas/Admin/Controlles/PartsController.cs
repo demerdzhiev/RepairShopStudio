@@ -2,12 +2,11 @@
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Extensions;
 using RepairShopStudio.Core.Models.Part;
-using RepairShopStudio.Core.Services;
 using RepairShopStudio.Infrastructure.Data;
 
 namespace RepairShopStudio.Areas.Admin.Controlles
 {
-    public class PartsController : Controller
+    public class PartsController : BaseController
     {
         private readonly IPartService partService;
         private readonly ApplicationDbContext context;

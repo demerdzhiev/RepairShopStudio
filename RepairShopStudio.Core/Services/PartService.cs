@@ -249,5 +249,89 @@ namespace RepairShopStudio.Core.Services
                 await repo.SaveChangesAsync();
             }
         }
+
+        /// <summary>
+        /// Create parts query model for pagination, search and sorting options
+        /// </summary>
+        /// <param name="vehicleComponent"></param>
+        /// <param name="manufacturer"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="sorting"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="housesPerPage"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<PartsQueryModel> AllAsync(string? vehicleComponent = null, string? manufacturer = null, string? searchTerm = null, PartSorting sorting = PartSorting.Newest, int currentPage = 1, int partsPerPage = 1)
+        {
+            var result = new PartsQueryModel();
+            var parts = repo.AllReadonly<Part>()
+                .Where(p => p.IsActive);
+
+            if (string.IsNullOrEmpty(vehicleComponent) == false)
+            {
+                parts = parts
+                    .Where(p => p.VehicleComponent.Name == vehicleComponent);
+            }
+
+            if (string.IsNullOrEmpty(manufacturer) == false)
+            {
+                parts = parts
+                    .Where(p => p.Manufacturer == manufacturer);
+            }
+
+            if (string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                parts = parts
+                    .Where(p => EF.Functions.Like(p.Name.ToLower(), searchTerm) ||
+                        EF.Functions.Like(p.Manufacturer.ToLower(), searchTerm) ||
+                        EF.Functions.Like(p.Description.ToLower(), searchTerm));
+            }
+
+            parts = sorting switch
+            {
+                PartSorting.Price => parts.OrderBy(p => p.PriceSell),
+                _ => parts.OrderByDescending(p => p.Id)
+            };
+
+            result.Parts = await parts
+                .Skip((currentPage - 1) * partsPerPage)
+                .Take(partsPerPage)
+                .Select(p => new PartServiceModel()
+                {
+                    Id = p.Id,
+                    Description = p.Description,
+                    Manufacturer = p.Manufacturer,
+                    ImageUrl = p.ImageUrl,
+                    Stock = p.Stock,
+                    PriceSell = p.PriceSell,
+                    PriceBuy = p.PriceBuy,
+                    Name = p.Name,
+                    OriginalMpn = p.OriginalMpn,
+                    VehicleComponent = p.VehicleComponent.Name
+                })
+                .ToListAsync();
+
+            result.TotalPartsCount = await parts.CountAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> AllVehicleComponentsNames()
+        {
+            return await repo.AllReadonly<Part>()
+                .Select(p => p.VehicleComponent.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> AllManufacturers()
+        {
+            return await repo.AllReadonly<Part>()
+                .Select(c => c.Manufacturer)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

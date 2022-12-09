@@ -18,7 +18,7 @@ namespace RepairShopStudio.Controllers
         /// Check if the current user is in Admin role
         /// </summary>
         /// <returns>Redirects to Admin aerea</returns>
-        [Authorize(AdminRolleName)]
+        [Authorize(Roles = AdminRolleName)]
         public IActionResult ToAdminArea()
         {
             if (User.IsInRole(AdminRolleName))

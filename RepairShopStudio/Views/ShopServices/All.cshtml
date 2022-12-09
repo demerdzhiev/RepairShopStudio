@@ -21,8 +21,8 @@
             <div class="form-inline">
                 @if (User.IsInRole(RoleConstants.Administrator))
                 {
-                    <a asp-controller="ShopServices" asp-action="Edit" asp-route-Id="@service.Id" class="btn btn-warning">Edit</a>
-                    <form asp-action="Delete" asp-controller="ShopServices" method="post">
+                    <a asp-area="Admin" asp-controller="ShopServices" asp-action="Edit" asp-route-Id="@service.Id" class="btn btn-warning">Edit</a>
+                    <form asp-area="Admin" asp-action="Delete" asp-controller="ShopServices" method="post">
                         <input name="id" type="hidden" value="@service.Id" />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>

@@ -83,7 +83,7 @@ namespace RepairShopStudio.Controllers
         /// <returns>Add current operating card to collection "AllFinished"</returns>
         /// <exception cref="ArgumentException"></exception>
         [HttpGet]
-        [Authorize(Mechanic)]
+        [Authorize(Roles = Mechanic)]
         public async Task<IActionResult> Finish(int cardId)
         {
             try

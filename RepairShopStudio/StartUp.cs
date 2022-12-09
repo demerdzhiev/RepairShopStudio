@@ -46,6 +46,7 @@ app.SeedRolesInDatabase();
 
 if (app.Environment.IsDevelopment())
 {
+    //app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else

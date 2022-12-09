@@ -112,6 +112,7 @@
             public const string ServiceModelDescription = "Description of the part";
             public const string ServiceModelPriceBuy = "Delivery price (by the supplier)";
             public const string ServiceModelPriceSell = "Selling price (by the repair shop)";
+            public const string ServiceModelVehicleComponent = "Vehicle component where the part must be used";
 
             public const string VehicleCopmonentModelMain = "Model, used to view the vehicle component of a part details";
             public const string VehicleCopmonentModelId = "The id of the vehicle component";

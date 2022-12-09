@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
+using RepairShopStudio.Infrastructure.Data.Models;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Part;
 
 namespace RepairShopStudio.Core.Models.Part
@@ -33,5 +34,8 @@ namespace RepairShopStudio.Core.Models.Part
 
         [Comment(ServiceModelPriceSell)]
         public decimal PriceSell { get; set; }
+
+        [Comment(ServiceModelVehicleComponent)]
+        public string? VehicleComponent { get; set; }
     }
 }
