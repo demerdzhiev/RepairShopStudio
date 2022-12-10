@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using RepairShopStudio.Common.Constants;
 using RepairShopStudio.Core.Models.User;
 using RepairShopStudio.Infrastructure.Data.Common.User;
 using RepairShopStudio.Infrastructure.Data.Models.User;
+using static RepairShopStudio.Common.Constants.ToastrMessagesConstatns;
 
 namespace Library.Controllers
 {
@@ -117,6 +117,7 @@ namespace Library.Controllers
 
                 if (result.Succeeded)
                 {
+                    TempData[MessageConstant.SuccessMessage] = SuccessfullLogIn;
                     return RedirectToAction("Index", "Home");
                 }
             }

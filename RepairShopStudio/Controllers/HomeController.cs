@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RepairShopStudio.Models;
 using System.Diagnostics;
 using static RepairShopStudio.Common.Constants.AdminConstants;
@@ -8,6 +10,13 @@ namespace RepairShopStudio.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger logger;
+
+        public HomeController(ILogger<HomeController> _logger)
+        {
+            logger = _logger;
+        }
+
         [Authorize]
         public IActionResult Index()
         {
@@ -32,6 +41,10 @@ namespace RepairShopStudio.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            logger.LogError(feature.Error, "TraceIdentifier: {0}", Activity.Current?.Id ?? HttpContext.TraceIdentifier);
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

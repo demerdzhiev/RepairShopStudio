@@ -115,7 +115,7 @@ namespace RepairShopStudio.Controllers
 
             if ((await partService.Exists(model.Id)) == false)
             {
-                ModelState.AddModelError("", "House does not exist");
+                ModelState.AddModelError("", "Part does not exist");
                 model.VehicleComponents = await partService.AllVehicleComponents();
 
                 return View(model);
@@ -123,7 +123,7 @@ namespace RepairShopStudio.Controllers
 
             if ((await partService.VehicleComponentExists(model.VehicleComponentId)) == false)
             {
-                ModelState.AddModelError(nameof(model.VehicleComponentId), "Category does not exist");
+                ModelState.AddModelError(nameof(model.VehicleComponentId), "Vehicle component does not exist");
                 model.VehicleComponents = await partService.AllVehicleComponents();
 
                 return View(model);
@@ -152,7 +152,7 @@ namespace RepairShopStudio.Controllers
 
             if (information != model.GetPartInformation())
             {
-                TempData["ErrorMessage"] = "Don't touch my slug!";
+                TempData["ErrorMessage"] = "You are not allowed to do that!";
 
                 return RedirectToAction("Index", "Home");
             }

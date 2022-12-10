@@ -1,4 +1,6 @@
-﻿using RepairShopStudio.Core.Contracts;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Exceptions;
 using RepairShopStudio.Core.Services;
 using RepairShopStudio.Infrastructure.Data.Common;
@@ -20,7 +22,6 @@ namespace RepairShopStudio.Extensions
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOperatingCardService, OperatingCardService>();
             services.AddScoped<IVehicleService, VehicleService>();
-
             return services;
         }
     }

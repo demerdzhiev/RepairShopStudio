@@ -108,7 +108,7 @@ namespace RepairShopStudio.Areas.Admin.Controlles
 
             if ((await shopServiceService.Exists(model.Id)) == false)
             {
-                ModelState.AddModelError("", "House does not exist");
+                ModelState.AddModelError("", "Service component does not exist");
                 model.VehicleComponents = await shopServiceService.AllVehicleComponents();
 
                 return View(model);
@@ -116,7 +116,7 @@ namespace RepairShopStudio.Areas.Admin.Controlles
 
             if ((await shopServiceService.VehicleComponentExists(model.VehicleComponentId)) == false)
             {
-                ModelState.AddModelError(nameof(model.VehicleComponentId), "Category does not exist");
+                ModelState.AddModelError(nameof(model.VehicleComponentId), "Vehicle component does not exist");
                 model.VehicleComponents = await shopServiceService.AllVehicleComponents();
 
                 return View(model);
