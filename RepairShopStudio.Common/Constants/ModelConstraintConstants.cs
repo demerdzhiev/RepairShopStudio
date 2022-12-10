@@ -76,13 +76,13 @@ namespace RepairShopStudio.Common.Constants
             public const int LicensePlateMinLength = 7;
             public const int VinNumberLength = 17;
             public const int EngineMaxPower = 1914;
-            public const int EngineMinPower = 0;
+            public const int EngineMinPower = 1;
         }
 
         public static class Customer
         {
             public const int CustomerNameMaxLength = 40;
-            public const int CustomerNameMinLength = 8;
+            public const int CustomerNameMinLength = 6;
         }
 
         public static class Employee

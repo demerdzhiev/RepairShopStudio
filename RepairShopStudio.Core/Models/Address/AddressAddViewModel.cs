@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Address;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Address;
+using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
 
 namespace RepairShopStudio.Core.Models.Address
 {
@@ -10,18 +11,18 @@ namespace RepairShopStudio.Core.Models.Address
     {
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(AddressTextMaxLength, MinimumLength = AddressTextMinLength)]
+        [Required(ErrorMessage = RequiredField)]
+        [StringLength(AddressTextMaxLength, MinimumLength = AddressTextMinLength, ErrorMessage = AddressTextLength)]
         [Comment(AddViewModelAddressText)]
         public string AddressText { get; set; } = null!;
 
-        [Required]
-        [StringLength(AddressTextMaxLength, MinimumLength = AddressTextMinLength)]
+        [Required(ErrorMessage = RequiredField)]
+        [StringLength(TownNameMaxLength, MinimumLength = TownNameMinLength, ErrorMessage = TownNameLength)]
         [Comment(AddViewModelTownName)]
         public string TownName { get; set; } = null!;
 
-        [Required]
-        [MaxLength(ZipCodeMaxLength)]
+        [Required(ErrorMessage = RequiredField)]
+        [MaxLength(ZipCodeMaxLength, ErrorMessage = ZipCodeLength)]
         [Comment(AddViewModelZipCode)]
         public string ZipCode { get; set; } = null!;
     }

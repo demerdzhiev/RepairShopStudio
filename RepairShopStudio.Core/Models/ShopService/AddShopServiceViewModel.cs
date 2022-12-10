@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.ShopService;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.ShopService;
+using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
 
 namespace RepairShopStudio.Core.Models.ShopService
 {
@@ -12,15 +13,16 @@ namespace RepairShopStudio.Core.Models.ShopService
     public class AddShopServiceViewModel
     {
         [Comment(AddViewModelName)]
-        [StringLength(RepairServiceNameMaxLength, MinimumLength = RepairServiceNameMinLength)]
+        [StringLength(RepairServiceNameMaxLength, MinimumLength = RepairServiceNameMinLength, ErrorMessage = ServiceNameLength)]
         public string Name { get; set; } = null!;
 
         [Comment(AddViewModelDescription)]
-        [StringLength (RepairServiceDescriptionMaxLength, MinimumLength = RepairServiceDescriptionMinLength)]
+        [StringLength (
+            RepairServiceDescriptionMaxLength, MinimumLength = RepairServiceDescriptionMinLength, ErrorMessage = ServiceDescriptionLength)]
         public string Description { get; set; } = null!;
 
         [Comment(AddViewModelPrice)]
-        [Range(typeof(decimal), ShopServicePriceMinValue, ShopServicePriceMaxValue)]
+        [Range(typeof(decimal), ShopServicePriceMinValue, ShopServicePriceMaxValue, ErrorMessage = ServicePriceRange)]
         [Column(TypeName = "money")]
         [Precision(18, 2)]
         public decimal Price { get; set; }

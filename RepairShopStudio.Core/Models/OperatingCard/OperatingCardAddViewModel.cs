@@ -3,6 +3,7 @@ using RepairShopStudio.Infrastructure.Data.Models.User;
 using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.OperatingCard;
+using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
 
 namespace RepairShopStudio.Core.Models.OperatingCard
 {
@@ -12,15 +13,15 @@ namespace RepairShopStudio.Core.Models.OperatingCard
         [Comment(AddViewModelId)]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [Comment(AddViewModelCustomerId)]
         public int CustomerId { get; set; }
 
         [Comment(AddViewModelCustomerName)]
-        [StringLength(CustomerNameMaxLength, MinimumLength = CustomerNameMinLength)]
+        [StringLength(CustomerNameMaxLength, MinimumLength = CustomerNameMinLength, ErrorMessage = CustomerNameLength)]
         public string? CustomerName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [Comment(AddViewModelVehicleId)]
         public int VehicleId { get; set; }
 
@@ -35,7 +36,7 @@ namespace RepairShopStudio.Core.Models.OperatingCard
         public IEnumerable<ApplicationUser> ApplicationUsers { get; set; } 
             = new List<ApplicationUser>();
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [Comment(AddViewModelPartId)]
         public int PartId { get; set; }
 
@@ -43,7 +44,7 @@ namespace RepairShopStudio.Core.Models.OperatingCard
         public IEnumerable<Infrastructure.Data.Models.Part> Parts { get; set; } 
             = new List<Infrastructure.Data.Models.Part>();
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [Comment(AddViewModelServiceId)]
         public int ServiceId { get; set; }
 

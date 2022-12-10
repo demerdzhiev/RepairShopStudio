@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Custommer;
+using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
 
 namespace RepairShopStudio.Core.Models.CustomerModels
 {
@@ -13,32 +14,32 @@ namespace RepairShopStudio.Core.Models.CustomerModels
     {
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(CustomerNameMaxLength, MinimumLength = CustomerNameMinLength)]
+        [Required(ErrorMessage = RequiredField)]
+        [StringLength(CustomerNameMaxLength, MinimumLength = CustomerNameMinLength, ErrorMessage = CustomerNameLength)]
         [Comment(AddViewModelName)]
         public string Name { get; set; } = null!;
 
-        [Required]
-        [Phone]
-        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
+        [Required(ErrorMessage = RequiredField)]
+        [Phone(ErrorMessage = ValidPhoneNumber)]
+        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength, ErrorMessage = CustomerPhoneNumberLength)]
         [Comment(AddViewModelPhoneNumber)]
         public string PhoneNumber { get; set; } = null!;
 
-        [Required]
-        [EmailAddress]
-        [StringLength(EmailMaxLength)]
+        [Required(ErrorMessage = RequiredField)]
+        [EmailAddress(ErrorMessage = ValidEmail)]
+        [StringLength(EmailMaxLength, ErrorMessage = EmailLength)]
         [Comment(AddViewModelEmail)]
         public string Email { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = RequiredField)]
         [Comment(AddViewModelIsCorporate)]
         public bool IsCorporate { get; set; }
 
-        [StringLength(UicMaxLength)]
+        [StringLength(UicMaxLength, ErrorMessage = UICLength)]
         [Comment(AddViewModelUic)]
         public string? Uic { get; set; }
 
-        [StringLength(ResponsiblePersonNameMaxLength)]
+        [StringLength(ResponsiblePersonNameMaxLength, ErrorMessage = ResponsiblePersonNameLength)]
         [Comment(AddViewModelResponsiblePerson)]
         public string? ResponsiblePerson { get; set; }
 
