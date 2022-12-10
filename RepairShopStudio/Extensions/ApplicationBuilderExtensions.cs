@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RepairShopStudio.Infrastructure.Data.Models.User;
 using static RepairShopStudio.Common.Constants.RoleConstants;
+using static RepairShopStudio.Common.Constants.AdminConstants;
 
 namespace RepairShopStudio.Extensions
 {
@@ -12,9 +13,10 @@ namespace RepairShopStudio.Extensions
             using var serviceScope = app.ApplicationServices.CreateScope();
             var serviceProvider = serviceScope.ServiceProvider;
 
-            SeedAdmin(serviceProvider);
-            SeedServiceAdivser(serviceProvider);
             SeedMechanic(serviceProvider);
+            SeedServiceAdivser(serviceProvider);
+            SeedAdmin(serviceProvider);
+
 
             return app;
         }
@@ -27,15 +29,12 @@ namespace RepairShopStudio.Extensions
             Task.
                 Run(async () =>
                 {
-                    if (await roleManager.RoleExistsAsync(Administrator))
+                    if (!await roleManager.RoleExistsAsync(Administrator))
                     {
-                        return;
+                        await roleManager.CreateAsync(new ApplicationRole(Administrator));
                     }
 
-                    await roleManager.CreateAsync(new ApplicationRole(Administrator));
-
-                    string email1 = "manager_repair_shop@mail.com";
-                    var user = await userManager.FindByEmailAsync(email1);
+                    var user = await userManager.FindByEmailAsync(AdminEmail);
                     await userManager.AddToRolesAsync(user, new string[] { Administrator, ServiceAdviser, Mechanic });
                 })
                 .GetAwaiter()
@@ -50,12 +49,10 @@ namespace RepairShopStudio.Extensions
             Task.
                 Run(async () =>
                 {
-                    if (await roleManager.RoleExistsAsync(ServiceAdviser))
+                    if (!await roleManager.RoleExistsAsync(ServiceAdviser))
                     {
-                        return;
+                        await roleManager.CreateAsync(new ApplicationRole(ServiceAdviser));
                     }
-
-                    await roleManager.CreateAsync(new ApplicationRole(ServiceAdviser));
 
                     string email2 = "adviser_repair_shop@mail.com";
                     var user2 = await userManager.FindByEmailAsync(email2);
@@ -73,12 +70,10 @@ namespace RepairShopStudio.Extensions
             Task.
                 Run(async () =>
                 {
-                    if (await roleManager.RoleExistsAsync(Mechanic))
+                    if (!await roleManager.RoleExistsAsync(Mechanic))
                     {
-                        return;
+                        await roleManager.CreateAsync(new ApplicationRole(Mechanic));
                     }
-
-                    await roleManager.CreateAsync(new ApplicationRole(Mechanic));
 
                     string email3 = "mechanic_repair_shop@mail.com";
                     var user3 = await userManager.FindByEmailAsync(email3);

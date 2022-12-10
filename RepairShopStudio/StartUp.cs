@@ -48,11 +48,10 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-app.SeedRolesInDatabase();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.UseDeveloperExceptionPage();
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
@@ -68,6 +67,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.SeedRolesInDatabase();
 
 app.UseEndpoints(endpoints =>
 {
