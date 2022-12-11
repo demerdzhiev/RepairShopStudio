@@ -3,7 +3,7 @@ using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.OperatingCard;
 using System.Security.Claims;
 
-namespace RepairShopStudio.Areas.Admin.Controlles
+namespace RepairShopStudio.Areas.Admin.Controllers
 {
     public class OperatingCardsController : BaseController
     {

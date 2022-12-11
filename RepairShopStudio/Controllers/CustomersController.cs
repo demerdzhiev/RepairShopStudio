@@ -9,6 +9,7 @@ using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Models.User;
 using static RepairShopStudio.Common.Constants.RoleConstants;
 using static RepairShopStudio.Common.Constants.ToastrMessagesConstatns;
+using static RepairShopStudio.Common.Constants.LoggerMessageConstants;
 
 namespace RepairShopStudio.Controllers
 {
@@ -27,7 +28,7 @@ namespace RepairShopStudio.Controllers
             RoleManager<ApplicationRole> _roleManager,
             UserManager<ApplicationUser> _userManager,
             IVehicleService _vehicleService)
-            
+
         {
             customerService = _customerService;
             context = _context;
@@ -46,6 +47,7 @@ namespace RepairShopStudio.Controllers
         {
             if (User.Identity.IsAuthenticated == false)
             {
+                TempData[MessageConstant.ErrorMessage] = NotAuthorized;
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
@@ -64,6 +66,7 @@ namespace RepairShopStudio.Controllers
         {
             if (User.Identity.IsAuthenticated == false)
             {
+                TempData[MessageConstant.ErrorMessage] = NotAuthorized;
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
@@ -79,7 +82,7 @@ namespace RepairShopStudio.Controllers
         }
 
         /// <summary>
-        /// Adding non-corpoarte custommer
+        /// Adding non-corporate customer
         /// </summary>
         /// <param name="customerModel"></param>
         /// <returns>New non-corporate customer in Data-Base</returns>
@@ -89,7 +92,8 @@ namespace RepairShopStudio.Controllers
         {
             if (!ModelState.IsValid)
             {
-                customerModel.Vehicle.EngineTypes = context.EngineTypes.ToList();
+                customerModel.Vehicle.EngineTypes = context.EngineTypes.ToList(); 
+                TempData[MessageConstant.ErrorMessage] = InvalidData;
                 return View(customerModel);
             }
 
@@ -103,13 +107,11 @@ namespace RepairShopStudio.Controllers
             try
             {
                 await customerService.AddRegularCutomerAsync(customerModel);
-
                 return RedirectToAction(nameof(All));
             }
             catch (Exception)
             {
-                ModelState.AddModelError("Error", "Something went wrong...");
-
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
                 return View(customerModel);
             }
         }
@@ -145,7 +147,15 @@ namespace RepairShopStudio.Controllers
             if (!ModelState.IsValid)
             {
                 customerModel.Vehicle.EngineTypes = context.EngineTypes.ToList();
+                TempData[MessageConstant.ErrorMessage] = InvalidData;
                 return View(customerModel);
+            }
+
+            var vehicleLicense = customerModel.Vehicle.LicensePLate;
+            if (vehicleLicense != null && await vehicleService.ExistsAsync(vehicleLicense))
+            {
+                TempData[MessageConstant.ErrorMessage] = VehicleAlreadyExists;
+                return RedirectToAction("All", "Customers");
             }
 
             try
@@ -157,7 +167,6 @@ namespace RepairShopStudio.Controllers
             catch (Exception)
             {
                 ModelState.AddModelError("", "Something went wrong...");
-
                 return View(customerModel);
             }
         }

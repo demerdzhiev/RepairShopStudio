@@ -2,15 +2,17 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RepairShopStudio.Common.Constants;
 using RepairShopStudio.Models;
 using System.Diagnostics;
 using static RepairShopStudio.Common.Constants.AdminConstants;
+using static RepairShopStudio.Common.Constants.ToastrMessagesConstatns;
 
 namespace RepairShopStudio.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger logger;
+        private readonly ILogger<HomeController> logger;
 
         public HomeController(ILogger<HomeController> _logger)
         {
@@ -32,6 +34,7 @@ namespace RepairShopStudio.Controllers
         {
             if (User.IsInRole(AdminRolleName))
             {
+                TempData[MessageConstant.WarningMessage] = InvalidData;
                 return RedirectToAction("Index", "Admin", new { area = "Admin" });
             }
 

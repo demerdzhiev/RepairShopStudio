@@ -3,7 +3,7 @@ using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Extensions;
 using RepairShopStudio.Core.Models.ShopService;
 
-namespace RepairShopStudio.Areas.Admin.Controlles
+namespace RepairShopStudio.Areas.Admin.Controllers
 {
     public class ShopServicesController : BaseController
     {

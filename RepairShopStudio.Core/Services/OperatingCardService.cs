@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.OperatingCard;
 using RepairShopStudio.Infrastructure.Data;
@@ -6,6 +7,7 @@ using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
 using RepairShopStudio.Infrastructure.Data.Models.User;
 using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
+using static RepairShopStudio.Common.Constants.LoggerMessageConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -13,12 +15,16 @@ namespace RepairShopStudio.Core.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IRepository repo;
+        private readonly ILogger<OperatingCardService> logger;
+
         public OperatingCardService(
             ApplicationDbContext _context,
-            IRepository _repo)
+            IRepository _repo,
+            ILogger<OperatingCardService> _logger)
         {
             context = _context;
             repo = _repo;
+            logger = _logger;
         }
 
         /// <summary>
@@ -42,6 +48,7 @@ namespace RepairShopStudio.Core.Services
 
             if (entity == null)
             {
+                logger.LogError(NullOperatingCard);
                 throw new InvalidOperationException(InvalidOperatingCardException);
             }
 
@@ -70,6 +77,7 @@ namespace RepairShopStudio.Core.Services
 
             if (entities == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetAllOperatingCardsException);
             }
 
@@ -105,6 +113,7 @@ namespace RepairShopStudio.Core.Services
 
             if (entities == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetAllFinishedOperatingCardsException);
             }
 
@@ -137,6 +146,7 @@ namespace RepairShopStudio.Core.Services
 
             if (customer == null)
             {
+                logger.LogError(NullCustomer);
                 throw new NullReferenceException(InvalidCustomerIdException);
             }
 
@@ -153,6 +163,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetCustomersException);
             }
 
@@ -170,6 +181,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetCustomerVehiclesException);
             }
 
@@ -186,6 +198,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetMechanicsException);
             }
 
@@ -202,6 +215,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetPartsException);
             }
 
@@ -218,6 +232,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetShopServicesException);
             }
 
@@ -239,6 +254,7 @@ namespace RepairShopStudio.Core.Services
 
             if (user == null)
             {
+                logger.LogError(NullUser);
                 throw new ArgumentException(InvalidUserIdExceptionMessage);
             }
 
@@ -246,6 +262,7 @@ namespace RepairShopStudio.Core.Services
 
             if (card == null)
             {
+                logger.LogError(NullOperatingCard);
                 throw new ArgumentException(InvalidCardIdExceptionMessage);
             }
 
@@ -261,6 +278,7 @@ namespace RepairShopStudio.Core.Services
             }
             else
             {
+                logger.LogError(NullPart);
                 throw new ArgumentException(PartDoesNotExistExceptionMessage);
             }
 

@@ -4,7 +4,7 @@ using RepairShopStudio.Core.Models.CustomerModels;
 using RepairShopStudio.Core.Models.Vehicle;
 using RepairShopStudio.Infrastructure.Data;
 
-namespace RepairShopStudio.Areas.Admin.Controlles
+namespace RepairShopStudio.Areas.Admin.Controllers
 {
     public class CustomersController : BaseController
     {

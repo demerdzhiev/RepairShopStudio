@@ -106,6 +106,7 @@ namespace Library.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
                 return View(model);
             }
 
@@ -122,7 +123,7 @@ namespace Library.Controllers
                 }
             }
 
-            ModelState.AddModelError("", "Unsuccessful login. Try again!");
+            TempData[MessageConstant.ErrorMessage] = UnsuccessfullLogin;
 
             return View(model);
         }
@@ -131,7 +132,7 @@ namespace Library.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-
+            TempData[MessageConstant.WarningMessage] = LogOut;
             return RedirectToAction("Index", "Home");
         }
 

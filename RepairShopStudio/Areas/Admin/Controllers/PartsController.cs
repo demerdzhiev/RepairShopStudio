@@ -4,7 +4,7 @@ using RepairShopStudio.Core.Extensions;
 using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
 
-namespace RepairShopStudio.Areas.Admin.Controlles
+namespace RepairShopStudio.Areas.Admin.Controllers
 {
     public class PartsController : BaseController
     {

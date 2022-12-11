@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RepairShopStudio.Common.Constants;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.OperatingCard;
 using System.Security.Claims;
 using static RepairShopStudio.Common.Constants.RoleConstants;
+using static RepairShopStudio.Common.Constants.ToastrMessagesConstatns;
 
 namespace RepairShopStudio.Controllers
 {
@@ -12,7 +14,8 @@ namespace RepairShopStudio.Controllers
     {
         private readonly IOperatingCardService operatingCardService;
 
-        public OperatingCardsController(IOperatingCardService _operatingCardService)
+        public OperatingCardsController(
+            IOperatingCardService _operatingCardService)
         {
             operatingCardService = _operatingCardService;
         }
@@ -49,6 +52,7 @@ namespace RepairShopStudio.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(OperatingCardAddViewModel model, int customerId)
         {
+            //TODO: Fix the Date in AddOperatingCard
 
             //if (!ModelState.IsValid)
             //{
@@ -66,13 +70,12 @@ namespace RepairShopStudio.Controllers
             try
             {
                 await operatingCardService.AddOperatingCardAsync(model);
-
+                TempData[MessageConstant.SuccessMessage] = CreateOC;
                 return RedirectToAction(nameof(All));
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Something went wrong...");
-
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
                 return View(model);
             }
         }
@@ -91,10 +94,13 @@ namespace RepairShopStudio.Controllers
             {
                 var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 await operatingCardService.MarkRepairAsFinishedAsync(cardId, userId);
+                TempData[MessageConstant.WarningMessage] = CompleteCard;
+
             }
             catch(Exception)
             {
-                throw new ArgumentException("Something went wrong...");
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
+                return RedirectToAction(nameof(All));
             }
 
             return RedirectToAction(nameof(All));

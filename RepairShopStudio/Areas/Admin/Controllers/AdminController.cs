@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace RepairShopStudio.Areas.Admin.Controlles
+namespace RepairShopStudio.Areas.Admin.Controllers
 {
     public class AdminController : BaseController
     {

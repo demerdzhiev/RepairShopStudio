@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Core.Models.ShopService;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
+using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
+using static RepairShopStudio.Common.Constants.LoggerMessageConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -12,13 +15,16 @@ namespace RepairShopStudio.Core.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IRepository repo;
+        private readonly ILogger<ShopServiceService> logger;
 
         public ShopServiceService(
             ApplicationDbContext _context,
-            IRepository _repo)
+            IRepository _repo,
+            ILogger<ShopServiceService> _logger)
         {
             context = _context;
             repo = _repo;
+            logger = _logger;
         }
 
         /// <summary>
@@ -35,6 +41,12 @@ namespace RepairShopStudio.Core.Services
                 Price = model.Price,
                 VehicleComponentId = model.VehicleComponentId
             };
+
+            if (entity == null)
+            {
+                logger.LogError(NullShopService);
+                throw new NullReferenceException(InvalidShopServiceException);
+            }
 
             await context.ShopServices.AddAsync(entity);
             await context.SaveChangesAsync();
@@ -98,7 +110,8 @@ namespace RepairShopStudio.Core.Services
                 return true;
             }
 
-            throw new InvalidOperationException("Part was not found");
+            logger.LogError(GetDataUnsuccessfull);
+            throw new InvalidOperationException(InvalidShopServiceIdException);
         }
 
         /// <summary>
@@ -122,6 +135,12 @@ namespace RepairShopStudio.Core.Services
                 .Where(s => s.IsActive)
                 .Include(s => s.VehicleComponent)
                 .ToListAsync();
+
+            if (entities == null)
+            {
+                logger.LogError(GetDataUnsuccessfull);
+                throw new NullReferenceException(InvalidGetServicesException);
+            }
 
             return entities
                 .Select(p => new ShopServiceViewModel

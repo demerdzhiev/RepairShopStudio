@@ -7,7 +7,7 @@ using RepairShopStudio.Core.Models.User;
 using RepairShopStudio.Infrastructure.Data.Common.User;
 using RepairShopStudio.Infrastructure.Data.Models.User;
 
-namespace RepairShopStudio.Areas.Admin.Controlles
+namespace RepairShopStudio.Areas.Admin.Controllers
 {
     [Authorize]
     public class UserController : BaseController

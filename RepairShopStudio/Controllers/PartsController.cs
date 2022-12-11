@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RepairShopStudio.Common.Constants;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Extensions;
 using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
+using static RepairShopStudio.Common.Constants.ToastrMessagesConstatns;
 
 namespace RepairShopStudio.Controllers
 {
@@ -59,19 +61,19 @@ namespace RepairShopStudio.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData[MessageConstant.ErrorMessage] = InvalidData;
                 return View(model);
             }
 
             try
             {
                 await partService.AddPartAsync(model);
-
+                TempData[MessageConstant.SuccessMessage] = CreatePart;
                 return RedirectToAction(nameof(All));
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Something went wrong...");
-
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
                 return View(model);
             }
         }
@@ -81,6 +83,7 @@ namespace RepairShopStudio.Controllers
         {
             if ((await partService.Exists(id)) == false)
             {
+                TempData[MessageConstant.ErrorMessage] = UnexistingPart;
                 return RedirectToAction(nameof(All));
             }
 
@@ -110,12 +113,13 @@ namespace RepairShopStudio.Controllers
         {
             if (id != model.Id)
             {
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             if ((await partService.Exists(model.Id)) == false)
             {
-                ModelState.AddModelError("", "Part does not exist");
+                TempData[MessageConstant.ErrorMessage] = UnexistingPart;
                 model.VehicleComponents = await partService.AllVehicleComponents();
 
                 return View(model);
@@ -123,7 +127,7 @@ namespace RepairShopStudio.Controllers
 
             if ((await partService.VehicleComponentExists(model.VehicleComponentId)) == false)
             {
-                ModelState.AddModelError(nameof(model.VehicleComponentId), "Vehicle component does not exist");
+                TempData[MessageConstant.ErrorMessage] = UnexistingComponent;
                 model.VehicleComponents = await partService.AllVehicleComponents();
 
                 return View(model);
@@ -131,8 +135,8 @@ namespace RepairShopStudio.Controllers
 
             if (!ModelState.IsValid == false)
             {
+                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
                 model.VehicleComponents = await partService.AllVehicleComponents();
-
                 return View(model);
             }
 
@@ -145,6 +149,7 @@ namespace RepairShopStudio.Controllers
         {
             if ((await partService.Exists(id)) == false)
             {
+                TempData[MessageConstant.ErrorMessage] = UnexistingPart;
                 return RedirectToAction(nameof(All));
             }
 
@@ -152,8 +157,7 @@ namespace RepairShopStudio.Controllers
 
             if (information != model.GetPartInformation())
             {
-                TempData["ErrorMessage"] = "You are not allowed to do that!";
-
+                TempData[MessageConstant.ErrorMessage] = NotAuthorized;
                 return RedirectToAction("Index", "Home");
             }
 

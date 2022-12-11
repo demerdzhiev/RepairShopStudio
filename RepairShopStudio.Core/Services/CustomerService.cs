@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.CustomerModels;
 using RepairShopStudio.Core.Models.EngineType;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
+using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
+using static RepairShopStudio.Common.Constants.LoggerMessageConstants;
 using Address = RepairShopStudio.Infrastructure.Data.Models.Address;
 using Customer = RepairShopStudio.Infrastructure.Data.Models.Customer;
 using EngineType = RepairShopStudio.Infrastructure.Data.Models.EngineType;
 using Vehicle = RepairShopStudio.Infrastructure.Data.Models.Vehicle;
-using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -16,13 +18,16 @@ namespace RepairShopStudio.Core.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IRepository repo;
+        private readonly ILogger<CustomerService> logger;
 
         public CustomerService(
             ApplicationDbContext _context,
-            IRepository _repo)
+            IRepository _repo,
+            ILogger<CustomerService> _logger)
         {
             context = _context;
             repo = _repo;
+            logger = _logger;
         }
 
         /// <summary>
@@ -42,6 +47,7 @@ namespace RepairShopStudio.Core.Services
 
             if (address == null)
             {
+                logger.LogError(NullAddres);
                 throw new InvalidOperationException(InvalidAddressException);
             }
 
@@ -62,6 +68,7 @@ namespace RepairShopStudio.Core.Services
 
             if (customer == null)
             {
+                logger.LogError(NullCustomer);
                 throw new InvalidOperationException(InvalidCustomerException);
             }
 
@@ -83,6 +90,7 @@ namespace RepairShopStudio.Core.Services
 
             if (vehicle == null)
             {
+                logger.LogError(NullVehicle);
                 throw new InvalidOperationException(InvalidVehicleException);
             }
 
@@ -108,6 +116,7 @@ namespace RepairShopStudio.Core.Services
 
             if (customer == null)
             {
+                logger.LogError(NullCustomer);
                 throw new InvalidOperationException(InvalidCustomerException);
             }
 
@@ -129,6 +138,7 @@ namespace RepairShopStudio.Core.Services
 
             if (vehicle == null)
             {
+                logger.LogError(NullVehicle);
                 throw new InvalidOperationException(InvalidVehicleException);
             }
 
@@ -167,6 +177,7 @@ namespace RepairShopStudio.Core.Services
 
             if (entities == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new NullReferenceException(InvalidGetAllException);
             }
 
@@ -195,6 +206,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new NullReferenceException(InvalidGetEngineTypeException);
             }
 

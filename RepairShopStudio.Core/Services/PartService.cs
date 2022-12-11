@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepairShopStudio.Core.Contracts;
 using RepairShopStudio.Core.Models.Part;
 using RepairShopStudio.Infrastructure.Data;
 using RepairShopStudio.Infrastructure.Data.Common;
 using RepairShopStudio.Infrastructure.Data.Models;
 using static RepairShopStudio.Common.Constants.ExceptionMessagesConstants;
+using static RepairShopStudio.Common.Constants.LoggerMessageConstants;
 
 namespace RepairShopStudio.Core.Services
 {
@@ -12,13 +14,16 @@ namespace RepairShopStudio.Core.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IRepository repo;
+        private readonly ILogger<PartService> logger;
 
         public PartService(
             ApplicationDbContext _context,
-            IRepository _repo)
+            IRepository _repo,
+            ILogger<PartService> _logger)
         {
             context = _context;
             repo = _repo;
+            logger = _logger;
         }
 
         /// <summary>
@@ -44,6 +49,7 @@ namespace RepairShopStudio.Core.Services
 
             if (entity == null)
             {
+                logger.LogError(NullPart);
                 throw new InvalidOperationException(InvalidPartException);
             }
 
@@ -61,6 +67,12 @@ namespace RepairShopStudio.Core.Services
             var result = await repo.AllReadonly<Part>()
                 .AnyAsync(p => p.Id == id && p.IsActive);
 
+            if (result == false)
+            {
+                logger.LogError(NullPart);
+                throw new NullReferenceException(PartDoesNotExistExceptionMessage);
+            }
+
             return result;
         }
 
@@ -77,6 +89,7 @@ namespace RepairShopStudio.Core.Services
 
             if (entities == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetPartsException);
             }
 
@@ -106,6 +119,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetVehicleComponentsException);
             }
 
@@ -123,6 +137,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetPartVehicleComponentException);
             }
             return result;
@@ -155,6 +170,7 @@ namespace RepairShopStudio.Core.Services
 
             if (part == null)
             {
+                logger.LogError(NullPart);
                 throw new InvalidOperationException(InvalidGetPartDeatalsException);
             }
 
@@ -178,6 +194,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetVehicleComponentsException);
             }
 
@@ -224,6 +241,7 @@ namespace RepairShopStudio.Core.Services
                 return true;
             }
 
+            logger.LogError(NullPart);
             throw new InvalidOperationException(InvalidPartIdException);
 
         }
@@ -258,6 +276,7 @@ namespace RepairShopStudio.Core.Services
                 return result;
             }
 
+            logger.LogError(NullPart);
             throw new NullReferenceException(InvalidPartIdException);
         }
 
@@ -272,6 +291,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(NullPart);
                 throw new InvalidOperationException(InvalidPartIdException);
             }
 
@@ -297,6 +317,7 @@ namespace RepairShopStudio.Core.Services
             }
             else
             {
+                logger.LogError(NullPart);
                 throw new NullReferenceException(InvalidPartIdException);
             }
         }
@@ -320,6 +341,7 @@ namespace RepairShopStudio.Core.Services
 
             if (parts == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new NullReferenceException(InvalidGetPartsException);
             }
 
@@ -387,6 +409,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetVehicleComponentsException);
             }
 
@@ -406,6 +429,7 @@ namespace RepairShopStudio.Core.Services
 
             if (result == null)
             {
+                logger.LogError(GetDataUnsuccessfull);
                 throw new InvalidOperationException(InvalidGetManufacturersException);
             }
 
