@@ -10,7 +10,9 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 > * Operating cards (document conaining information about a certain repair or service)
 ```
 
+
 > * **TODO:** Create and send via E-mail request for delivery of goods directly to suppliers 
+
 
 ** Roles and authorization
 ```
@@ -31,6 +33,7 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 >   - You can read all parts in the storage
 ```
 
+
 ** Credentials
 ```
 > * Admin (Manager)
@@ -44,9 +47,18 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 > * Mechanic
 >   - Username: Service_Adviser
 >   - Password: Adviser123!
-
 ```
 
 
+** Seeding
+```
+> * Data in DB
+>   - In all entities are seeded by one or two objects (depending on the quantity required to start a demo)
+>   - Seeding classes are located at: RepairShopStudio.Infrastructure.Data.Configuration
+
+> * Roles
+>   - For each role there is seeded one instance / user
+>   - Seeding method is located at: RepairShopStudio.Extensions.ApplicationBuilderExtensions
+```
 
 ###### This project is created for educational purposes. 
