@@ -51,6 +51,7 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 
 
 ** Seeding
+
 ** IMPORTANT!!! In order to run all tests successfully, the ApplyConfiguration methods in RepairShopStudio.Infrastructure.Data.ApplicationDbContext are marked as comment. Unmark them before the 1st build of the application.**
 ```
 > * Data in DB
