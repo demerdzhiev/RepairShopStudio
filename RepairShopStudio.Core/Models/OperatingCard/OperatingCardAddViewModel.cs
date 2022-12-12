@@ -57,5 +57,7 @@ namespace RepairShopStudio.Core.Models.OperatingCard
 
         [Comment(AddViewModelIsActive)]
         public bool IsActive { get; set; } = true;
+
+        public string? DocumentNumber { get; set; }
     }
 }
