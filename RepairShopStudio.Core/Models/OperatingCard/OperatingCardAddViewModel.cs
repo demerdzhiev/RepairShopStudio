@@ -53,7 +53,7 @@ namespace RepairShopStudio.Core.Models.OperatingCard
             = new List<Infrastructure.Data.Models.ShopService>();
 
         [Comment(AddViewModelIssueDate)]
-        public DateTime IssueDate { get; set; }
+        public DateTime? IssueDate { get; set; }
 
         [Comment(AddViewModelIsActive)]
         public bool IsActive { get; set; } = true;

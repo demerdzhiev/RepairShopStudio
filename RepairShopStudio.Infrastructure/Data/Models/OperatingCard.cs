@@ -48,5 +48,6 @@ namespace RepairShopStudio.Infrastructure.Data.Models
 
         [Comment(OperatingCardVehicleId)]
         public int VehicleId { get; set; }
+
     }
 }

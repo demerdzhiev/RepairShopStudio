@@ -261,6 +261,7 @@ namespace RepairShopStudio.Core.Services
             {
                 var result = new EditPartViewModel()
                 {
+                    Id = part.Id,
                     Name = part.Name,
                     Description = part.Description,
                     ImageUrl = part.ImageUrl,

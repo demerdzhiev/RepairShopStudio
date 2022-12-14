@@ -264,17 +264,109 @@ namespace RepairShopStudio.UnitTests
             var repo = new Repository(applicationDbContext);
             cardService = new OperatingCardService(applicationDbContext, repo, logger);
 
-            await applicationDbContext.AddRangeAsync(new List<OperatingCard>
+
+            var card1 = new OperatingCard()
             {
-                new OperatingCard() { Id = 100, CustomerId = 100, VehicleId = 100, PartId = 100, ServiceId = 100, ApplicationUserId = Guid.Parse("265f6e7d-6b6e-43e8-b385-19315ca888f9"), IsActive = true, DocumentNumber = "" },
-                new OperatingCard() { Id = 101, CustomerId = 101, VehicleId = 101, PartId = 101, ServiceId = 101, ApplicationUserId = Guid.Parse("265f6e7d-6b6e-43e8-b385-19123ca888f9"), IsActive = false, DocumentNumber = "" },
-                new OperatingCard() { Id = 102, CustomerId = 102, VehicleId = 102, PartId = 102, ServiceId = 102, ApplicationUserId = Guid.Parse("265f6e7d-6b6e-43e8-b385-1912342888f9"), IsActive = false, DocumentNumber = "" }
-            });
+                Id = 100,
+                Date = DateTime.Now.Date,
+                DocumentNumber = $"B5466HA/06.12.2022",
+                CustomerId = 1,
+                ApplicationUserId = Guid.Parse("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
+                PartId = 1,
+                ServiceId = 1,
+                VehicleId = 1,
+                IsActive = false
+            };
+            await applicationDbContext.AddAsync(card1);
+
+            var card2 = new OperatingCard()
+            {
+                Id = 101,
+                Date = DateTime.Now.Date,
+                DocumentNumber = $"B5466HA/06.12.2022",
+                CustomerId = 1,
+                ApplicationUserId = Guid.Parse("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
+                PartId = 1,
+                ServiceId = 1,
+                VehicleId = 1,
+                IsActive = false
+            };
+            await applicationDbContext.AddAsync(card2);
+
+            var card3 = new OperatingCard()
+            {
+                Id = 102,
+                Date = DateTime.Now.Date,
+                DocumentNumber = $"B5466HA/06.12.2022",
+                CustomerId = 1,
+                ApplicationUserId = Guid.Parse("59bff60d-d8d8-4ca8-9da9-48149761e9db"),
+                PartId = 1,
+                ServiceId = 1,
+                VehicleId = 1,
+            };
+
+            await applicationDbContext.AddAsync(card3);
 
             await applicationDbContext.SaveChangesAsync();
             var collection = cardService.GetAllFinishedAsync().Result;
 
-            Assert.That(2, Is.EqualTo(collection.Count(c => c.IsActive == false)));
+            Assert.That(2, Is.EqualTo(collection.Count()));
+        }
+
+        [Test]
+        public async Task TestAddOperatingCardAsyncInMemory()
+        {
+            var loggerMock = new Mock<ILogger<OperatingCardService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            cardService = new OperatingCardService(applicationDbContext, repo, logger);
+
+            var operatingCard = new OperatingCardAddViewModel()
+            {
+                Id = 100,
+                DocumentNumber = $"B5466HA/06.12.2022",
+                CustomerId = 1,
+                ApplicationUserId = "59bff60d-d8d8-4ca8-9da9-48149761e9db",
+                PartId = 1,
+                ServiceId = 1,
+                VehicleId = 1,
+                IsActive = true,
+                IssueDate = DateTime.Today
+            };
+
+            await cardService.AddOperatingCardAsync(operatingCard);
+
+            var operatingCard2 = new OperatingCardAddViewModel()
+            {
+                Id = 101,
+                DocumentNumber = $"B5466HA/06.12.2022",
+                CustomerId = 1,
+                ApplicationUserId = "59bff60d-d8d8-4ca8-9da9-48149761e9db",
+                PartId = 1,
+                ServiceId = 1,
+                VehicleId = 1,
+                IsActive = true,
+                IssueDate = DateTime.Today
+            };
+
+            await cardService.AddOperatingCardAsync(operatingCard2);
+
+            var operatingCard3 = new OperatingCardAddViewModel()
+            {
+                Id = 102,
+                DocumentNumber = $"B5466HA/06.12.2022",
+                CustomerId = 1,
+                ApplicationUserId = "59bff60d-d8d8-4ca8-9da9-48149761e9db",
+                PartId = 1,
+                ServiceId = 1,
+                VehicleId = 1,
+                IsActive = true,
+                IssueDate = DateTime.Today
+            };
+
+            await cardService.AddOperatingCardAsync(operatingCard3);
+
+            Assert.That(3, Is.EqualTo(applicationDbContext.OperatingCards.Count(c => c.Id >= 100)));
         }
 
 
