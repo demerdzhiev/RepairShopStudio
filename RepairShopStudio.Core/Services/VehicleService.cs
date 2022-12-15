@@ -10,7 +10,7 @@ namespace RepairShopStudio.Core.Services
         private readonly IRepository repo;
 
         public VehicleService(
-            IRepository _repo)
+Infrastructure.Data.ApplicationDbContext applicationDbContext, IRepository _repo)
         {
             repo = _repo;
         }

@@ -12,6 +12,8 @@ namespace RepairShopStudio.Core.Models.ShopService
     [Comment(AddViewModelMain)]
     public class AddShopServiceViewModel
     {
+        public int Id { get; set; }
+
         [Comment(AddViewModelName)]
         [StringLength(RepairServiceNameMaxLength, MinimumLength = RepairServiceNameMinLength, ErrorMessage = ServiceNameLength)]
         public string Name { get; set; } = null!;

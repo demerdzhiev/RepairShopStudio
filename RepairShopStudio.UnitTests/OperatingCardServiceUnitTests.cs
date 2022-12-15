@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using Moq;
 using RepairShopStudio.Core.Contracts;
-using RepairShopStudio.Core.Models.EngineType;
 using RepairShopStudio.Core.Models.OperatingCard;
 using RepairShopStudio.Core.Services;
 using RepairShopStudio.Infrastructure.Data;

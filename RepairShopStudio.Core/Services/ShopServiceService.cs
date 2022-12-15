@@ -36,6 +36,7 @@ namespace RepairShopStudio.Core.Services
         {
             var entity = new ShopService()
             {
+                Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
                 Price = model.Price,

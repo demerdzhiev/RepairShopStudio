@@ -9,7 +9,7 @@ namespace RepairShopStudio.Core.Services
     public class StatisticsService : IStatisticsService
     {
         private readonly IRepository repo;
-        public StatisticsService(IRepository _repo)
+        public StatisticsService(Infrastructure.Data.ApplicationDbContext applicationDbContext, IRepository _repo)
         {
             repo = _repo;
         }
