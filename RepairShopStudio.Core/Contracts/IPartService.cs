@@ -29,7 +29,7 @@ namespace RepairShopStudio.Core.Contracts
 
         Task Delete(int id);
 
-        Task<PartsQueryModel> AllAsync(
+        Task<PartsFilterQueryModel> AllAsync(
             string? vehicleComponent = null,
             string? manufacturer = null,
             string? searchTerm = null,

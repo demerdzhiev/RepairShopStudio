@@ -37,6 +37,22 @@ namespace RepairShopStudio.UnitTests
         }
 
         [Test]
+        public async Task TestAllInMemory()
+        {
+            var loggerMock = new Mock<ILogger<PartService>>();
+            logger = loggerMock.Object;
+            var repo = new Repository(applicationDbContext);
+            partService = new PartService(applicationDbContext, repo, logger);
+
+
+            var searchTerm = "castrol";
+            var result = partService.AllAsync(null, searchTerm);
+
+            var parts = applicationDbContext.Parts.Where(p => p.Manufacturer.Contains(searchTerm));
+            Assert.That(result.Result.TotalPartsCount, Is.EqualTo(parts.Count()));
+        }
+
+        [Test]
         public async Task TestAddPartAsyncInMemory()
         {
             var loggerMock = new Mock<ILogger<PartService>>();

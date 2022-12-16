@@ -334,17 +334,17 @@ namespace RepairShopStudio.Core.Services
         /// <param name="housesPerPage"></param>
         /// <returns>List of all parts in data-base</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<PartsQueryModel> AllAsync(string? vehicleComponent = null, string? manufacturer = null, string? searchTerm = null, PartSorting sorting = PartSorting.Newest, int currentPage = 1, int partsPerPage = 1)
+        public async Task<PartsFilterQueryModel> AllAsync(string? vehicleComponent = null, string? manufacturer = null, string? searchTerm = null, PartSorting sorting = PartSorting.Newest, int currentPage = 1, int partsPerPage = 1)
         {
-            var result = new PartsQueryModel();
+            var result = new PartsFilterQueryModel();
             var parts = repo.AllReadonly<Part>()
                 .Where(p => p.IsActive);
 
-            if (parts == null)
-            {
-                logger.LogError(GetDataUnsuccessfull);
-                throw new NullReferenceException(InvalidGetPartsException);
-            }
+            //if (parts == null)
+            //{
+            //    logger.LogError(GetDataUnsuccessfull);
+            //    throw new NullReferenceException(InvalidGetPartsException);
+            //}
 
             if (string.IsNullOrEmpty(vehicleComponent) == false)
             {
