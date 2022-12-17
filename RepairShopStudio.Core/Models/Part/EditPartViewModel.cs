@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.SparePart;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Part;
 using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepairShopStudio.Core.Models.Part
 {

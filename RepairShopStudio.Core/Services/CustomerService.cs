@@ -48,7 +48,7 @@ namespace RepairShopStudio.Core.Services
             if (address == null)
             {
                 logger.LogError(NullAddres);
-                throw new InvalidOperationException(InvalidAddressException);
+                throw new NullReferenceException(InvalidAddressException);
             }
 
             await context.AddAsync<Address>(address);
@@ -69,7 +69,7 @@ namespace RepairShopStudio.Core.Services
             if (customer == null)
             {
                 logger.LogError(NullCustomer);
-                throw new InvalidOperationException(InvalidCustomerException);
+                throw new NullReferenceException(InvalidCustomerException);
             }
 
             await context.AddAsync<Customer>(customer);

@@ -81,7 +81,11 @@ namespace RepairShopStudio.UnitTests
             Assert.That(applicationDbContext.Customers.FirstOrDefault(c => c.Id == customerModel.Id)?.Vehicles
                 .Any(v => v.Id == customerModel.Vehicle.Id), Is.True);
 
+        }
 
+        [Test]
+        public async Task TestAddCorporateCustomerInMemoryCatchExceptionNullAddress()
+        {
             var customerModelEx = new CustomerAddViewModel()
             {
                 Id = 110,
@@ -104,16 +108,17 @@ namespace RepairShopStudio.UnitTests
                 }
             };
 
-            try
-            {
-                await customerService.AddCorporateCutomerAsync(customerModelEx);
-                Assert.Fail();
-            }
-            catch (Exception ex)
-            {
+            Assert.Throws<NullReferenceException>(() => customerService.AddCorporateCutomerAsync(customerModelEx), 
+                "Something went wrong while creating the address!");
+        }
 
-                Assert.IsTrue(ex is NullReferenceException);
-            }
+        [Test]
+        public async Task TesAddCorporateCustomrInMemoryCatchExceptionNullCustomer()
+        {
+            CustomerAddViewModel customerModelEx = null;
+
+            Assert.Throws<NullReferenceException>(() => customerService.AddCorporateCutomerAsync(customerModelEx),
+                "Something went wrong while creating the customer!");
         }
 
         [Test]

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Custommer;
 
 namespace RepairShopStudio.Core.Models.CustomerModels
 {
-    [Comment(ViewModelMain)]
     public class CustomerViewModel
     {
         [Comment(ViewModelId)]

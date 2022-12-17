@@ -90,16 +90,17 @@ namespace RepairShopStudio.Controllers
         [Authorize(Roles = Mechanic)]
         public async Task<IActionResult> Finish(int cardId)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
             try
             {
-                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 await operatingCardService.MarkRepairAsFinishedAsync(cardId, userId);
                 TempData[MessageConstant.WarningMessage] = CompleteCard;
 
             }
-            catch(Exception)
+            catch (Exception)
             {
-                TempData[MessageConstant.ErrorMessage] = UnsuccessfulOperation;
+                TempData[MessageConstant.ErrorMessage] = NotAuthorized;
                 return RedirectToAction(nameof(All));
             }
 

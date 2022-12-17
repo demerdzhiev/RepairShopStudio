@@ -6,6 +6,7 @@ using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Common;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Customer;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Custommer;
 using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepairShopStudio.Core.Models.CustomerModels
 {
@@ -35,7 +36,7 @@ namespace RepairShopStudio.Core.Models.CustomerModels
         [Comment(AddViewModelIsCorporate)]
         public bool IsCorporate { get; set; }
 
-        [StringLength(UicMaxLength, ErrorMessage = UICLength)]
+        [StringLength(UicMaxLength, MinimumLength =UicMinLength, ErrorMessage = UICLength)]
         [Comment(AddViewModelUic)]
         public string? Uic { get; set; }
 

@@ -1,5 +1,8 @@
-﻿namespace RepairShopStudio.Core.Exceptions
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace RepairShopStudio.Core.Exceptions
 {
+   
     public class RepairShopException : ApplicationException
     {
         public RepairShopException()

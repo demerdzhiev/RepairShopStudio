@@ -1,9 +1,11 @@
 ﻿using RepairShopStudio.Core.Contracts;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RepairShopStudio.Core.Extensions
 {
+   
     public static class ModelExtensions
     {
         public static string GetPartInformation(this IPartModel part)
@@ -26,7 +28,7 @@ namespace RepairShopStudio.Core.Extensions
             return sb.ToString();
         }
 
-
+        [ExcludeFromCodeCoverage]
         private static string GetName(string name)
         {
             string result = string

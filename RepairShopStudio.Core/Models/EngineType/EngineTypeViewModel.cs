@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.EngineType;
 
 namespace RepairShopStudio.Core.Models.EngineType

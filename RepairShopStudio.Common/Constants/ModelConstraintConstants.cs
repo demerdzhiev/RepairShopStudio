@@ -14,8 +14,8 @@ namespace RepairShopStudio.Common.Constants
             public const int PhoneNumberMinLength = 13;
             public const int EmailMaxLength = 100;
             public const int EmailMinLength = 10;
-            public const int UicMaxLength = 15;
-            public const int UicMinLength = 13;
+            public const int UicMaxLength = 12;
+            public const int UicMinLength = 12;
             public const int ResponsiblePersonNameMaxLength = 70;
             public const int ResponsiblePersonNameMinLength = 8;
             public const int DocumentNumberMaxLength = 50;

@@ -1,4 +1,6 @@
-﻿namespace RepairShopStudio.Core.Models.Part
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace RepairShopStudio.Core.Models.Part
 {
     public enum PartSorting
     {

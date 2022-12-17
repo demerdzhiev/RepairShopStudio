@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairShopStudio.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Part;
 
 namespace RepairShopStudio.Core.Models.Part

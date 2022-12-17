@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.ShopService;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.ShopService;
 using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepairShopStudio.Core.Models.ShopService
 {

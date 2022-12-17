@@ -270,6 +270,11 @@ namespace RepairShopStudio.Core.Services
             {
                 card.IsActive = false;
             }
+            else
+            {
+                logger.LogError(NullOperatingCard);
+                throw new ArgumentException(UnauthorizedActionException);
+            }
 
             var part = await context.Parts.FirstOrDefaultAsync(p => p.Id == card.PartId);
             if (part != null)

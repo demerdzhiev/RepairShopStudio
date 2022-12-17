@@ -13,7 +13,7 @@
         public const string CustomerPhoneNumberLength = "The field must contains no more than 17 and no less than 13 characters.";
         public const string ValidEmail = "The field must contains valid E-mail address.";
         public const string EmailLength = "The field must contains no more than 100 characters.";
-        public const string UICLength = "The field must contains no more than 15 characters.";
+        public const string UICLength = "The field must contains exactly 12 characters.";
         public const string ResponsiblePersonNameLength = "The field must contains no more than 70 characters.";
 
         public const string PartNameLength = "The field must contains no more than 50 and no less than 5 characters.";
@@ -32,6 +32,6 @@
         public const string VehicleModelLength = "The field must contains no more than 70 and no less than 1 characters.";
         public const string VehicleLicensePlateNumberLength = "The field must contains no more than 8 and no less than 7 characters.";
         public const string VehiclePowerRange = "The number must be in range between 1 and 1914.";
-        public const string VehicleVINRange = "The field must contains no more than 17 characters.";
+        public const string VehicleVINRange = "The field must contains exactly 17 characters.";
     }
 }

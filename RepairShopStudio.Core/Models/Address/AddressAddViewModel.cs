@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Address;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Address;
 using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepairShopStudio.Core.Models.Address
 {

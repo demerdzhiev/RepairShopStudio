@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using static RepairShopStudio.Common.Constants.ModelConstraintConstants.Vehicle;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.Vehicle;
 using static RepairShopStudio.Common.Constants.ViewModelErrorMessageConstatns;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepairShopStudio.Core.Models.Vehicle
 {
@@ -40,7 +41,7 @@ namespace RepairShopStudio.Core.Models.Vehicle
         public int Power { get; set; }
 
         [Required(ErrorMessage = RequiredField)]
-        [StringLength(VinNumberLength, ErrorMessage = VehicleVINRange)]
+        [StringLength(VinNumberLength, MinimumLength =VinNumberLength, ErrorMessage = VehicleVINRange)]
         [Comment(AddViewModelVinNumber)]
         public string? VinNumber { get; set; }
 

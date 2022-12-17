@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using static RepairShopStudio.Common.Constants.ModelCommentConstants.User;
 
 namespace RepairShopStudio.Core.Models.User
 {
-    [Comment(LoginViewModelMain)]
+    [ExcludeFromCodeCoverage]
     public class LoginViewModel
     {
         [Required]
