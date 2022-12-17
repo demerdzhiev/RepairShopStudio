@@ -9,11 +9,76 @@
 
 <div class="mb-5"></div>
 
-<div class="row">
-    <div class="col-12 text-center">
-        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
-    </div>
+
+
+
+<div class="card-group">
+    @if (User.IsInRole(ServiceAdviser))
+    {
+        @if (User.IsInRole(AdminRolleName))
+        {
+            <div class="card">
+                <img class="card-img-top" src="/images/mechanic.jpg" height="250" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Employees</h5>
+                    <p class="card-text">Full list of the employees in our team</p>
+                    <a class="btn btn-secondary" asp-area="" asp-controller="User" asp-action="Index">To list...</a>
+                </div>
+            </div>
+        }
+        <div class="card">
+            <img class="card-img-top" src="/images/service.jpg" height="250" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Shop services</h5>
+                <p class="card-text">Full list of our services</p>
+                <a class="btn btn-secondary" asp-area="" asp-controller="ShopServices" asp-action="All">To list...</a>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/images/customers.jpg" height="250" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Customers</h5>
+                <p class="card-text">Full list of our customers</p>
+                <a class="btn btn-secondary" asp-area="" asp-controller="Customers" asp-action="All">To list...</a>
+            </div>
+        </div>
+
+    }
 </div>
+<div class="card-group">
+    @if (User.IsInRole(Mechanic))
+    {
+        <div class="card">
+            <img class="card-img-top" src="/images/operating_card.jpg" height="250" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Operating cards</h5>
+                <p class="card-text">Full list of operating cards</p>
+                <a class="btn btn-secondary" asp-area="" asp-controller="OperatingCards" asp-action="All">To list...</a>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/images/storage.jpg" height="250" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Storage</h5>
+                <p class="card-text">Full list of all sprave parts in our storage</p>
+                <a class="btn btn-secondary" asp-area="" asp-controller="Parts" asp-action="All">To list...</a>
+            </div>
+        </div>
+    }
+    @if (User.IsInRole(ServiceAdviser))
+    {
+        <div class="card">
+            <img class="card-img-top" src="/images/statistics.jpg" height="250" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Statistics</h5>
+                <p class="card-text">See some statistics here</p>
+                <a class="btn btn-secondary" id="statistics-button">Show Statistics</a>
+            </div>
+        </div>
+    }
+</div>
+
+
 <div class="mt-4 p-5 bg-light d-none" id="statistics">
     <div class="row">
         <h2 class="col-md-4 text-center" id="total-parts"></h2>
@@ -27,8 +92,12 @@
     <div class="row">
         <h2 class="col-md-4 text-center" id="total-operating-cards"></h2>
     </div>
-    
 </div>
+
+
+
+
+
 @section Scripts {
     <script>
         $('#statistics-button').on('click', ev => {
@@ -43,3 +112,4 @@
         });
     </script>
 }
+

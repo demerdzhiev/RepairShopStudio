@@ -30,11 +30,11 @@ namespace Library.Controllers
             unitOfWork = _unitOfWork;
         }
 
-        //public IActionResult Index()
-        //{
-        //    var users = unitOfWork.User.GetUsers();
-        //    return View(users);
-        //}
+        public IActionResult Index()
+        {
+            var users = unitOfWork.User.GetUsers();
+            return View(users);
+        }
 
 
         //[HttpGet]
