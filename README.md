@@ -6,7 +6,7 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 ```
 > * Customers (corporate and regular) with their vehicles
 > * Shop services
-> * Spare parts in the storage
+> * Spare parts in a storage
 > * Operating cards (document conaining information about a certain repair or service)
 ```
 
