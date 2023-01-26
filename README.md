@@ -40,11 +40,11 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 >   - Username: General_Manager
 >   - Password: Manager123!
 
-> * Service adviser
+> * Mechanic
 >   - Username: Mechanic
 >   - Password: Mechanic123!
 
-> * Mechanic
+> * Service adviser
 >   - Username: Service_Adviser
 >   - Password: Adviser123!
 ```
@@ -61,4 +61,4 @@ Repair Shop Studio is a mockup application designed to help managing small vehic
 >   - Seeding method is located at: RepairShopStudio.Extensions.ApplicationBuilderExtensions
 ```
 
-###### This project is created for educational purposes. 
+###### This project is created for educational purposes only. 
